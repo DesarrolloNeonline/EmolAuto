@@ -14,7 +14,7 @@
   
   <link rel="stylesheet" href="css/refineslide.css" />
   <script src="js/jquery.refineslide.min.js"></script>
-  <script type="text/javascript">
+ <script type="text/javascript">
     $(document).ready(function () {
         $('.rs-slider').refineSlide({
             transition         : 'slideH',
@@ -178,7 +178,7 @@
       
       <div id="despliegue_Left">
         
-        <p class="indicador_seccion"><a href="#">Inicio</a> &gt; <a href="#">B&uacute;squeda avanzada</a> &gt; Resultados b&uacute;squeda &gt; <?php echo $marca.' '.$modelo;?></p>
+        <p class="indicador_seccion"><a href="#">Inicio</a> &gt; B&uacute;squeda Inteligente &gt; Despliegue Ficha &gt; <?php echo $marca.' '.$modelo;?></p>
 
         <h1 class="title_color_despliegue">Aviso</h1>
         
@@ -431,10 +431,17 @@
 		if($imagen)
 		{ ?>
 			<div class="boxes_aside">
-				<ul class="rs-sliders">
-					<li><img src="<?php echo $imagen;?>" alt="" style="width:296px;"/></li>
-				</ul>
-			</div>
+    			<ul class="rs-slider">
+            		<li>
+            			<img  src="<?php echo $imagen;?>" alt="" />
+            		</li>
+            		<li><img src="images/gallery-02.jpg" alt="" /></li>
+		            <li><img src="images/gallery-01.jpg" alt="" /></li>
+		            <li><img src="images/gallery-02.jpg" alt="" /></li>
+		            <li><img src="images/gallery-01.jpg" alt="" /></li>
+		            <li><img src="images/gallery-02.jpg" alt="" /></li>
+          		</ul>
+        	</div>
     <?php
 		} ?>
 		

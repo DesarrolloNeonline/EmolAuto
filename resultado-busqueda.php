@@ -81,7 +81,19 @@
         }
     }
     function setVisibility() {
-      document.getElementById('content_modal_enviar').style.display = 'inline';
+
+      var aa= document.getElementById('frm1');
+      for (var i =0; i < aa.elements.length; i++){
+         if(aa.elements[i].checked == true;) 
+         {
+            document.getElementById('content_modal_enviar').style.display = 'inline'; 
+         } else
+                {
+                  alert('Debe seleccionar al menos un automovil.');
+                }
+      }
+
+      
     }
     function setVisibilityNone() {
       document.getElementById('content_modal_enviar').style.display = 'None';
@@ -199,7 +211,7 @@
 	?>
     <div id="content_resultado_busqueda">
 		<p class="indicador_seccion">
-			<a href="#">Inicio</a> > <a href="#">Resultado de b&uacute;squeda</a> >
+			<a href="index.php">Inicio</a> > <a href="">Resultado de b&uacute;squeda</a>
 		</p>
 
 			<div class="facet-view-simple"></div>

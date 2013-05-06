@@ -76,7 +76,7 @@
     
     <div id="despliegue_not">
     
-      <p class="indicador_seccion"><a href="#">Inicio</a> > <a href="#">Noticias</a></p>
+      <p class="indicador_seccion"><a href="index.php">Inicio</a> > <a href="listado-noticias.php">Noticias</a>  > <a><?php echo $titulo_noticia;?></a></p>
       
       <div id="despliegue_noticias_Left">
       
