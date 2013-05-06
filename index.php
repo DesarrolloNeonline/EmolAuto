@@ -200,10 +200,7 @@
       
           </div>
         	
-          <div class="btn_Slide_busq_home">
-            <p class="Left" style="text-decoration:underline;"><strong>B&uacute;squeda inteligente</strong></p>
-            <p class="Right" id="busq-cat" onClick="showhide('slide_1', 'block'); showhide('slide_2', 'block'); return false">B&uacute;squeda por categor&iacute;a</p>
-          </div>
+          <div class="btn_Slide_busq_avanzada_home" id="busq-cat">Búsqueda por categoría</div>
         
         </div>
 			
@@ -261,10 +258,7 @@
 
             </form>
           
-            <div class="btn_Slide_busq_home">
-              <p class="Left" id="busq-int">B&uacute;squeda inteligente</p>
-              <p class="Right" style="text-decoration:underline;" id="busq-cat"><strong>B&uacute;squeda por categor&iacute;a</strong></p>
-            </div>
+            <div class="btn_Slide_busq_inteligente_home" id="busq-int">Búsqueda inteligente</div>
             
           </div>
         </div>
@@ -616,4 +610,3 @@ catch(PDOException $e)
 ?>
 </body>
 </html>
-
