@@ -211,8 +211,9 @@
           <div class="content_Busq_auto">
       
             <h1 class="title_color_home">B&uacute;squeda por categor&iacute;a</h1>
-        
-       <form action="" method="get" name="formulario_tipo">
+            
+            <form action="" method="get" name="formulario_tipo">
+            
               <div class="Block_busq_cat">
               
 				<div class="select-category">
@@ -229,24 +230,10 @@
 						<input type="radio" id="motos" name="tipo" value="Motos">
 						<label for="motos"><img src="img/motos.png" alt="Motos" /></label>
 				</div>
-			
-		
-		      <!--<form name="formulario_estado">
-				<div class="content_Select_state">
-   
-                                    <input type="checkbox" id="checkbox1" name="estado" value="nuevo" checked>
-			            <label for="checkbox1" title="Autos 0 Km" class="someClass">Nuevo</label>
-        
-                                    <input type="checkbox" id="checkbox2" name="estado" value="usado">
-				    <label for="checkbox2" title="Compra-venta certificada" class="someClass">Seminuevo <img src="img/certificado.png" alt="Certificado" /></label>
-        
-                                    <input type="checkbox" id="checkbox3" name="estado" value="particular">
-				    <label for="checkbox3" title="Autos vendidos por sus propios due&ntilde;os" class="someClass">Particular</label> 
-        
-				</div>
-			</form> !-->
-			<hr />
-                <div class="content_Slider_buscador" style="display:none;" id="slide_1">
+                
+                <hr />
+                
+                <div class="content_Slider_buscador">
                   <p class="txt_buscador">Precio desde</p>
                   <input id="Price" type="slider" name="price" value="500000;25000000" />
                   <script type="text/javascript" charset="utf-8">
@@ -254,22 +241,23 @@
                 </script>
                 </div>
         
-                <div class="content_Slider_buscador_2" style="display:none;" id="slide_2">
+                <div class="content_Slider_buscador_2">
                   <p class="txt_buscador">A&ntilde;o desde</p>
                   <input id="Year" type="slider" name="ao" value="2000"  style="margin-left: 30px;"/>
                   <script type="text/javascript" charset="utf-8">
                     jQuery("#Year").slider({ from: 1960, to: 2013, step: 1, round: 1, format: { format: '##', locale: 'de' }, dimension: '', skin: "round" });
                   </script>
                 </div>
-      </form>
+              
+              </form>
 		 
                 <!--<p class="Busq_avanzada"><a href="#">B&uacute;squeda avanzada &raquo;</a></p>-->
-        
-		</div>
+              
+              </div>
       
               <div class="Block_busq_2">                
                 <input name="Buscar" type="button" value="Buscar" class="btn_Azul" onclick="busqueda_sofisticada($('#Price').val(),$('#Year').val());return false;" />
-    </div>
+               </div>
 
             </form>
           
@@ -285,13 +273,10 @@
       
       <script type="text/javascript">
         $("#busq-cat").click(function(){
-          $("#content_Pant_busq").animate({"left": "-100%"}, "middle");
+          $("#content_Pant_busq").animate({"top": "-212px"}, "middle");
         });
-      </script>
-      
-      <script type="text/javascript">
         $("#busq-int").click(function(){
-          $("#content_Pant_busq").animate({"left": "0px"}, "middle");
+          $("#content_Pant_busq").animate({"top": "0px"}, "middle");
         });
       </script>
       
