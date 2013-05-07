@@ -494,8 +494,8 @@ p.Busq_avanzada a{
 	text-align:center;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	font-size: 12px;
-	line-height: 27px;
-	height:27px;
+	line-height: 35px;
+	height:35px;
 	cursor:pointer;
 	float:left;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
@@ -546,8 +546,8 @@ p.Busq_avanzada a{
 	text-align:center;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	font-size: 12px;
-	line-height: 27px;
-	height:27px;
+	line-height: 35px;
+	height:35px;
 	cursor:pointer;
 	float:left;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
@@ -660,7 +660,7 @@ p.Busq_avanzada a{
 	width:100%;
 	text-align:center;
 	color:#4675d1;
-	margin-top:0;
+	margin-bottom:5px;
 	text-decoration:none;
 	}
 	
@@ -680,7 +680,7 @@ p.Busq_avanzada a{
 	opacity:0.5;
 	float:left;
 	cursor:pointer;
-	margin-bottom:15px;
+	margin-bottom:12px;
 	}
 
 .select-category input[type="radio"]:checked + label { 

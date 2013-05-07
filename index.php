@@ -48,7 +48,7 @@
     function alpha(e) {
     var k;
     document.all ? k = e.keyCode : k = e.which;
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k== 241 || k==209 || k == 32 || (k >= 48 && k <= 57));
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
     }
     </script>
     <script>
@@ -253,7 +253,8 @@
               </div>
       
               <div class="Block_busq_2">                
-                <input name="Buscar" type="button" value="Buscar" class="btn_Azul" onclick="busqueda_sofisticada($('#Price').val(),$('#Year').val());return false;" />
+                <input name="Buscar" type="button" value="Buscar" class="btn_Azul" onclick="busqueda_sofisticada($('#Price').val(),$('#Year').val());return false;" style="margin: 87px 0 0 1px;
+" />
                </div>
 
             </form>

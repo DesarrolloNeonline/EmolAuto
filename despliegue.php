@@ -180,7 +180,7 @@
       
       <div id="despliegue_Left">
         
-        <p class="indicador_seccion"><a href="#">Inicio</a> &gt; B&uacute;squeda Inteligente &gt; Despliegue Ficha &gt; <?php echo $marca.' '.$modelo;?></p>
+        <p class="indicador_seccion"><a href="index.php">Inicio</a> &gt; <a href="javascript:history.go(-1)"> B&uacute;squeda Inteligente</a> &gt; Despliegue Ficha &gt; <?php echo $marca.' '.$modelo;?></p>
 
         <h1 class="title_color_despliegue">Aviso</h1>
         

@@ -602,12 +602,34 @@ function procesa(id_auto){
                 var thefilters = '';
                 for (var idx in filters) {
 
-                    var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed " style="display:none;"> \
-                    <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow" title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
-                    style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> <i class="icon-plus"></i> \
-                     </a> \
-                    <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;"> \
-                    ';
+                    var fast = '{{FILTER_NAME}}';
+                    var test = fast.replace(/{{FILTER_NAME}}/g, filters[idx]['field'].replace(/\./gi, '').replace(/\:/gi, '')).replace(/{{FILTER_EXACT}}/g, filters[idx]['field']);
+                    
+                    if((test == 'avisoMarca') || (test == 'avisoModelo')){
+                         var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed " style="display:none;"> \
+                        <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow facetview_open" title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
+                        style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> <i class="icon-minus"></i> \
+                         </a> \
+                        <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;">';
+                         }
+                         else
+
+                            if(test == 'avisoComuna'){
+                                 var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed"> \
+                                <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow " title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
+                                style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> \
+                                 </a> \
+                                <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;">';
+                             }
+                                else
+                                {
+                                    var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed " style="display:none;"> \
+                                    <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow" title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
+                                    style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> <i class="icon-plus"></i> \
+                                     </a> \
+                                    <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;">'; 
+                                  
+                                }
                                 
                     if (options.enable_rangeselect) {
                         _filterTmpl += '<a class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">range</a>';
@@ -1029,7 +1051,7 @@ function procesa(id_auto){
                         ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
                         $('#facetview_' + facetclean, obj).append(append);
                     }  
-                    if((facet !== "aviso.precio") && (facet !== "aviso.Marca")) {
+                    if((facet !== "aviso.precio") && (facet !== "aviso.Marca") && (facet !== "aviso.Modelo") && (facet !== "aviso.Comuna")) {
                                 var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
                                 '" rel="' + facet + '" href="' + item + '">' + item +
                                 ' &nbsp;<span>(' + records[item] + ')</span></a></td></tr>';
