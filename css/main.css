@@ -271,6 +271,7 @@ textarea{
 	background:url(../img/bg-buscador-home.gif) repeat-x left top;
 	padding:0;
 	overflow:hidden;
+	border-bottom:2px solid #951c12;
 	}
 	
 #content_Pant_busq{
@@ -425,7 +426,7 @@ h1.title_color_home, h1.title_color_despliegue, h1.title_color_modal{
 	}
 	
 .Block_busq_cat{
-	width:623px;
+	width:627px;
 	margin-right:21px;
 	float:left;
 	text-align:left;
@@ -642,17 +643,17 @@ p.Busq_avanzada a{
 	
 	
 .content_Slider_buscador{
-	width:290px;
+	width:302px;
 	float:left;
 	height:auto;
-	margin-right:35px;
+	margin:8px 23px 0 0;
 	}
 
 .content_Slider_buscador_2{
-	width:290px;
+	width:302px;
 	float:left;
 	height:auto;
-	margin-right:0px;
+	margin:8px 0 0;
 	}
 	
 .content_Slider_buscador p.txt_buscador, .content_Slider_buscador_2 p.txt_buscador{
@@ -675,7 +676,7 @@ p.Busq_avanzada a{
 	}
 
 .select-category label {
-    margin-right:30px;
+    margin-right:50px;
 	opacity:0.5;
 	float:left;
 	cursor:pointer;
@@ -1689,8 +1690,16 @@ ul.otras_sucursales{
 
 #content_modal_enviar{
 	width:690px;
-	float:left;
 	text-align:left;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-250px;
+	margin-left:-345px;
+	display:none;
+	border:1px solid #e9e7e8;
+	background-color:#FFFFFF;
+	z-index:999999;
 	}
 
 #top_modal{
@@ -1744,6 +1753,7 @@ ul.otras_sucursales{
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	color:#FFFFFF;
+	border-width:1px;
 	}
 
 .content_Item_form_modal input[type='button']:hover{

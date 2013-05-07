@@ -74,7 +74,8 @@
 </head>
 <body>
 <?php
-  	include('connect.php'); 
+  	include('connect.php');
+    $MESSAGE_INVALID = 'No Especificado';
 
   	//Consulta de Menu de navegación.
 	include('menu.php');	
@@ -126,6 +127,7 @@
 			$corridasAsientos   = $item['CorridasAsientos'];
 			$capacidadEstanque  = $item['CapacidadEstanque'];
 			$caracteristicas    = $item['Caracteristicas'];
+            $fechaPublicacion    = $item['fecha_primerapub'];
 		}	
 			$array_caracteristicas = explode(";", $caracteristicas);
 			$numeropuertas 		= $array_caracteristicas[0];
@@ -191,6 +193,12 @@
         <div class="box_info_despliegue">
           
 			<ul class="list_Detalles_despliegue fl">
+                <li id="fechaPubicacion">
+<span>Fecha de Publicaci&oacute;n</span>
+                    <?php
+                        echo substr($fechaPublicacion,0,11);
+                    ?>
+                </li>
 				<li id="anno">
 					<span>A&ntilde;o</span><?php echo $año;?></li>
 						<?php 
@@ -208,21 +216,26 @@
 						echo $kilometraje;
 					?>
 				</li>
+                <?php if(!($color=='')&&!($color==$MESSAGE_INVALID)){  ?>
 				<li id="color">
 					<span>Color</span>
 					<?php 
 						echo $color;
 					?>
 				</li>
+                <?php } ?>
 				<li>
 					<span>Direcci&oacute;n</span>
 					Hidra&uacute;lica
 				</li>
+                <?php if(!($tranccion=='')&&!($tranccion==$MESSAGE_INVALID)){  ?>
 				<li id="traccion">
 					<span>Tracci&oacute;n</span>
 					<?php 
-						echo $tranccion ;?>
+						echo $tranccion; ?>
 				</li>
+                <?php } ?>
+                <?php if(!($numeropuertas=='')&&!($numeropuertas==$MESSAGE_INVALID)){  ?>
 				<li>
 					<span>Puertas</span>
 					<?php 
@@ -230,20 +243,26 @@
 						echo $numeropuertas;
 					?>
 				</li>
+                <?php } ?>
+                <?php if(!($transmision=='')&&!($transmision==$MESSAGE_INVALID)){  ?>
 				<li id="transmicion">
 					<span>Transmisi&oacute;n</span>
 					<?php 
 						echo $transmision;
 					?>
 				</li>
+                <?php } ?>
 			</ul>
 			<ul class="list_Detalles_despliegue fr">
+                <?php if(!($corridasAsientos=='')&&!($corridasAsientos==$MESSAGE_INVALID)){  ?>
 				<li id="corridas_asiento">
 					<span>Corridas de asientos</span>
 					<?php 
 						echo $corridasAsientos;
 					?>
 				</li>
+                <?php }?>
+                <?php if((substr($equiposonido ,12)!='')&&(substr($equiposonido ,12)!=$MESSAGE_INVALID)){  ?>
 				<li>
 					<span>Equipo de sonido</span>
 					<?php 
@@ -251,6 +270,8 @@
 						echo $equiposonido;
 					?>
 				</li>
+                <?php }?>
+                <?php if(!(substr($oportunidadcomercial ,20)=='')&&!(substr($oportunidadcomercial ,20)==$MESSAGE_INVALID)){  ?>
 				<li>
 					<span>Oportunidad comercial</span>
 					<?php
@@ -258,6 +279,7 @@
 						echo $oportunidadcomercial;
 					?>
 				</li>
+                <?php } ?>
 				<?php 
 					if($capacidadEstanque=='null')
 					{
@@ -267,14 +289,16 @@
 							$capacidadEstanque=$capacidadEstanque;
 					    }
 				?>
+                <?php if(!($capacidadEstanque=='')&&!($capacidadEstanque==$MESSAGE_INVALID)){  ?>
 				<li>
 					<span>Capacidad Estanque</span>
 					<?php
 						echo $capacidadEstanque;
 					?>
 				</li>
+                <?php }?>
 				<li>
-					<span>Potencia (HP)</span> 
+					<span>Potencia (HP)</span>
 						210
 				</li>
 				<li>

@@ -971,7 +971,7 @@ function procesa(id_auto){
                 
             }
             lines ? result += lines : result += JSON.stringify(record, "", "    ");
-            result += '</a></div><div class="content_Select_send"><input onclick="procesa('+record._id+')" type="checkbox" id="'+record._id+'" name="autoselect" value="'+record._id+'"><label for="'+record._id+'">&nbsp;</label></div></li>';
+            result += '</a></div><div class="content_Select_send" style="z-index:0;"><input onclick="procesa('+record._id+')" type="checkbox" id="'+record._id+'" name="autoselect" value="'+record._id+'"><label for="'+record._id+'">&nbsp;</label></div></li>';
             result += options.resultwrap_end;
             return result;
         };

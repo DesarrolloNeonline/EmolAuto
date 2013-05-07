@@ -50,12 +50,14 @@ $contenido = '
 </body>
 </html>';
 
+$fecha = date("Y-m-d");
 $para =  $email;
-$asunto = "Solicitar informacion acerca de un automovil";
+$asunto = "EMOL Automóvil - Información de Vehículos [".$fecha."]";
 $email_server = 'automoviles@emolautomovil.cl';
 $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 $cabeceras .= 'From:'.$email_server.' ' . "\r\n" .
 $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-mail($para, $asunto, $contenido, $cabeceras); ?>
-<span style="margin-left:20px;">El correo se ha enviado con &eacute;xito.</span> 
+mail($para, $asunto, $contenido, $cabeceras);
+echo $div_autos;
+?>

@@ -68,35 +68,37 @@
                     $('.facet-view-here').facetview(_data);
                 });
             });
-        </script>
+  </script>
   <script type="text/javascript">
-   function ilumina(celda){
-    if (celda.style.backgroundColor=="")
-        {
-        celda.style.backgroundColor="#f9f8f8";
-        }
-    else
-        {
-        celda.style.backgroundColor="";
-        }
-    }
-    function setVisibility() {
-
-      var aa= document.getElementById('frm1');
-      for (var i =0; i < aa.elements.length; i++){
-         if(aa.elements[i].checked == true;) 
-         {
-            document.getElementById('content_modal_enviar').style.display = 'inline'; 
-         } else
+        function ilumina(celda){
+          if (celda.style.backgroundColor=="")
+          {
+            celda.style.backgroundColor="#f9f8f8";
+          }
+            else
                 {
-                  alert('Debe seleccionar al menos un automovil.');
+                  celda.style.backgroundColor="";
                 }
-      }
+        }
+        function setVisibility(){
 
-      
-    }
+          var aa= document.getElementById('frm1');
+          for(var i = 0; i < aa.elements.length; i++){ 
+            if(aa.elements[i].checked)
+            { 
+              document.getElementById('fondoTransparente').style.display = 'inline';
+              document.getElementById('content_modal_enviar').style.display = 'inline';
+              return true; 
+            } 
+          }
+          alert('Debe seleccionar al menos un automovil.'); 
+          return false; 
+        }
+
+
     function setVisibilityNone() {
       document.getElementById('content_modal_enviar').style.display = 'None';
+      document.getElementById('fondoTransparente').style.display = 'None';
 
       document.getElementById("resultado").innerHTML="";
       document.getElementById("email").value="";
@@ -136,10 +138,11 @@
                             url:    'procesa_envio.php',
                             type:   'post',
                             beforeSend: function () {
-                                    $("#resultado").html("Enviando correo electr&oacute;nico, por favor espere.");
+                                    $("#content_List_selected").html("<img style='margin-left: 270px;width: 40px;' src='images/cargando.gif'>");
+
                             },
                             success:  function (response) {
-                                    $("#resultado").html(response);
+                                    $("#content_List_selected").html(response);
                             }
                         });
 
@@ -178,6 +181,22 @@
   </script>
    <script type="text/javascript" src="js/format-number/accounting.js"></script>
    <script type="text/javascript" src="js/format-number/accounting.min.js"></script>
+  <style type="text/css">
+  #fondoTransparente
+{
+  /*Div que ocupa toda la pantalla*/
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-color:#000;
+  /*IE*/
+  filter: alpha(opacity=50);
+  /*FireFox Opera*/
+  opacity: .5;
+}
+</style>
 </head>
 
 <body>
@@ -191,8 +210,8 @@
   
     <div id="header">
       
-      <div id="Logo_02">
-        <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
+      <div id="Logo_02" style="z-index: 0;">
+        <a href="index.php"><img src="img/Logo.png" alt="Emol automviles"/></a>
 	  </div>
       
       <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
@@ -215,8 +234,8 @@
 		</p>
 
 			<div class="facet-view-simple"></div>
-      <div id="content_modal_enviar" style="position: absolute;background-color: #fff;margin-top:-290px;border-color: #e9e7e8;height: auto;margin-left: -160px;
-      border: 1px solid #cccccc;display: none;z-index:1000">
+      <div id="content_modal_enviar" style="position: absolute;background-color: #fff;margin-top:-140px;border-color: #e9e7e8;height: auto;margin-left: -340px;
+      border: 1px solid #cccccc;display: none;z-index:1000;position: fixed;">
   
         <div id="top_modal" style="padding: 20px;">
           <h1 style="margin-bottom: 10px;">Enviar avisos seleccionados</h1>
@@ -237,6 +256,8 @@
   
     </div>
   </div>
+  <div id='fondoTransparente' style="display:none;position:fixed;">
+</div>
    </div>
     <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
 

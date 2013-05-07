@@ -48,7 +48,7 @@
     function alpha(e) {
     var k;
     document.all ? k = e.keyCode : k = e.which;
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k== 241 || k==209 || k == 32 || (k >= 48 && k <= 57));
     }
     </script>
     <script>
@@ -188,7 +188,7 @@
         </div>
               
               <div class="Block_busq">
-                <label>En qu&eacute; ciudad</label>
+                <label>En qu&eacute; ciudad o comuna</label>
                 <input name="ciudad" type="text" id ="ciudad" value="Santiago" onkeypress="return alpha(event)"/>
       </div>
         
@@ -225,7 +225,7 @@
 						<input type="radio" id="camiones" name="tipo" value="Camiones">
 						<label for="camiones"><img src="img/camiones.png" alt="Camiones" /></label>
 						<input type="radio" id="motos" name="tipo" value="Motos">
-						<label for="motos"><img src="img/motos.png" alt="Motos" /></label>
+						<label for="motos" style="margin-right:0px;"><img src="img/motos.png" alt="Motos" /></label>
 				</div>
                 
                 <hr />
