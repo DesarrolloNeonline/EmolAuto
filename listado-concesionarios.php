@@ -32,9 +32,10 @@
 
     try
     {
-      $sql_sucursales = 'select id_sucursal, calle, numero, comuna, ciudad, telefono, id_concesionario, prioridad from sucursales order by prioridad ASC ';
-      $result_sucursales =mysql_query($sql_sucursales);
-      $max = mysql_num_rows($result_sucursales);
+      $sql_concesionarios = 'select id_concesionario, calle, numero, comuna, ciudad, telefono, telefono_adicional, id_concesionario, prioridad, nombre_fantasia, 
+      logo_chico from concesionario order by prioridad ASC ';
+      $result_concesionarios =mysql_query($sql_concesionarios);
+      $max = mysql_num_rows($result_concesionarios);
     }
     catch(PDOException $e) 
     {
@@ -57,7 +58,16 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
@@ -71,26 +81,25 @@
     <?php 
                 for($i=0;$i<$max;$i++)
                 {
-                  $row_sucursales=mysql_fetch_row($result_sucursales);
-                  $id_sucursal=$row_sucursales[0];
-                  $calle=$row_sucursales[1];
-                  $numero=$row_sucursales[2];
-                  $comuna=$row_sucursales[3];
-                  $ciudad = $row_sucursales[4];
-                  $telefono = $row_sucursales[5];
-                  $id_concesionario = $row_sucursales[6];
-                  $orden = $row_sucursales[7];
-                  
-                  $sql_concesionario = 'select nombre_concesionario, logo, id_concesionario_sap  from concesionario_sap  where bp_concesionario = "'.$id_concesionario.'"';
-                  $result_concesionarios= mysql_query($sql_concesionario);
                   $row_concesionarios=mysql_fetch_row($result_concesionarios);
-                  $nombre_concesionario=$row_concesionarios[0];
-                  $logo=$row_concesionarios[1]; 
-                  $id_concesionario = $row_concesionarios[2];
+                  $id_concesionario=$row_concesionarios[0];
+                  $calle=$row_concesionarios[1];
+                  $numero=$row_concesionarios[2];
+                  $comuna=$row_concesionarios[3];
+                  $ciudad = $row_concesionarios[4];
+                  $telefono = $row_concesionarios[5];
+                  $telefono_adicional = $row_concesionarios[6];
+                  $id_concesionario = $row_concesionarios[7];
+                  $orden = $row_concesionarios[8];
+                  $nombre_fantasia = $row_concesionarios[9];
+                  $logo = $row_concesionarios[10];
+               
+                  
+          
       ?>
                   <li>
-                    <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario;?>&id_sucursal=<?php echo $id_sucursal;?>"><img style="width:160px; height:70px;" src="upload/concesionarios/<?php echo $logo;?>" alt="<?php echo $nombre_concesionario;?>" /></a>
-                    <h1><?php echo $nombre_concesionario;?></h1>
+                    <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario;?>"><img src="upload/concesionarios/<?php echo $logo;?>" alt="<?php echo $nombre_concesionario;?>" /></a>
+                    <h1><?php echo $nombre_fantasia;?></h1>
                     <p>
                     <?php
                         if($calle)

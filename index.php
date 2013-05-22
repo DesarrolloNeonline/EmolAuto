@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -40,7 +40,7 @@
    function busqueda_nomal(marca,ciudad)
    {
 		
-			location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}';
+			location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
       
    }
    </script>
@@ -48,8 +48,14 @@
     function alpha(e) {
     var k;
     document.all ? k = e.keyCode : k = e.which;
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || k==241 || k==209 || (k >= 48 && k <= 57));
+   
+      if (e.keyCode == 13) {   
+       busqueda_nomal($('#marca').val(),$('#ciudad').val());return false; 
+     }else{  
+           return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || k==241 || k==209 || (k >= 48 && k <= 57));
+      }
     }
+
     </script>
     <script>
      function busqueda_sofisticada(price,year)
@@ -57,7 +63,7 @@
 		var posicion_price = price.indexOf(';');
 		var precio = price.substring(posicion_price+1);
 		var posicion_year = year.indexOf(';');
-		var año = year.substring(posicion_year+1);
+		var anno = year.substring(posicion_year+1);
 		
 		for(i=0;i<document.formulario_tipo.tipo.length;i++)
 		{
@@ -108,7 +114,7 @@
 			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
 		}
     */
-    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+año+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}';
+    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
    }
    </script>
   <!-- Tooltip -->
@@ -159,6 +165,16 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
         <a href="#" id="ocultar" style="float:right;">Ocultar publicidad</a>      </div>
       
        <script type="text/javascript">
@@ -330,7 +346,7 @@
     <div id="noticias_home">
     
       <div class="article">
-        <div class="imagen_noticia"><a href="<?php echo $url_destino;?>"><img  src="upload/destacados-home/<?php echo $url_origen;?>" alt="Ttulo noticia" class="imagen_noticia" /></a></div>
+        <div class="imagen_noticia"><a href="<?php echo $url_destino;?>"><img  src="upload/destacados-home/<?php echo $url_origen;?>" alt="Ttulo noticia" /></a></div>
         <div class="content_info_noticia">
           <h1><?php echo $titulo;?></h1>
           <h3><?php echo $sub_titulo;?></h3>
@@ -343,7 +359,7 @@
       </div>
       
       <div class="article">
-        <div class="imagen_noticia"><a href="<?php echo $url_destino2;?>"><img src="upload/destacados-home/<?php echo $url_origen2;?>" alt="Ttulo noticia" class="imagen_noticia" /></a></div>
+        <div class="imagen_noticia"><a href="<?php echo $url_destino2;?>"><img src="upload/destacados-home/<?php echo $url_origen2;?>" alt="Ttulo noticia" /></a></div>
         <div class="content_info_noticia">
          <h1><?php echo $titulo2;?></h1>
           <h3><?php echo $sub_titulo2;?></h3>
@@ -356,7 +372,7 @@
       </div>
       
       <div class="article">
-        <div class="imagen_noticia"><a href="<?php echo $url_destino3;?>"><img src="upload/destacados-home/<?php echo $url_origen3;?>"  alt="Ttulo noticia" class="imagen_noticia" /></a></div>
+        <div class="imagen_noticia"><a href="<?php echo $url_destino3;?>"><img src="upload/destacados-home/<?php echo $url_origen3;?>"  alt="Ttulo noticia" /></a></div>
         <div class="content_info_noticia">
          <h1><?php echo $titulo3;?></h1>
           <h3><?php echo $sub_titulo3;?></h3>
@@ -420,182 +436,134 @@
 <?php 
 
 try 
-{
-	$sql_destacado  = 'select bp_sucursal from sucursales_destacados where id_destacado = 1';
-  $result_destacado = mysql_query($sql_destacado);
-  $array_destacado = mysql_fetch_array($result_destacado);
-  $bp_sucursal_1 =  $array_destacado[0];
+    {
+      $sql_destacado_1  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 1';
+      $result_destacado_1 = mysql_query($sql_destacado_1);
+      $array_destacado_1 = mysql_fetch_array($result_destacado_1);
+      $bp_concesionario_1 =  $array_destacado_1[0];
 
-  $sql_sucursal  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_1.'"';
-  $result_sucursal = mysql_query($sql_sucursal);
-  $array_sucursal = mysql_fetch_array($result_sucursal);
-  $bp_concesionario_1 =  $array_sucursal[0];
-  $id_sucursal_1 = $array_sucursal[1];
+      $sql_concesionario_1  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_1.'"';
+      $result_concesionario_1 = mysql_query($sql_concesionario_1);
+      $array_concesionario_1 = mysql_fetch_array($result_concesionario_1);
+      $nombre_concesionario_1 = $array_concesionario_1[0];
+      $logo_1                = $array_concesionario_1[1];
+      $id_concesionario_1    = $array_concesionario_1[2];
 
-  
-  $sql_concesionario = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_1.'"';
-  $result_concesionario = mysql_query($sql_concesionario);
-  $array_concesionario = mysql_fetch_array($result_concesionario);
-  $nombre_concesionario = $array_concesionario[0];
-  $logo_1 = $array_concesionario[1];
-  $id_concesionario_1 = $array_concesionario[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar primer destacado');
+    }
+    try 
+    {
+      $sql_destacado_2  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 2';
+      $result_destacado_2 = mysql_query($sql_destacado_2);
+      $array_destacado_2 = mysql_fetch_array($result_destacado_2);
+      $bp_concesionario_2 =  $array_destacado_2[0];
 
+      $sql_concesionario_2  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_2.'"';
+      $result_concesionario_2 = mysql_query($sql_concesionario_2);
+      $array_concesionario_2 = mysql_fetch_array($result_concesionario_2);
+      $nombre_concesionario_2 = $array_concesionario_2[0];
+      $logo_2         = $array_concesionario_2[1];
+      $id_concesionario_2       = $array_concesionario_2[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar segundo destacado 2');
+    }
+    try
+    {
+      $sql_destacado_3  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 3';
+      $result_destacado_3 = mysql_query($sql_destacado_3);
+      $array_destacado_3 = mysql_fetch_array($result_destacado_3);
+      $bp_concesionario_3 =  $array_destacado_3[0];
 
-}
-catch(PDOException $e) 
-{
-	error_log($e->getMessage());
-	die('Error al seleccionar primer destacado');
-}
-try 
-{
-	$sql_destacado_2    = 'select bp_sucursal from sucursales_destacados where id_destacado = 2';
-  $result_destacado_2 = mysql_query($sql_destacado_2);
-  $array_destacado_2  = mysql_fetch_array($result_destacado_2);
-  $bp_sucursal_2 = $array_destacado_2[0];
+      $sql_concesionario_3  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_3.'"';
+      $result_concesionario_3 = mysql_query($sql_concesionario_3);
+      $array_concesionario_3 = mysql_fetch_array($result_concesionario_3);
+      $nombre_concesionario_3 = $array_concesionario_3[0];
+      $logo_3       = $array_concesionario_3[1];
+      $id_concesionario_3       = $array_concesionario_3[2];
+    
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar tercer destacado 3');
+    }
+    try
+    {
+      $sql_destacado_4  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 4';
+      $result_destacado_4 = mysql_query($sql_destacado_4);
+      $array_destacado_4 = mysql_fetch_array($result_destacado_4);
+      $bp_concesionario_4 =  $array_destacado_4[0];
 
-  $sql_sucursal_2  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_2.'"';
-  $result_sucursal_2 = mysql_query($sql_sucursal_2);
-  $array_sucursal_2 = mysql_fetch_array($result_sucursal_2);
-  $bp_concesionario_2 =  $array_sucursal_2[0];
-  $id_sucursal_2 = $array_sucursal_2[1];
+      $sql_concesionario_4  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_4.'"';
+      $result_concesionario_4 = mysql_query($sql_concesionario_4);
+      $array_concesionario_4 = mysql_fetch_array($result_concesionario_4);
+      $nombre_concesionario_4 = $array_concesionario_4[0];
+      $logo_4       = $array_concesionario_4[1];
+      $id_concesionario_4       = $array_concesionario_4[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar cuarto destacado 4');
+    }
+    try
+    {
+      $sql_destacado_5  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 5';
+      $result_destacado_5 = mysql_query($sql_destacado_5);
+      $array_destacado_5 = mysql_fetch_array($result_destacado_5);
+      $bp_concesionario_5 =  $array_destacado_5[0];
 
-  $sql_concesionario_2 = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_2.'"';
-  $result_concesionario_2 = mysql_query($sql_concesionario_2);
-  $array_concesionario_2= mysql_fetch_array($result_concesionario_2);
-  $nombre_concesionario_2 = $array_concesionario_2[0];
-  $logo_2 = $array_concesionario_2[1];
-  $id_concesionario_2 = $array_concesionario_2[2];
-}
-catch(PDOException $e) 
-{
-	error_log($e->getMessage());
-	die('Error al seleccionar segundo destacado');
-}
-try 
-{
-	$sql_destacado_3    = 'select bp_sucursal from sucursales_destacados where id_destacado = 3';
-  $result_destacado_3 = mysql_query($sql_destacado_3);
-  $array_destacado_3  = mysql_fetch_array($result_destacado_3);
-  $bp_sucursal_3 = $array_destacado_3[0];
+      $sql_concesionario_5  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_5.'"';
+      $result_concesionario_5 = mysql_query($sql_concesionario_5);
+      $array_concesionario_5 = mysql_fetch_array($result_concesionario_5);
+      $nombre_concesionario_5 = $array_concesionario_5[0];
+      $logo_5       = $array_concesionario_5[1];
+      $id_concesionario_5       = $array_concesionario_5[2];
 
-  $sql_sucursal_3  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_3.'"';
-  $result_sucursal_3 = mysql_query($sql_sucursal_3);
-  $array_sucursal_3 = mysql_fetch_array($result_sucursal_3);
-  $bp_concesionario_3 =  $array_sucursal_3[0];
-  $id_sucursal_3 = $array_sucursal_3[1];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar quinto destacado');
+    }
+    try
+    {
+      $sql_destacado_6  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 6';
+      $result_destacado_6 = mysql_query($sql_destacado_6);
+      $array_destacado_6 = mysql_fetch_array($result_destacado_6);
+      $bp_concesionario_6 =  $array_destacado_6[0];
 
-  $sql_concesionario_3 = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_3.'"';
-  $result_concesionario_3 = mysql_query($sql_concesionario_3);
-  $array_concesionario_3= mysql_fetch_array($result_concesionario_3);
-  $nombre_concesionario_3 = $array_concesionario_3[0];
-  $logo_3= $array_concesionario_3[1];
-  $id_concesionario_3 = $array_concesionario_3[2];
-
-
-}
-catch(PDOException $e) 
-{
-	error_log($e->getMessage());
-	die('Error al seleccionar tercero destacado');
-}
-try 
-{
-	$sql_destacado_4    = 'select bp_sucursal from sucursales_destacados where id_destacado = 4';
-  $result_destacado_4 = mysql_query($sql_destacado_4);
-  $array_destacado_4  = mysql_fetch_array($result_destacado_4);
-  $bp_sucursal_4 = $array_destacado_4[0];
-
-  $sql_sucursal_4  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_4.'"';
-  $result_sucursal_4 = mysql_query($sql_sucursal_4);
-  $array_sucursal_4 = mysql_fetch_array($result_sucursal_4);
-  $bp_concesionario_4 =  $array_sucursal_4[0];
-  $id_sucursal_4 = $array_sucursal_4[1];
-
-
-  $sql_concesionario_4 = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_4.'"';
-  $result_concesionario_4 = mysql_query($sql_concesionario_4);
-  $array_concesionario_4= mysql_fetch_array($result_concesionario_4);
-  $nombre_concesionario_4 = $array_concesionario_4[0];
-  $logo_4 = $array_concesionario_4[1];
-  $id_concesionario_4 = $array_concesionario_4[2];
-
-}
-catch(PDOException $e) 
-{
-	error_log($e->getMessage());
-	die('Error al seleccionar cuarto destacado');
-}
-try 
-{
-	$sql_destacado_5  = 'select bp_sucursal from sucursales_destacados where id_destacado = 5';
-  $result_destacado_5 = mysql_query($sql_destacado_5);
-  $array_destacado_5 = mysql_fetch_array($result_destacado_5);
-  $bp_sucursal_5 = $array_destacado_5[0];
-
-  $sql_sucursal_5  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_5.'"';
-  $result_sucursal_5 = mysql_query($sql_sucursal_5);
-  $array_sucursal_5 = mysql_fetch_array($result_sucursal_5);
-  $bp_concesionario_5 =  $array_sucursal_5[0];
-  $id_sucursal_5 = $array_sucursal_5[1];
-
-  $sql_concesionario_5 = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_5.'"';
-  $result_concesionario_5 = mysql_query($sql_concesionario_5);
-  $array_concesionario_5= mysql_fetch_array($result_concesionario_5);
-  $nombre_concesionario_5 = $array_concesionario_5[0];
-  $logo_5 = $array_concesionario_5[1];
-  $id_concesionario_5 = $array_concesionario_5[2];
-
-}
-catch(PDOException $e) 
-{
-	error_log($e->getMessage());
-	die('Error al seleccionar quinto destacado');
-}
-try 
-{
-  $sql_destacado_6  = 'select bp_sucursal from sucursales_destacados where id_destacado = 6';
-  $result_destacado_6 = mysql_query($sql_destacado_6);
-  $array_destacado_6 = mysql_fetch_array($result_destacado_6);
-  $bp_sucursal_6 = $array_destacado_6[0];
-
-  $sql_sucursal_6  = 'select id_concesionario, id_sucursal from automoviles.sucursales where bp_sucursal ="'.$bp_sucursal_6.'"';
-  $result_sucursal_6 = mysql_query($sql_sucursal_6);
-  $array_sucursal_6 = mysql_fetch_array($result_sucursal_6);
-  $bp_concesionario_6 =  $array_sucursal_6[0];
-  $id_sucursal_6 = $array_sucursal_6[1];
-
-  $sql_concesionario_6 = 'select  nombre_concesionario, logo, id_concesionario_sap from automoviles.concesionario_sap 
-  where bp_concesionario = "'.$bp_concesionario_6.'"';
-  $result_concesionario_6 = mysql_query($sql_concesionario_6);
-  $array_concesionario_6= mysql_fetch_array($result_concesionario_6);
-  $nombre_concesionario_6 = $array_concesionario_6[0];
-  $logo_6 = $array_concesionario_6[1];
-  $id_concesionario_6 = $array_concesionario_6[2];
-
-}
-catch(PDOException $e) 
-{
-  error_log($e->getMessage());
-  die('Error al seleccionar quinto destacado');
-}
+      $sql_concesionario_6  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_6.'"';
+      $result_concesionario_6 = mysql_query($sql_concesionario_6);
+      $array_concesionario_6 = mysql_fetch_array($result_concesionario_6);
+      $nombre_concesionario_6 = $array_concesionario_6[0];
+      $logo_6       = $array_concesionario_6[1];
+      $id_concesionario_6       = $array_concesionario_6[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar sexto destacado');
+    }
 ?>
         
         <div class="content_List_concesionarios_home">  
-          <h1 class="title_color_home">Sucuarsales destacadas</h1>
+          <h1 class="title_color_home">Concesionarios destacados</h1>
           
           <ul class="List_concesionarias">
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_1;?>&id_sucursal=<?php echo $id_sucursal_1;?>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_1;?>" style="width: 86px;height: 23px;" /></a></li>
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_2;?>&id_sucursal=<?php echo $id_sucursal_2;?>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_2;?>" style="width: 86px;height: 23px;"/></a></li>
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_3;?>&id_sucursal=<?php echo $id_sucursal_3;?>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_3;?>" style="width: 86px;height: 23px;"/></a></li>
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_4;?>&id_sucursal=<?php echo $id_sucursal_4;?>>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_4;?>" style="width: 86px;height: 23px;"/></a></li>
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_5;?>&id_sucursal=<?php echo $id_sucursal_5;?>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_5;?>" style="width: 86px;height: 23px;"/></a></li>
-            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_6;?>&id_sucursal=<?php echo $id_sucursal_6;?>"><img src="http://club.mersap.com/emol_automovil/upload/concesionarios/<?php echo $logo_6;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_1;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_1;?>" style="width: 86px;height: 23px;" /></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_2;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_2;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_3;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_3;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_4;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_4;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_5;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_5;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_6;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_6;?>" style="width: 86px;height: 23px;"/></a></li>
           </ul>
           
         </div>

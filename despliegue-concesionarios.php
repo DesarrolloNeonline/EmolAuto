@@ -30,30 +30,40 @@
 
     $valores = array_values($_GET);
     $id_concesionario = $valores[0];
-    $id_sucursal = $valores[1];
 
-    $sql_concesionario = 'select nombre_concesionario, logo, bp_concesionario from concesionario_sap  where id_concesionario_sap = "'.$id_concesionario.'"';
+    $sql_concesionario = 'select nombre_fantasia,  logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
+    telefono, telefono_adicional, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario from concesionario  where id_concesionario = "'.$id_concesionario.'"';
     $result_concesionarios= mysql_query($sql_concesionario);
     $row_concesionarios=mysql_fetch_row($result_concesionarios);
-    $nombre_concesionario=$row_concesionarios[0];
+    $nombre_fantasia=$row_concesionarios[0];
     $logo=$row_concesionarios[1]; 
     $bp_concesionario = $row_concesionarios[2];
+    $calle=$row_concesionarios[3];
+    $numero=$row_concesionarios[4];
+    $comuna=$row_concesionarios[5];
+    $ciudad = $row_concesionarios[6];
+    $telefono = $row_concesionarios[7];
+    $telefono_adicional = $row_concesionarios[8];
+    $orden = $row_concesionarios[9];
+    $encargado = $row_concesionarios[10];
+    $rut = $row_concesionarios[11];
+    $tipo = $row_concesionarios[12];
+    $latitud = $row_concesionarios[13];
+    $longitud = $row_concesionarios[14];
+    $logo_grande = $row_concesionarios[15];
+    $imagen_concesionario = $row_concesionarios[16];
 
-    $sql_sucursales = 'select  calle, numero, comuna, ciudad, telefono, id_concesionario, prioridad, encargado, latitud, longitud
-     from sucursales where id_sucursal = "'.$id_sucursal.'"';
-    $result_sucursales =mysql_query($sql_sucursales);
-    $max = mysql_num_rows($result_sucursales);
-    $row_sucursales=mysql_fetch_row($result_sucursales);
-    $calle=$row_sucursales[0];
-    $numero=$row_sucursales[1];
-    $comuna=$row_sucursales[2];
-    $ciudad = $row_sucursales[3];
-    $telefono = $row_sucursales[4];
-    $id_concesionario = $row_sucursales[5];
-    $orden = $row_sucursales[6];
-    $latitud = '-33.4265814';
-    $longitud = '-70.5838641';
-    $encargado = $row_sucursales[7];
+
+    $latitud_ini = substr($latitud ,0 ,3);
+    $latitud_inicial = $latitud_ini.'.';
+    $latitud_fin = substr($latitud ,3);
+    $latitud = $latitud_inicial.$latitud_fin;
+
+    $longitud_ini = substr($longitud ,0 ,3);
+    $longitud_inicial = $longitud_ini.'.';
+    $longitud_fin = substr($longitud ,3);
+    $longitud = $longitud_inicial.$longitud_fin;
+
 
 ?> 
   <div id="wrap">
@@ -71,25 +81,43 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
     
     <div id="despliegue_concesionarios">
     
-      <p class="indicador_seccion"><a href="index.php">Inicio</a> > <a href="listado-concesionarios.php">Concesionarios</a>  >  <?php echo $nombre_concesionario;?></p>
+      <p class="indicador_seccion"><a href="index.php">Inicio</a> > <a href="listado-concesionarios.php">Concesionarios</a>  >  <?php echo $nombre_fantasia;?></p>
       
       <div id="despliegue_concesionario_Left">
         
-        <h1 class="nombre_concesionario"><?php echo $nombre_concesionario;?></h1>
+        <h1 class="nombre_concesionario"><?php echo $nombre_fantasia;?></h1>
         
         <div class="content_img_concesionario">
-          <img src="images/IL1828399.jpg" alt="Nombre Concesionario" style="width: 300px;" />
+		
+		<?php
+			if($imagen_concesionario)
+			{?>
+				 <img src="upload/concesionarios/<?php echo $imagen_concesionario;?>" alt="Nombre Concesionario" />
+	<?php	} 
+				else { ?>
+						
+			<?php	}	?>
         </div>
         
         <div class="content_info_concesionario">
           <div class="img_Logo_concesionario"><img src="upload/concesionarios/<?php echo $logo;?>" alt="Nombre concesionario" /></div>
+          <div class="info_concesionario"><strong>Tipo</strong><br /><?php echo $tipo;?></div>
           <div class="info_concesionario">
             <strong>Contacto</strong><br />
             <?php 
@@ -105,7 +133,12 @@
           </div>
 
           <div class="info_concesionario"><strong>Tel&eacute;fono</strong><br /><?php echo $telefono;?></div>
-          <div class="info_concesionario"><strong>Direcci&oacute;n</strong><br /><?php echo $calle.' '.$numero.', '.$comuna;?></div>
+      <?php 
+        if($telefono_adicional){ ?>
+          <div class="info_concesionario"><strong>Tel&eacute;fono Adicional</strong><br /><?php echo $telefono_adicional;?></div>
+      <?php 
+        } ?>
+        <div class="info_concesionario"><strong>Direcci&oacute;n</strong><br /><?php echo $calle.' '.$numero.', '.$comuna;?></div>
         </div>
         
         <div class="content_Btn_concesionario">
@@ -116,10 +149,9 @@
         
         <ul class="otras_sucursales" id="sucursales">
           <?php 
-          $sql_sucursales = 'select id_sucursal, calle, numero, comuna, ciudad, telefono, id_concesionario, prioridad from sucursales where id_concesionario = "'.$bp_concesionario.'" 
-          and id_sucursal  not like "'.$id_sucursal.'" ';
-          $result_sucursales =mysql_query($sql_sucursales);
-          $max = mysql_num_rows($result_sucursales);
+          $sql_concesionario_sucursales = 'select  calle, numero, comuna from concesionario where RUT = "'.$rut.'" and bp_concesionario  not like "'.$bp_concesionario.'" ';
+          $result_concesionario_sucursales =mysql_query($sql_concesionario_sucursales);
+          $max = mysql_num_rows($result_concesionario_sucursales);
           
           if($max==0)
           { ?>
@@ -130,12 +162,10 @@
 
                   for($i=0;$i<$max;$i++)
                   {  
-                    $row_sucursales=mysql_fetch_row($result_sucursales);
-                    $id_sucursal=$row_sucursales[0];
-                    $calle=$row_sucursales[1];
-                    $numero=$row_sucursales[2];
-                    $comuna=$row_sucursales[3];
-                    $ciudad = $row_sucursales[4];
+                    $row_sucursales=mysql_fetch_row($result_concesionario_sucursales);
+                    $calle=$row_sucursales[0];
+                    $numero=$row_sucursales[1];
+                    $comuna=$row_sucursales[2];
                     ?>
                  
                      <li><strong>Sucursal <?php echo $comuna;?> </strong> &nbsp;&nbsp;<?php echo $calle.' '.$numero;?></li>
@@ -144,23 +174,43 @@
                 }?>
         </ul>
         
-        <div id="content_mapa_sucursal" style="display:block;">
-           <div id="map" style="max-width:638px;height:198px"></div>
-                <script>
-                    var map = new XYGO.Map('map')
-                    var concesionario = '<?php echo $nombre_concesionario?>'
-                    var latitud = '<?php echo $latitud?>'
-                    var longitud = '<?php echo $longitud?>'
+		<?php  
+		if(($latitud!=0) &&($longitud!=0))
+		{ ?>
+				<div id="content_mapa_sucursal" style="display:block;">
+				   <div id="map" style="max-width:638px;height:198px"></div>
+						<script>
+							var map = new XYGO.Map('map')
+							var concesionario = '<?php echo $nombre_fantasia?>'
+							var latitud = '<?php echo $latitud?>'
+							var longitud = '<?php echo $longitud?>'
 
-                    var ubicacion = new L.LatLng(latitud, longitud)        
-                    
-                    map.setCenter(ubicacion, 15);
-                    map.addMarker(ubicacion, concesionario, { open: true })
+							var ubicacion = new L.LatLng(latitud, longitud)        
+							
+							map.setCenter(ubicacion, 15);
+							map.addMarker(ubicacion, concesionario, { open: true })
 
-              </script>  
-        </div>
-<!--
-        <div id="content_List_autos">
+					  </script>  
+				</div>
+		<?php   } ?>
+
+    <?php
+
+    $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
+    $content = file_get_contents($url);
+    $json = json_decode($content, true);
+
+    foreach($json['_source'] as $item) 
+    {
+      $marca              = $item['marca'];
+      $modelo             = $item['modelo'];
+      $texto              = $item['texto'];
+      $anno               = $item['año']; 
+      $precio             = $item['precio'];
+           
+    }  ?>
+ 
+        <!--<div id="content_List_autos">
         
           <h1 class="title_color_despliegue">Avisos publicados</h1>
     
@@ -190,187 +240,12 @@
                 <label for="auto2" title="Autos 0 Km" class="someClass">&nbsp;</label>
               </div>
             </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto3" name="estado" value="all">
-                <label for="auto3" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto4" name="estado" value="all">
-                <label for="auto4" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto5" name="estado" value="all">
-                <label for="auto5" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto6" name="estado" value="all">
-                <label for="auto6" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto7" name="estado" value="all">
-                <label for="auto7" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto8" name="estado" value="all">
-                <label for="auto8" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto9" name="estado" value="all">
-                <label for="auto9" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto10" name="estado" value="all">
-                <label for="auto10" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto11" name="estado" value="all">
-                <label for="auto11" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto12" name="estado" value="all">
-                <label for="auto12" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto13" name="estado" value="all">
-                <label for="auto13" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto14" name="estado" value="all">
-                <label for="auto14" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto15" name="estado" value="all">
-                <label for="auto15" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto16" name="estado" value="all">
-                <label for="auto16" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
+      
         
           </ul>
-          
-          <div class="pagination">
-            <ul>
-              <li class="prev"><a class="facetview_decrement" href="#">..</a></li>
-              <li class="active"><a>1 &minus; 10 de 12</a></li>
-              <li class="next"><a class="facetview_increment" href="#">Siguiente &raquo;</a></li>
-            </ul>
-          </div>
     
-        </div> 
-      !-->
+        </div> !-->
+      
       
       </div>
         
@@ -378,14 +253,12 @@
         
         <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
         
-        <div id="publicidad_Mobile_02">
-          <img src="images/banner-publicidad.jpg" alt="Emol automviles" />
-        </div>
+        <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
         
       </div>
     
     </div>
-    
+    </div>
     <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
   
   </div>

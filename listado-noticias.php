@@ -32,7 +32,7 @@
     try
     {
       $sql_noticias  = 'select  id_noticia, titulo_noticia, subtitulo_noticia, bajada_titulo, glosa_periodistica, periodista, 
-      estado_publicacion, fecha_noticia from automoviles.noticias order by fecha_noticia DESC';
+      estado_publicacion, target from automoviles.noticias order by fecha_noticia DESC';
       $result_noticias = mysql_query($sql_noticias);
       $max = mysql_num_rows($result_noticias);
     }
@@ -47,12 +47,6 @@
   
     <div id="header">
       
-       <div id="publicidad_Mobile_01">
-        <img src="images/publicidad-mobile.jpg" alt="Emol automviles" />      </div>
-      
-      <div id="publicidad_Mobile_02">
-        <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
-      
       <div id="Logo_02">
         <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
       </div>
@@ -64,7 +58,16 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
@@ -88,6 +91,7 @@
               $glosa_periodistica= $array_noticia[4]; 
               $periodista= $array_noticia[5]; 
               $estado_publicacion= $array_noticia[6]; 
+              $target = $array_noticia[7];
 
               $sql_img_noticias  = 'select  id_imagen_noticia, nombre_imagen, id_noticia from automoviles.imagenes_noticias where id_noticia = "'.$id_noticia.'"';
               $result_img_noticias = mysql_query($sql_img_noticias);
@@ -96,13 +100,26 @@
               $nombre_imagen  = $array_img_noticia[1];
 
               if($estado_publicacion==1)
-              {  ?>
-                <li>
-                  <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>"><img style ="width: 160px; height: 100px;"src="upload/noticias-autos/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_noticia;?>" /></a>
-                  <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>"><h1><?php echo $titulo_noticia;?></h1></a>
-                  <p><?php echo $bajada_titulo;?></p>
-                </li>
-       <?php  } 
+              {  
+
+                  if($target=='1')
+                  { ?>
+                      <li>
+                        <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>" target="_blank"><img src="upload/noticias-autos/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_noticia;?>" /></a>
+                        <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>" target="_blank"><h1><?php echo $titulo_noticia;?></h1></a>
+                        <p><?php echo $bajada_titulo;?></p>
+                      </li>
+              <?php
+                  } 
+                    else  { ?>
+                            <li>
+                              <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>"><img src="upload/noticias-autos/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_noticia;?>" /></a>
+                              <a href="despliegue-noticias.php?id-noticia=<?php echo $id_noticia;?>"><h1><?php echo $titulo_noticia;?></h1></a>
+                              <p><?php echo $bajada_titulo;?></p>
+                            </li>
+              <?php
+                          } 
+              } 
        } ?>
         </ul>
       
@@ -118,9 +135,9 @@
         
       <div id="listado_noticias_Right">
         
-        <div class="content_Publicidad_desp" style="margin:0">
-          <img src="images/publicidad_2.jpg" alt="Publicidad" />
-        </div>
+          <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
+        
+          <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
         
       </div>
     

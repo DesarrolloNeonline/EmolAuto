@@ -69,15 +69,6 @@ p.filter{
 	border-bottom:1px solid #adacac;
 	width:100%;
 	}
-	
-p.indicador_seccion{
-	display:block;
-	padding-left:21px;
-	color:#5283d9;
-	font-size:11px;
-	line-height:40px;
-	text-align:left;
-	}
 
 .btn_Save_select{
 	margin:0 auto;

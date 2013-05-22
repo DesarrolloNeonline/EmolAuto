@@ -9,8 +9,10 @@ $db_user = 'root';
 $db_pass = 'od4043od';
 $db_name = 'automoviles';
 
-$folder_wp_name = '/var/www/Auto/Html/';
+$folder_web= '/var/www/emol_automovil';
 
+$folder_frontend = 'http://club.mersap.com/emol_automovil_merge';
+$folder_backend = 'http://club.mersap.com/backend_automoviles';
 /*=========== Tiempo Max Ejecucion Query==========*/
 set_time_limit(260);
 

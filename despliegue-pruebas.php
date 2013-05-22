@@ -52,12 +52,6 @@
   <div id="wrap">
   
     <div id="header">
-      
-    <div id="publicidad_Mobile_01">
-        <img src="images/publicidad-mobile.jpg" alt="Emol automviles" />      </div>
-
-      <div id="publicidad_Mobile_02">
-        <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
 
       <div id="Logo_02">
         <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
@@ -70,14 +64,23 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
     
     <div id="despliegue_not">
     
-      <p class="indicador_seccion"><a href="index.php">Inicio</a> > <a href="listado-pruebas.php">Pruebas</a> > <a ><?php echo $titulo_prueba;?>s</a></p>
+      <p class="indicador_seccion"><a href="index.php">Inicio</a> > <a href="listado-pruebas.php">Pruebas de manejo</a> > <a ><?php echo $titulo_prueba;?>s</a></p>
       
       <div id="despliegue_noticias_Left">
       
@@ -92,7 +95,7 @@
         <div class="content_info_txt">
           <div class="box fr" id="desktop"><a onclick="window.print();" style="cursor: pointer;"><img src="img/btn_impr.gif" alt="Imprimir" /></a></div>
           <p class="autor"><?php echo $periodista;?> | El Mercurio</p>
-          <?php echo $glosa_periodistica;?>
+          <p><?php echo $glosa_periodistica;?></p>
           </div>
       
       </div>
@@ -114,7 +117,10 @@
             <!-- AddThis Button END -->
           </div>
         </div>
-        <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad"></div>
+        
+        <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
+        
+        <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
         
       </div>
     

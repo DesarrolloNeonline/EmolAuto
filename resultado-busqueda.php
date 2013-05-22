@@ -24,39 +24,90 @@
 
 	<link rel="stylesheet" href="css/style.css">
 
+  <script type="text/javascript">
+
+    function getUrlVars() 
+    {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+  </script>
+
 	<script type="text/javascript">
             jQuery(document).ready(function($) {
+
+          var first = getUrlVars()["busqueda"];
+            if(first=='inteligente')
+            {
                 $('.facet-view-simple').facetview({
-                    search_url: 'http://ailab01.mersap.com/autos/aviso/_search',
-                    search_index: 'elasticsearch',
-                    facets: [
-                        {'field':'aviso.Comuna', 'display': 'Comuna'} ,
-                        {'field':'aviso.Marca', 'display': 'Marca'} ,
-                        {'field':'aviso.Modelo', 'display': 'Modelo'} ,
-                        {'field':'aviso.precio', 'display': 'Precio'} , 
-                        {'field':'aviso.Anno', 'display': 'A&ntilde;o'},
-                        {'field':'aviso.Categoria', 'display': 'Categoria'} , 
-                        {'field':'aviso.Color', 'display': 'Color'}
-                    ],
-                    result_display: [
+                      search_url: 'http://ailab01.mersap.com/autos/aviso/_search',
+                      search_index: 'elasticsearch',
+                      facets: [
+                          {'field':'aviso.Comuna', 'display': 'Comuna'} ,
+                          {'field':'aviso.Marca', 'display': 'Marca'} ,
+                          {'field':'aviso.Modelo', 'display': 'Modelo'} ,
+                          {'field':'aviso.precio', 'display': 'Precio'} , 
+                          {'field':'aviso.Anno', 'display': 'A&ntilde;o'},
+                          {'field':'aviso.Categoria', 'display': 'Categoria'} , 
+                          {'field':'aviso.Color', 'display': 'Color'}
+                      ],
+                      result_display:
+                      [
+                          [
+                              {"field": "aviso.Marca"}
+                          ],
+  						            [
+                              {"field": "aviso.Modelo"}
+                          ],
+  						            [
+                               {"field": "aviso.precio"}
+                          ],
+                          [
+                              {"field": "aviso.Anno"}
+                          ],
+                      ],
+                      paging: 
+                      {
+                          from: 0,
+                          size: 10
+                      }
+                  });
+              
+            }  
+              else {
+
+                        $('.facet-view-simple').facetview({
+                        search_url: 'http://ailab01.mersap.com/autos/aviso/_search',
+                        search_index: 'elasticsearch',
+                        facets: [
+                            {'field':'aviso.Categoria', 'display': 'Categoria'} , 
+                            {'field':'aviso.precio', 'display': 'Precio'} , 
+                            {'field':'aviso.Anno', 'display': 'A&ntilde;o'},
+                            {'field':'aviso.Marca', 'display': 'Marca'} ,
+                            {'field':'aviso.Modelo', 'display': 'Modelo'} ,
+                            {'field':'aviso.Comuna', 'display': 'Comuna'} ,
+                            {'field':'aviso.Color', 'display': 'Color'}
+                        ],
+                        result_display:
                         [
-                            {"field": "aviso.Marca"}
+                            [
+                                {"field": "aviso.Marca"}
+                            ],
+                            [
+                                {"field": "aviso.Modelo"}
+                            ],
                         ],
-						     [
-                            {"field": "aviso.Modelo"}
-                        ],
-						[
-                             {"field": "aviso.precio"}
-                        ],
-                        [
-                            {"field": "aviso.Anno"}
-                        ],
-                    ],
-                    paging: {
-                        from: 0,
-                        size: 10
-                    }
-                });
+                        paging: 
+                        {
+                            from: 0,
+                            size: 10
+                        }
+                    });
+                  }
+
                 // set up form
                 $('.demo-form').submit(function(e) {
                     e.preventDefault();
@@ -67,6 +118,8 @@
                     });
                     $('.facet-view-here').facetview(_data);
                 });
+           
+
             });
   </script>
   <script type="text/javascript">
@@ -97,16 +150,16 @@
 
 
     function setVisibilityNone() {
-      document.getElementById('content_modal_enviar').style.display = 'None';
+	  document.getElementById("email").value="";
+	  document.getElementById("resultado").innerHTML="";
+	  document.getElementById('content_modal_enviar').style.display = 'None';
       document.getElementById('fondoTransparente').style.display = 'None';
-
-      document.getElementById("resultado").innerHTML="";
-      document.getElementById("email").value="";
 
       var aa= document.getElementById('frm1');
       for (var i =0; i < aa.elements.length; i++){
         aa.elements[i].checked = false;
       }
+	  
 
     }
   </script>
@@ -119,7 +172,7 @@
     function enviar()
     {
       var email = document.getElementById('email').value;
-      var div_autos = document.getElementById('content_List_selected').innerHTML;
+      var div_autos = document.getElementById('resultado').innerHTML;
       var ExpRegular = /(\w+)(\.?)(\w*)(\@{1})(\w+)(\.?)(\w*)(\.{1})(\w{2,3})/;
 
      if(email!="")
@@ -138,15 +191,24 @@
                             url:    'procesa_envio.php',
                             type:   'post',
                             beforeSend: function () {
-                                    $("#content_List_selected").html("<img style='margin-left: 270px;width: 40px;' src='images/cargando.gif'>");
+                                    $("#resultado").html("<img style='margin-left: 270px;width: 40px;' src='images/cargando.gif'>");
 
                             },
                             success:  function (response) {
-                                    $("#content_List_selected").html(response);
+                                    $("#resultado").html(response);
                             }
-                        });
-
-        }
+						});
+						
+						alert('El correo se ha enviado exitosamente');
+						document.getElementById("email").value="";
+						document.getElementById('content_modal_enviar').style.display = 'None';
+						document.getElementById('fondoTransparente').style.display = 'None';
+						
+						var aa= document.getElementById('frm1');
+						for (var i =0; i < aa.elements.length; i++){
+							aa.elements[i].checked = false;
+						}
+			}	
         
           else  {
                   alert("La direcci\xf3n de email es incorrecta.");
@@ -197,8 +259,8 @@
   opacity: .5;
 }
 </style>
-</head>
 
+</head>
 <body>
 <?php
   include('connect.php'); 
@@ -221,7 +283,16 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
@@ -234,8 +305,7 @@
 		</p>
 
 			<div class="facet-view-simple"></div>
-      <div id="content_modal_enviar" style="position: absolute;background-color: #fff;margin-top:-140px;border-color: #e9e7e8;height: auto;margin-left: -340px;
-      border: 1px solid #cccccc;display: none;z-index:1000;position: fixed;">
+      <div id="content_modal_enviar">
   
         <div id="top_modal" style="padding: 20px;">
           <h1 style="margin-bottom: 10px;">Enviar avisos seleccionados</h1>
@@ -244,13 +314,13 @@
             <label>Correo</label>
             <input name="email" id="email" type="text" value="" placeholder="Ej: correo@correo.cl"/>
             <input name="enviar"  type="button" value="Enviar" onclick="enviar()" title="enviar correo" />
-            <input name="eliminar"  type="button" value="Limpiar" onclick="limpiar()" style="width: 113px;" title="limpiar historial"/>
+            <input name="eliminar"  type="button" value="Limpiar" onclick="limpiar()" title="limpiar historial"/>
           </div>
         </div>
     
     <div id="content_List_selected" >
     
-      <ul class="List_Autos_selected" id="resultado" style="list-style: none; border: none; width: 626px; margin-left: -13px;">
+      <ul class="List_Autos_selected" id="resultado">
         
       </ul>
   

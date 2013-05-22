@@ -31,7 +31,8 @@
   //Consulta de Noticias cargadas.
   try
     {
-      $sql_pruebas_maneja = 'select id_prueba, titulo_prueba, periodista, fecha_prueba, bajada_titulo, estado_prueba  from pruebas_manejo order by fecha_prueba DESC';
+      $sql_pruebas_maneja = 'select id_prueba, titulo_prueba, periodista, fecha_prueba, bajada_titulo, estado_prueba, target 
+       from pruebas_manejo order by fecha_prueba DESC';
       $result_pruebas_manejo= mysql_query($sql_pruebas_maneja);
       $max = mysql_num_rows($result_pruebas_manejo);
     }
@@ -46,12 +47,6 @@
   
     <div id="header">
       
-       <div id="publicidad_Mobile_01">
-        <img src="images/publicidad-mobile.jpg" alt="Emol automviles" />      </div>
-      
-      <div id="publicidad_Mobile_02">
-        <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
-      
       <div id="Logo_02">
          <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
       </div>
@@ -63,7 +58,16 @@
         <a href="<?php echo $url2;?>"><?php echo $menu2;?></a>
         <a href="<?php echo $url3;?>"><?php echo $menu3;?></a>
         <a href="<?php echo $url4;?>"><?php echo $menu4;?></a>
-        <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php 
+        if($menu5)
+        { ?>
+           <a href="<?php echo $url5;?>"><?php echo $menu5;?></a>
+        <?php   
+        }
+          else
+              {
+
+              } ?>
       </div>
           
     </div>
@@ -86,6 +90,7 @@
               $fecha          = $array_pruebas_manejo[3];
               $bajada_titulo      = $array_pruebas_manejo[4];
               $estado_prueba      = $array_pruebas_manejo[5];
+              $target             = $array_pruebas_manejo[6];
               
               $sql_img_pruebas  = 'select  id_imagen_prueba, imagen_prueba, id_prueba_manejo from automoviles.imagenes_pruebas_manejo where id_prueba_manejo = "'.$id_prueba.'"';
               $result_img_prueba = mysql_query($sql_img_pruebas);
@@ -95,13 +100,24 @@
 
               if($estado_prueba ==1)
               {
-         ?>
-              <li>
-                <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><img style ="width: 160px; height: 100px;"src="upload/pruebas-manejo/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_prueba;?>" /></a>
-                <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><h1><?php echo $titulo_prueba;?></h1></a>
-                <p><?php echo $bajada_titulo;?></p>
-              </li>
-        <?php  }
+      
+                if($target == 1)
+                { ?>
+                      <li>
+                        <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>" target="_blank"><img src="upload/pruebas-manejo/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_prueba;?>" /></a>
+                        <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>" target="_blank"><h1><?php echo $titulo_prueba;?></h1></a>
+                        <p><?php echo $bajada_titulo;?></p>
+                      </li>
+         <?php  }
+                  else  { ?>
+                            <li>
+                              <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><img src="upload/pruebas-manejo/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_prueba;?>" /></a>
+                              <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><h1><?php echo $titulo_prueba;?></h1></a>
+                              <p><?php echo $bajada_titulo;?></p>
+                            </li>
+         <?php 
+                       }
+              }
           } ?>
         </ul>
         
@@ -116,10 +132,10 @@
       </div>
         
       <div id="listado_noticias_Right">
+          
+          <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
         
-        <div class="content_Publicidad_desp" style="margin:0">
-          <img src="images/publicidad_2.jpg" alt="Publicidad" />
-        </div>
+          <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
         
       </div>
     

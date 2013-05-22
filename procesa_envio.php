@@ -59,5 +59,4 @@ $cabeceras .= 'From:'.$email_server.' ' . "\r\n" .
 $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
 mail($para, $asunto, $contenido, $cabeceras);
-echo $div_autos;
 ?>
