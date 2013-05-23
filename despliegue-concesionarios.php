@@ -199,16 +199,18 @@
     $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
     $content = file_get_contents($url);
     $json = json_decode($content, true);
+   
+      foreach ($json['hits'] as $item) {
 
-    foreach($json['_source'] as $item) 
-    {
-      $marca              = $item['marca'];
-      $modelo             = $item['modelo'];
-      $texto              = $item['texto'];
-      $anno               = $item['año']; 
-      $precio             = $item['precio'];
+        foreach($item->hits as $item2){
+          echo'test';
+
+        }
            
-    }  ?>
+
+      }
+
+    ?>
  
         <!--<div id="content_List_autos">
         

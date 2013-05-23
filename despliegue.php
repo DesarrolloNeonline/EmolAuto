@@ -89,13 +89,19 @@
 		} 
 		
 		$valores = array_values($_GET);
-		
-		$url = 'http://ailab01.mersap.com/automoviles/ficha/'.$valores[0];
+		$url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=id_aviso:'.$valores;
 		$content = file_get_contents($url);
 		$json = json_decode($content, true);
+		$hits = $json["hits"];
 
-		foreach($json['_source'] as $item) 
+		if($hits["total"] == 0) {
+
+			
+
+	    }
+		foreach($hits["hits"] as $hit) 
 		{
+			$item = $hit["_source"]["ficha"];
 			$marca              		= decode($item['marca']);
 			$modelo      				= decode($item['modelo']);
 			$texto       				= decode($item['texto']);
@@ -134,6 +140,7 @@
 
 		}	
 
+		echo $nro_bp;
 
 		$sql_concesionario = 'select nombre_fantasia, logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
 	    telefono, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario from concesionario  where bp_concesionario = "'.$nro_bp.'"';
@@ -161,13 +168,10 @@
 	    $latitud_fin = substr($latitud ,3);
 	    $latitud = $latitud_inicial.$latitud_fin;
 
-	    $longitud_ini = substr($longitud ,0 ,3);
+	    $longitud_ini     = substr($longitud ,0 ,3);
 	    $longitud_inicial = $longitud_ini.'.';
 	    $longitud_fin = substr($longitud ,3);
-	    $longitud = $longitud_inicial.$longitud_fin;
-
-	    echo 'hola'.$latitud_ini;
-	    echo 'fin'.$latitud_final;
+	    $longitud     = $longitud_inicial.$longitud_fin;
 	    
 
 	    ?>
