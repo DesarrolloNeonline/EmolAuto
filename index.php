@@ -394,41 +394,43 @@
           <h1 class="title_color_home">Modelos usados m&aacute;s publicados</h1>
           
           <hr />
+         
+          <!-- ucwords -> Funcion PHP transforma primera letra en mayscual del string !-->
           
           <ul class="List_mas_usados">
-            <li class="title"><a href="#"><strong>AUTOS</strong></a></li>
-            <li><a href="#">Toyota YARIS (66)</a></li>
-            <li><a href="#">Chevrolet CORSA (39)</a></li>
-            <li><a href="#">Subaru LEGACY (33)</a></li>
-            <li><a href="#">Citroen C4 (30)</a></li>
-            <li><a href="#">Hyundai ACCENT (30)</a></li>
+            <li class="title"><strong>Autos</strong></li>
+            <li>Toyota Yaris</li>
+            <li>Chevrolet Corsa</li>
+            <li>Subaru Legacy</li>
+            <li>Citroen C4</li>
+            <li>Hyundai Accent</li>
           </ul>
           
           <ul class="List_mas_usados">
-            <li class="title"><a href="#"><strong>Camionetas</strong></a></li>
-            <li><a href="#">Ford RANGER (20)</a></li>
-            <li><a href="#">Sangyong ACTYON (13)</a></li>
-            <li><a href="#">Toyota HILUX (11)</a></li>
-            <li><a href="#">Ford F-150 (10)</a></li>
-            <li><a href="#">Nissan TERRANO (10)</a></li>
+            <li class="title"><strong>Camionetas</strong></li>
+            <li>Ford Ranger</li>
+            <li>Sangyong Actyon</li>
+            <li>Toyota Hilux </li>
+            <li>Ford F-150</li>
+            <li>Nissan Terrano</li>
           </ul>
           
           <ul class="List_mas_usados">
-            <li class="title"><a href="#"><strong>Todo terreno</strong></a></li>
-            <li><a href="#">Hyundai TUCSON (20)</a></li>
-            <li><a href="#">Hyundai SANTA FE (13)</a></li>
-            <li><a href="#">Jeep COMPASS (11)</a></li>
-            <li><a href="#">Suzuki GRAND NOMADE (10)</a></li>
-            <li><a href="#">Suzuki GRAND VITARA (10)</a></li>
+            <li class="title"><strong>Todo terreno</strong></li>
+            <li>Hyundai Tucson</li>
+            <li>Hyundai Santa Fe</li>
+            <li>Jeep Compass</li>
+            <li>Suzuki Grand Nomade</li>
+            <li>Suzuki Grand Vitara</li>
           </ul>
           
           <ul class="List_mas_usados">
-            <li class="title"><a href="#"><strong>Motos</strong></a></li>
-            <li><a href="#">Husaberg 450 (20)</a></li>
-            <li><a href="#">BMW 650 (13)</a></li>
-            <li><a href="#">KTM 990 (11)</a></li>
-            <li><a href="#">Suzuki BOULEVARD (10)</a></li>
-            <li><a href="#">Honda BUGGI (10)</a></li>
+            <li class="title"><strong>Motos</strong></li>
+            <li>Husaberg 450</li>
+            <li>BMW 650</li>
+            <li>KTM 990</li>
+            <li>Suzuki Bulevardli>
+            <li>Honda Buggi</li>
           </ul>
           
         </div>

@@ -24,7 +24,17 @@
 
 <body>
   
- <?php 
+  <?php
+
+    function decode($texto)
+    {
+        $despues = Array('&aacute;','&eacute;','&iacute;','&oacute;','&uacute;','&agrave;','&egrave;','&igrave;','&ograve;','&ugrave;','&Agrave;','&Egrave;','&Igrave;','&Ograve;','&Ugrave;','&atilde;','&otilde;','&acirc;','&ecirc;','&ecirc;','&ocirc;','&ucirc;','&ccedil;','&uuml;','&Aacute;','&Eacute;','&Iacute;','&Oacute;','&Uacute;','&Atilde;','&Otilde;','&Acirc;','&Ecirc;','&Icirc;','&Ocirc;','&Ucirc;','&Ccedil;','&Uuml;','&ntilde;','&Ntilde;','&acute;','&prime;','&lsquo;','&rsquo;','&ldquo;','&rdquo;','&bdquo;','&iquest;','&#63;','&copy;','&reg;','&#153;','&ordm;','&deg;','&ordf;','&sect;','&#161;');
+        $antes   = Array('Ã¡','Ã©','Ã­','Ã³','Ãº','Ã ','Ã¨','Ã¬','Ã²','Ã¹','Ã€','Ãˆ','ÃŒ','Ã’','Ã™','Ã£','Ãµ','Ã¢','Ãª','Ã®','Ã´','Ã»','Ã§','Ã¼','Ã','Ã‰','Ã','Ã“','Ãš','Ãƒ','Ã•','Ã‚','ÃŠ','ÃŽ','Ã”','Ã›','Ã‡','Ãœ','Ã±','Ã‘','Â´','\'','â€˜','â€™','â€œ','â€','â€ž','Â¿','?','Â©','Â®','â„¢','Âº','Â°','Âª','Â§','Â¡');
+        $nuevo   = str_replace($antes,$despues,$texto);
+        return $nuevo;
+    } 
+
+  
  include('connect.php'); 
  include('menu.php');
 
@@ -54,16 +64,36 @@
     $imagen_concesionario = $row_concesionarios[16];
 
 
-    $latitud_ini = substr($latitud ,0 ,3);
-    $latitud_inicial = $latitud_ini.'.';
-    $latitud_fin = substr($latitud ,3);
-    $latitud = $latitud_inicial.$latitud_fin;
+    $latitud_identificador = substr($latitud ,3 ,1);
 
-    $longitud_ini = substr($longitud ,0 ,3);
-    $longitud_inicial = $longitud_ini.'.';
-    $longitud_fin = substr($longitud ,3);
-    $longitud = $longitud_inicial.$longitud_fin;
+    if($latitud_identificador == '.'){
 
+         $latitud = $latitud;
+
+    } else  {
+
+            $latitud_ini = substr($latitud ,0 ,3);
+            $latitud_inicial = $latitud_ini.'.';
+            $latitud_fin = substr($latitud ,3);
+            $latitud = $latitud_inicial.$latitud_fin;
+
+            }
+
+
+    $longitud_identificador = substr($longitud ,3 ,1);
+
+    if($longitud_identificador == '.'){
+
+         $longitud = $longitud;
+
+    } else  {
+
+              $longitud_ini = substr($longitud ,0 ,3);
+              $longitud_inicial = $longitud_ini.'.';
+              $longitud_fin = substr($longitud ,3);
+              $longitud = $longitud_inicial.$longitud_fin;
+                      
+            }
 
 ?> 
   <div id="wrap">
@@ -196,59 +226,73 @@
 
     <?php
 
-    $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
-    $content = file_get_contents($url);
-    $json = json_decode($content, true);
-   
-      foreach ($json['hits'] as $item) {
+        $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
+        $content = file_get_contents($url);
+        $json = json_decode($content, true);
+        $hits = $json["hits"];
 
-        foreach($item->hits as $item2){
-          echo'test';
+        
+        if($hits[total] != 0){ ?>
 
-        }
-           
+          <div id="content_List_autos">
+            
+              <h1 class="title_color_despliegue">Avisos publicados</h1>
+        
+              <ul class="List_result">
 
+            <?php    
+                foreach($hits["hits"] as $hit) 
+                {
+          
+                    $item = $hit["_source"]["ficha"];
+                    $fecha_expiracion   = $item['fecha_expiracion'];
+                    $fecha_expiracion = substr($fecha_expiracion ,0 ,10);
+                    $fecha_expiracion_auto = str_replace("/","-",$fecha_expiracion);
+
+                    $date = date('Y-m-d');
+                    $fecha_auto = date("Y-m-d", strtotime($fecha_expiracion_auto));
+
+                   // if($fecha_auto>=$date){
+
+                        $marca              = decode($item['marca']);
+                        $modelo             = decode($item['modelo']);
+                        $texto              = decode($item['texto']);
+                        $anno               = $item['año']; 
+                        $precio             = $item['precio'];  
+                        $id_aviso           = $item['id_aviso'];
+
+
+                        $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_aviso;
+                        $content = file_get_contents($url);
+                        $json = json_decode($content, true);
+
+                        foreach($json['_source'] as $item) 
+                        {
+                            $imagen           = $item['imagen'];
+                          
+                        }
+
+                         ?>
+
+                        <li>
+                          <div class="img_Auto_list"><a href="despliegue.php?id=<?php echo $id_aviso;?>"><img src="<?php echo $imagen;?>" alt="Auto" /></a></div>
+                            <div class="content_Txt_list">
+                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a><br />
+                            <span>$ <?php echo  number_format($precio, 0, ',', '.');?> </span><br />
+                            <?php echo $anno;?>  
+                          </div>
+                        </li>
+
+            <?php   // } 
+              }
+       
+             ?>
+                </ul>
+             </div> 
+      
+      <?php
       }
-
-    ?>
- 
-        <!--<div id="content_List_autos">
-        
-          <h1 class="title_color_despliegue">Avisos publicados</h1>
-    
-          <ul class="List_result">
-        
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto1" name="estado" value="all">
-                <label for="auto1" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-            <li>
-              <div class="img_Auto_list"><img src="images/auto.jpg" alt="Auto" /></div>
-              <div class="content_Txt_list">
-                <a href="#"><strong>Mercedes Benz Motor Home</strong></a><br />
-                <span>$ 18.000.000</span><br />
-                2006
-              </div>
-              <div class="content_Select_send">
-                <input type="checkbox" id="auto2" name="estado" value="all">
-                <label for="auto2" title="Autos 0 Km" class="someClass">&nbsp;</label>
-              </div>
-            </li>
-      
-        
-          </ul>
-    
-        </div> !-->
-      
-      
+  ?>
       </div>
         
       <div id="despliegue_concesionario_Right">
