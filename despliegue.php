@@ -437,7 +437,8 @@
 
 	    			foreach($hits["hits"] as $hit) 
 					{
-						$item = $hit["_source"]["ficha"];
+						$id_ficha 					= $hit["_id"];
+						$item 						= $hit["_source"]["ficha"];
 						$marca              		= decode($item['marca']);
 						$modelo      				= decode($item['modelo']);
 						$texto       				= decode($item['texto']);
@@ -475,7 +476,7 @@
 			            $nro_bp   					= $item['nro_bp'];
 
 					}	
-
+				
 
 						$sql_concesionario = 'select nombre_fantasia, logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
 					    telefono, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario, id_concesionario
@@ -483,7 +484,7 @@
 
 					    $result_concesionarios= mysql_query($sql_concesionario);
 					    $row_concesionarios=mysql_fetch_row($result_concesionarios);
-					    $count_concesionarios = count($row_concesionarios);
+					    $count_concesionarios = mysql_num_rows($row_concesionarios);
 					    $nombre_fantasia=$row_concesionarios[0];
 					    $logo=$row_concesionarios[1]; 
 					    $bp_concesionario = $row_concesionarios[2];
@@ -563,9 +564,39 @@
 					        <p class="indicador_seccion"><a href="index.php">Inicio</a> &gt; <a href="javascript:history.go(-1)"> B&uacute;squeda Inteligente</a> &gt; Ficha <?php echo $marca.' '.$modelo;?></p>
 
 					        <h1 class="title_color_despliegue">Aviso</h1>
-					        
+
+
 					        <div class="box fr" id="imprimir"><a style="cursor: pointer;" onclick="window.print();"><img src="img/btn_impr.gif" alt="Imprimir" /></a></div>
 					        
+					        <?php
+
+							$url_image = 'http://ailab01.mersap.com/automoviles/imagen/_search?q=id_ficha:'.$id_ficha;
+					
+							$content_image = file_get_contents($url_image);
+							$json_image = json_decode($content_image, true);
+							$hits_image = $json_image["hits"];
+								if($hits_image["total"] != 0)
+								{ ?>
+									<div class="box_info_despliegue">
+						    			<ul class="rs-slider" >
+			    						<?php
+						    				foreach($hits_image["hits"] as $hit_img) 
+											{ ?>
+												<li>
+												<?php
+													$item_img = $hit_img["_source"]["imagen"];
+													$img_autos = $item_img['archivo'];
+													$id_img    =  $item_img['id_ficha'];
+							                    ?>
+													<img  src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
+												<li>
+										<?php
+											} ?>
+						    
+						          		</ul>
+						        	</div>
+						    <?php
+								} ?>
 					        <div class="box_info_despliegue" id="aviso_ficha"><?php echo $texto;?></div>
 					        
 					        <h1 class="title_color_despliegue">Detalles</h1>
@@ -755,8 +786,12 @@
 								</ul>
 					        
 					        </div>
+			        <?php 
+							if($count_concesionarios!=0){ ?>
 			        
 						        <div class="btn_rojo"><a href="modal-mas-info.php?id_emol=<?php echo $valores[0];?>" rel="Shadowbox;width=445;height=600;">PEDIR INFORMACI&oacute;N</a></div>
+					<?php
+							} ?>
 						        
 						        <small class="detalle_Despliegue">* Los precios y caracter&iacute;sticas del producto publicados en esta ficha son referenciales y deben ser confirmados por el vendedor.</small>
 						        
@@ -780,25 +815,8 @@
 						          </div>
 						        </div>
 						        
+
 							<?php
-								if($imagen)
-								{ ?>
-									<div class="boxes_aside">
-						    			<ul class="rs-slider">
-						            		<li>
-						            			<img  src="<?php echo $imagen;?>" alt="" />
-						            		</li>
-						            		<li><img src="images/gallery-02.jpg" alt="" /></li>
-								            <li><img src="images/gallery-01.jpg" alt="" /></li>
-								            <li><img src="images/gallery-02.jpg" alt="" /></li>
-								            <li><img src="images/gallery-01.jpg" alt="" /></li>
-								            <li><img src="images/gallery-02.jpg" alt="" /></li>
-						          		</ul>
-						        	</div>
-						    <?php
-								} ?>
-								
-								<?php
 								if($count_concesionarios!=0){ ?>
 
 
@@ -837,10 +855,12 @@
 						          </table>
 
 						        </div>
-						        <?php } ?>
+						      
 						        
 						        <div class="btn_rojo" style="width:100%;"><a onclick="procesar()" style="width:100%; padding:0; font-size:12px;">VER TODOS LOS AUTOS DE ESTA AUTOMOTORA</a></div>
 						        
+				          <?php } ?>
+
 						      </div>
 						      
 						    </div>

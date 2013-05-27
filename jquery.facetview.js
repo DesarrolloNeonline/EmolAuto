@@ -801,7 +801,7 @@ search box - the end user will not know they are happening.
             "freetext_submit_delay":"500",
             "q":"",
             "sort":[],
-            "predefined_filters":{"fecha_expiracion":{"range":{"fecha_expiracion":{"from":today,"to":"01-01-2015"}}}},
+            "predefined_filters":{},
             "paging":{
                 "from":0,
                 "size":10
@@ -1285,165 +1285,311 @@ search box - the end user will not know they are happening.
                             parts = thekey.split('.');
 
                             if(parts =='aviso,Marca'){
-
-                                    if (parts.length == 1) {
-                                        var res = record;
-                                    } else if (parts.length == 2) {
-                                        var res = record[parts[0]];
-                                    } else if (parts.length == 3) {
-                                        var res = record[parts[0]][parts[1]];
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
                                     }
-                                    var counter = parts.length - 1;
-                                    if (res && res.constructor.toString().indexOf("Array") == -1) {
-                                        var thevalue = res[parts[counter]];  // if this is a dict
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
                                     } else {
-                                        var thevalue = [];
-                                        if ( res !== undefined ) {
-                                            for ( var row = 0; row < res.length; row++ ) {
-                                                thevalue.push(res[row][parts[counter]]);
-                                            }
-                                        }
+                                        line += thevalue;
                                     }
-                                    if (thevalue && thevalue.toString().length) {
-                                        display[lineitem][object]['pre']
-                                            ? line += display[lineitem][object]['pre'] : false;
-                                        if ( typeof(thevalue) == 'object' ) {
-                                            for ( var val = 0; val < thevalue.length; val++ ) {
-                                                val != 0 ? line += ', ' : false;
-                                                line += thevalue[val];
-                                            }
-                                        } else {
-                                            line += thevalue;
-                                        }
-                                        display[lineitem][object]['post'] 
-                                            ? line += display[lineitem][object]['post'] : line += '</span> ';
-                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
 
-                                    if (line) {
-                                        lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp";
-                                    }
+                                if (line) {
+                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp";
+                                }
                             }
+
                             if(parts =='aviso,Modelo'){
-
-                                    if (parts.length == 1) {
-                                        var res = record;
-                                    } else if (parts.length == 2) {
-                                        var res = record[parts[0]];
-                                    } else if (parts.length == 3) {
-                                        var res = record[parts[0]][parts[1]];
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
                                     }
-                                    var counter = parts.length - 1;
-                                    if (res && res.constructor.toString().indexOf("Array") == -1) {
-                                        var thevalue = res[parts[counter]];  // if this is a dict
+                                }
+
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
                                     } else {
-                                        var thevalue = [];
-                                        if ( res !== undefined ) {
-                                            for ( var row = 0; row < res.length; row++ ) {
-                                                thevalue.push(res[row][parts[counter]]);
-                                            }
-                                        }
+                                        line += thevalue;
                                     }
-                                    if (thevalue && thevalue.toString().length) {
-                                        display[lineitem][object]['pre']
-                                            ? line += display[lineitem][object]['pre'] : false;
-                                        if ( typeof(thevalue) == 'object' ) {
-                                            for ( var val = 0; val < thevalue.length; val++ ) {
-                                                val != 0 ? line += ', ' : false;
-                                                line += thevalue[val];
-                                            }
-                                        } else {
-                                            line += thevalue;
-                                        }
-                                        display[lineitem][object]['post'] 
-                                            ? line += display[lineitem][object]['post'] : line += '</span> ';
-                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
 
-                                    if (line) {
-                                        lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong><br>";
-                                    }
+                                if (line) {
+                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp;&nbsp;";
+                                }
                             } 
+
                             if(parts =='aviso,precio'){
-
-                                    if (parts.length == 1) {
-                                        var res = record;
-                                    } else if (parts.length == 2) {
-                                        var res = record[parts[0]];
-                                    } else if (parts.length == 3) {
-                                        var res = record[parts[0]][parts[1]];
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
                                     }
-                                    var counter = parts.length - 1;
-                                    if (res && res.constructor.toString().indexOf("Array") == -1) {
-                                        var thevalue = res[parts[counter]];  // if this is a dict
+                                }
+
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
                                     } else {
-                                        var thevalue = [];
-                                        if ( res !== undefined ) {
-                                            for ( var row = 0; row < res.length; row++ ) {
-                                                thevalue.push(res[row][parts[counter]]);
-                                            }
-                                        }
+                                        line += thevalue;
                                     }
-                                    if (thevalue && thevalue.toString().length) {
-                                        display[lineitem][object]['pre']
-                                            ? line += display[lineitem][object]['pre'] : false;
-                                        if ( typeof(thevalue) == 'object' ) {
-                                            for ( var val = 0; val < thevalue.length; val++ ) {
-                                                val != 0 ? line += ', ' : false;
-                                                line += thevalue[val];
-                                            }
-                                        } else {
-                                            line += thevalue;
-                                        }
-                                        display[lineitem][object]['post'] 
-                                            ? line += display[lineitem][object]['post'] : line += '</span> ';
-                                    }
-                                    
-                                    var n =  accounting.formatMoney(line);
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+                                
+                                var n =  accounting.formatMoney(line);
 
-                                    if (line) {
-                                        lines += "<span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
-                                    }
+                                if (line) {
+                                    lines += "<span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                }
                             }
+
                             if(parts =='aviso,Anno'){
-
-                                    if (parts.length == 1) {
-                                        var res = record;
-                                    } else if (parts.length == 2) {
-                                        var res = record[parts[0]];
-                                    } else if (parts.length == 3) {
-                                        var res = record[parts[0]][parts[1]];
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
                                     }
-                                    var counter = parts.length - 1;
-                                    if (res && res.constructor.toString().indexOf("Array") == -1) {
-                                        var thevalue = res[parts[counter]];  // if this is a dict
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
                                     } else {
-                                        var thevalue = [];
-                                        if ( res !== undefined ) {
-                                            for ( var row = 0; row < res.length; row++ ) {
-                                                thevalue.push(res[row][parts[counter]]);
-                                            }
-                                        }
+                                        line += thevalue;
                                     }
-                                    if (thevalue && thevalue.toString().length) {
-                                        display[lineitem][object]['pre']
-                                            ? line += display[lineitem][object]['pre'] : false;
-                                        if ( typeof(thevalue) == 'object' ) {
-                                            for ( var val = 0; val < thevalue.length; val++ ) {
-                                                val != 0 ? line += ', ' : false;
-                                                line += thevalue[val];
-                                            }
-                                        } else {
-                                            line += thevalue;
-                                        }
-                                        display[lineitem][object]['post'] 
-                                            ? line += display[lineitem][object]['post'] : line += '</span> ';
-                                    }
-                                    
-                                   
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+                                if (line) {
+                                    lines +="<span style='font-size: 12px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                }
+                            }
+     
+                            if(parts =='aviso,Kilometraje'){
 
-                                    if (line) {
-                                        lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
                                     }
-                            }       
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
+                                    } else {
+                                        line += thevalue;
+                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+
+                                var  Kilometraje =  accounting.formatMoney(line); 
+
+                                var Kilometraje = Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
+                                if(Kilometraje == "-1"){
+                                    var  sino = false; 
+                                }else {
+                                    var sino = true;
+                                }
+
+                                if( line && sino ) {
+                                    lines +="<span style='font-size: 13px;'>"+Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+"Kms,&nbsp;</span>";
+                                }
+                            }    
+
+                            if(parts =='aviso,Transmision'){
+
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
+                                    }
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
+                                    } else {
+                                        line += thevalue;
+                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+
+
+                                var  Transmision = line; 
+
+                                var Transmision = Transmision.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
+                                if(Transmision == "Otro"){
+                                    var  sino = false; 
+                                }else {
+                                    var sino = true;
+                                }
+
+                                if ( line && sino ){
+
+                                    lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+",&nbsp;</span>";
+                                }
+                            } 
+
+                            if(parts =='aviso,Combustible'){
+
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
+                                    }
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
+                                    } else {
+                                        line += thevalue;
+                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+
+                                var valorCombustible = line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
+                                if(valorCombustible == 'Otro'){
+                                    var  sino = false; 
+                                }else {
+                                    var sino = true;
+                                }
+
+                                if ( line && sino ){
+
+                                    lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+".</span>";
+                                }
+                            } 
                         }
                     }
                 

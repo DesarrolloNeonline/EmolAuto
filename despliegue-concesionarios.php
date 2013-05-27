@@ -101,7 +101,7 @@
     <div id="header">
       
       <div id="Logo_02">
-        <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
+        <a href="index.php"><img src="img/Logo.png" alt="Emol automoviles" /></a>
 	  </div>
       
       <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>

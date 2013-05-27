@@ -63,11 +63,20 @@
   						            [
                               {"field": "aviso.Modelo"}
                           ],
+                          [
+                              {"field": "aviso.Anno"}
+                          ],
   						            [
                                {"field": "aviso.precio"}
                           ],
                           [
-                              {"field": "aviso.Anno"}
+                              {"field": "aviso.Kilometraje"}
+                          ],
+                          [
+                              {"field": "aviso.Transmision"}
+                          ],
+                          [
+                              {"field": "aviso.Combustible"}
                           ],
                       ],
                       paging: 
@@ -101,10 +110,19 @@
                               {"field": "aviso.Modelo"}
                           ],
                           [
+                              {"field": "aviso.Anno"}
+                          ],
+                          [
                                {"field": "aviso.precio"}
                           ],
                           [
-                              {"field": "aviso.Anno"}
+                              {"field": "aviso.Transmision"}
+                          ],
+                          [
+                              {"field": "aviso.Combustible"}
+                          ],
+                          [
+                              {"field": "aviso.Kilometraje"}
                           ],
                         ],
                         paging: 
