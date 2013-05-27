@@ -474,6 +474,8 @@
 			            $dvd                        = $item['dvd'];
 			            $alarma   					= $item['alarma'];
 			            $nro_bp   					= $item['nro_bp'];
+			            $latitud_json       		= $item['ubicacion_coordenada_x'];
+			            $longitud_json       		= $item['ubicacion_coordenada_y'];
 
 					}	
 				
@@ -484,7 +486,7 @@
 
 					    $result_concesionarios= mysql_query($sql_concesionario);
 					    $row_concesionarios=mysql_fetch_row($result_concesionarios);
-					    $count_concesionarios = mysql_num_rows($row_concesionarios);
+					    $count_concesionarios = mysql_num_rows($result_concesionarios);
 					    $nombre_fantasia=$row_concesionarios[0];
 					    $logo=$row_concesionarios[1]; 
 					    $bp_concesionario = $row_concesionarios[2];
@@ -859,7 +861,35 @@
 						        
 						        <div class="btn_rojo" style="width:100%;"><a onclick="procesar()" style="width:100%; padding:0; font-size:12px;">VER TODOS LOS AUTOS DE ESTA AUTOMOTORA</a></div>
 						        
-				          <?php } ?>
+				          <?php } 
+				          			else { ?>
+
+				          				 <div class="boxes_aside">
+								          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+								           <tr>
+								              <td  colspan="2">
+								               <div id="map" style="max-width: 100%;height: 250px;"></div>
+						  
+										    <script>
+										    	
+										      var map = new XYGO.Map('map')
+										      var concesionario = 'Particular'
+										      var latitud = '<?php echo $latitud_json ?>'
+										      var longitud = '<?php echo $longitud_json?>'
+
+										      var ubicacion = new L.LatLng(latitud, longitud)        
+										      
+										      map.setCenter(ubicacion, 15);
+										      map.addMarker(ubicacion, concesionario, { open: true })
+
+										    </script>  
+										    </td>
+								            </tr>
+								          </table>
+
+						       			</div>
+				       			<?php
+				          			}?>
 
 						      </div>
 						      

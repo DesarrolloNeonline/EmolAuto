@@ -1358,8 +1358,18 @@ search box - the end user will not know they are happening.
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
 
-                                if (line) {
+                                var  Modelo = line;  
+                                if(Modelo == "Otro</span> "){
+                                    var  sino = false; 
+                                }else {
+                                    var sino = true;
+                                }
+                                if ( line && sino ){
+
                                     lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp;&nbsp;";
+                                }else{
+
+                                    lines += '&nbsp;&nbsp;';
                                 }
                             } 
 
@@ -1479,8 +1489,8 @@ search box - the end user will not know they are happening.
                                 }
 
                                 var  Kilometraje =  accounting.formatMoney(line); 
-
                                 var Kilometraje = Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
+
                                 if(Kilometraje == "-1"){
                                     var  sino = false; 
                                 }else {
@@ -1527,11 +1537,9 @@ search box - the end user will not know they are happening.
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
 
+                                var  Transmision = line;  
 
-                                var  Transmision = line; 
-
-                                var Transmision = Transmision.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
-                                if(Transmision == "Otro"){
+                                if(Transmision == "Otro</span> "){
                                     var  sino = false; 
                                 }else {
                                     var sino = true;
@@ -1539,7 +1547,7 @@ search box - the end user will not know they are happening.
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+",&nbsp;</span>";
+                                    lines +="<span style='font-size: 13px;'>T."+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+",&nbsp;</span>";
                                 }
                             } 
 
@@ -1578,8 +1586,8 @@ search box - the end user will not know they are happening.
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
 
-                                var valorCombustible = line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '');
-                                if(valorCombustible == 'Otro'){
+                                var valorCombustible = line;
+                                if(valorCombustible == 'Otro</span> '){
                                     var  sino = false; 
                                 }else {
                                     var sino = true;
@@ -1590,6 +1598,55 @@ search box - the end user will not know they are happening.
                                     lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+".</span>";
                                 }
                             } 
+
+                            if(parts =='aviso,logo_operador'){
+
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
+                                    }
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
+                                    } else {
+                                        line += thevalue;
+                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+
+                                var valorCombustible = line;
+                                if(valorCombustible == 'Otro</span> '){
+                                    var  sino = false; 
+                                }else {
+                                    var sino = true;
+                                }
+
+                                if ( line && sino ){
+
+                                    lines +="<span style='font-size: 13px;'><img href='"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"'>.</span>";
+                                }
+                            }
+
                         }
                     }
                 
@@ -2078,8 +2135,8 @@ search box - the end user will not know they are happening.
         
         // the facet view object to be appended to the page
         var thefacetview = '<div id="facetview"><div class="row-fluid">';
-        if ( options.facets.length > 0 ) {
-            thefacetview += '<div class="span3"><div id="facetview_filters"></div></div>';
+        if (options.facets.length > 0) {
+            thefacetview += '<div class="span3"><div class="btn_Azul" id="filtros"><a>Filtros</a></div><div id="facetview_filters"></div></div>';
             thefacetview += '<div class="span9" id="facetview_rightcol">';
         } else {
             thefacetview += '<div class="span12" id="facetview_rightcol">';

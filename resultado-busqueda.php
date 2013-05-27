@@ -78,11 +78,14 @@
                           [
                               {"field": "aviso.Combustible"}
                           ],
+                          [
+                              {"field": "aviso.logo_operador"}
+                          ],
                       ],
                       paging: 
                       {
                           from: 0,
-                          size: 10
+                          size: 20
                       }
                   });
               
@@ -123,6 +126,9 @@
                           ],
                           [
                               {"field": "aviso.Kilometraje"}
+                          ],
+                          [
+                              {"field": "aviso.logo_operador"}
                           ],
                         ],
                         paging: 
