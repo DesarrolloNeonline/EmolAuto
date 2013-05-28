@@ -19,7 +19,7 @@
         $('.rs-slider').refineSlide({
             transition         : 'slideH',
             transitionDuration : 1000,
-            autoPlay           : false,
+            autoPlay           : true,
             keyNav             : true,
             delay              : 0,
             controls           : 'thumbs',
@@ -567,8 +567,9 @@
 
 					        <h1 class="title_color_despliegue">Aviso</h1>
 
-
 					        <div class="box fr" id="imprimir"><a style="cursor: pointer;" onclick="window.print();"><img src="img/btn_impr.gif" alt="Imprimir" /></a></div>
+                            
+                            <div class="box_info_despliegue" id="aviso_ficha"><?php echo $texto;?></div>
 					        
 					        <?php
 
@@ -590,7 +591,7 @@
 													$img_autos = $item_img['archivo'];
 													$id_img    =  $item_img['id_ficha'];
 							                    ?>
-													<img  src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
+													<img  style="width:500;height:440px;"src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
 												<li>
 										<?php
 											} ?>
@@ -599,9 +600,8 @@
 						        	</div>
 						    <?php
 								} ?>
-					        <div class="box_info_despliegue" id="aviso_ficha"><?php echo $texto;?></div>
 					        
-					        <h1 class="title_color_despliegue">Detalles</h1>
+					        <div id="Detalles_mobile"><h1 class="title_color_despliegue">Detalles</h1>
 					        
 					        <div class="box_info_despliegue">
 			          
@@ -694,7 +694,7 @@
 
 							</ul>
 					          
-					        </div>
+					        </div></div>
 			        
 					        <h1 class="title_color_despliegue">Ficha T&eacute;cnica</h1>
 					        
@@ -816,6 +816,99 @@
 						            <!-- AddThis Button END -->
 						          </div>
 						        </div>
+                                
+                                <h1 class="title_color_despliegue">Detalles</h1>
+                                
+                                <div class="boxes_aside">
+                                  <ul class="list_Detalles_despliegue fl">
+					                <li id="fechaPubicacion">
+										<span>Fecha de Publicaci&oacute;n</span>
+					                    <?php
+					                        echo substr($fechaPublicacion,0,11);
+					                    ?>
+					                </li>
+									<?php if($anno){ ?>
+											<li id="anno">
+											<span>A&ntilde;o</span><?php echo $anno;?>
+											</li>
+									<?php } ?>
+
+									<?php if($kms_actuales){ ?>
+											<li id="kilometros">
+											<span>Kms actuales</span><?php echo $kms_actuales;?>
+											</li>
+									<?php } ?>
+									
+					                <?php if($color){  ?>
+											<li id="color">
+											<span>Color</span><?php echo $color;?>
+											</li>
+					                <?php } ?>
+									
+									<?php if($direccion){  ?>
+											<li id="direccion">
+											<span>Direcci&oacute;n</span><?php echo $direccion;?>
+											</li>
+									<?php } ?>
+
+					                <?php if($traccion){  ?>
+											<li id="traccion">
+											<span>Tracci&oacute;n</span><?php echo $traccion;?>
+											</li>
+									<?php } ?>
+
+					                <?php if($puertas){  ?>
+											<li id="puertas">
+											<span>Puertas</span><?php echo $puertas;?>
+											</li>
+									<?php } ?>
+
+									<?php if($transmision){  ?>
+											<li id="transmision">
+											<span>Transmisi&oacute;n</span><?php echo $transmision;?>
+											</li>
+									<?php } ?>
+								</ul>
+
+								  <ul class="list_Detalles_despliegue fr">
+					                <?php if($corridas_de_asientos){  ?>
+											<li id="corridasasiento">
+											<span>Corridas de asiento</span><?php echo $corridas_de_asientos;?>
+											</li>
+									<?php } ?>
+
+									<?php if($equipo_de_sonido){  ?>
+											<li id="equiposonido">
+											<span>Equipo de sonido</span><?php echo $equipo_de_sonido;?>
+											</li>
+									<?php } ?>
+
+									<?php if($oportunidad_comercial){  ?>
+											<li id="oportunidadcomercial">
+											<span>Oportunidad comercial</span><?php echo $oportunidad_comercial;?>
+											</li>
+									<?php } ?>
+
+									<?php if($capacidad_estanque){  ?>
+											<li id="capacidadestanque">
+											<span>Capacidad estanque</span><?php echo $capacidad_estanque;?>
+											</li>
+									<?php } ?>
+
+									<?php if($potencia_hp){  ?>
+											<li id="potencia">
+											<span>Potencia (HP)</span><?php echo $potencia_hp;?>
+											</li>
+									<?php } ?>
+
+									<?php if($motor_cc){  ?>
+											<li id="motor">
+											<span>Motor (cc)</span><?php echo $motor_cc;?>
+											</li>
+									<?php } ?>
+
+							</ul>
+                                </div>
 						        
 
 							<?php
@@ -862,7 +955,8 @@
 						        <div class="btn_rojo" style="width:100%;"><a onclick="procesar()" style="width:100%; padding:0; font-size:12px;">VER TODOS LOS AUTOS DE ESTA AUTOMOTORA</a></div>
 						        
 				          <?php } 
-				          			else { ?>
+				          			else 
+				          				if(($latitud_json) && ($longitud_json)){ ?>
 
 				          				 <div class="boxes_aside">
 								          <table width="100%" border="0" cellspacing="0" cellpadding="0">

@@ -1,31 +1,27 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Emol autom&oacute;viles</title>
-  <meta name="description" content="Autos nuevos, Autos usados, jeep, camionetas, todo terreno, compra y venta, Automviles EMOL">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="css/normalize.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
-  <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
-    
-  <!-- LIGHTBOX -->
-  <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
-  <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
-  <script type="text/javascript">
-    Shadowbox.init();
-  </script>
-   <script src="http://apps.emol.com/widgets/mapas/v3/xygo.min.js"></script>
-
-    
-</head>
-
-<body>
-  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Emol autom&oacute;viles</title>
+    <meta name="description" content="Autos nuevos, Autos usados, jeep, camionetas, todo terreno, compra y venta, Automviles EMOL">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
+      
+    <!-- LIGHTBOX -->
+    <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
+    <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
+    <script type="text/javascript">
+      Shadowbox.init();
+    </script>
+    <script src="http://apps.emol.com/widgets/mapas/v3/xygo.min.js"></script>
+  </head>
+  <body>
   <?php
-
     function decode($texto)
     {
         $despues = Array('&aacute;','&eacute;','&iacute;','&oacute;','&uacute;','&agrave;','&egrave;','&igrave;','&ograve;','&ugrave;','&Agrave;','&Egrave;','&Igrave;','&Ograve;','&Ugrave;','&atilde;','&otilde;','&acirc;','&ecirc;','&ecirc;','&ocirc;','&ucirc;','&ccedil;','&uuml;','&Aacute;','&Eacute;','&Iacute;','&Oacute;','&Uacute;','&Atilde;','&Otilde;','&Acirc;','&Ecirc;','&Icirc;','&Ocirc;','&Ucirc;','&Ccedil;','&Uuml;','&ntilde;','&Ntilde;','&acute;','&prime;','&lsquo;','&rsquo;','&ldquo;','&rdquo;','&bdquo;','&iquest;','&#63;','&copy;','&reg;','&#153;','&ordm;','&deg;','&ordf;','&sect;','&#161;');
@@ -33,10 +29,8 @@
         $nuevo   = str_replace($antes,$despues,$texto);
         return $nuevo;
     } 
-
-  
- include('connect.php'); 
- include('menu.php');
+    include('connect.php'); 
+    include('menu.php');
 
     $valores = array_values($_GET);
     $id_concesionario = $valores[0];
@@ -63,37 +57,6 @@
     $logo_grande = $row_concesionarios[15];
     $imagen_concesionario = $row_concesionarios[16];
 
-
-    $latitud_identificador = substr($latitud ,3 ,1);
-
-    if($latitud_identificador == '.'){
-
-         $latitud = $latitud;
-
-    } else  {
-
-            $latitud_ini = substr($latitud ,0 ,3);
-            $latitud_inicial = $latitud_ini.'.';
-            $latitud_fin = substr($latitud ,3);
-            $latitud = $latitud_inicial.$latitud_fin;
-
-            }
-
-
-    $longitud_identificador = substr($longitud ,3 ,1);
-
-    if($longitud_identificador == '.'){
-
-         $longitud = $longitud;
-
-    } else  {
-
-              $longitud_ini = substr($longitud ,0 ,3);
-              $longitud_inicial = $longitud_ini.'.';
-              $longitud_fin = substr($longitud ,3);
-              $longitud = $longitud_inicial.$longitud_fin;
-                      
-            }
 
 ?> 
   <div id="wrap">

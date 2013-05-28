@@ -862,7 +862,7 @@ ul.List_concesionarias li{
 	width:300px;
 	padding-right:20px;
 	float:right;
-	padding-top:53px;
+	padding-top:85px;
 	text-align:left;
 	}
 
@@ -886,6 +886,10 @@ p.indicador_seccion a{
 	float:left;
 	margin-bottom:16px;
 	}
+	
+#Detalles_mobile{
+	display:none;
+	}
 
 h1.title_color_despliegue{
 	margin-bottom:5px;
@@ -897,8 +901,14 @@ p.detalle_Aviso_despliegue{
 	font-weight:bold;
 	}
 	
-ul.list_Detalles_despliegue, ul.list_Ficha_despliegue{
+ul.list_Ficha_despliegue{
 	width:48%;
+	font-size:12px;
+	line-height:21px;
+	}
+	
+ul.list_Detalles_despliegue{
+	width:100%;
 	font-size:12px;
 	line-height:21px;
 	}
