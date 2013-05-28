@@ -950,6 +950,14 @@ search box - the end user will not know they are happening.
             // should perhaps also remove any selections already made on that facet
             event.preventDefault();
             var rel = $(this).attr('rel');
+            if(rel == 3){
+
+            var  name = "Precio";
+            }
+            if(rel == 4){
+            var  name = "A&ntilde;o";
+            }
+
             var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
                 <div class="clearfix"> \
                 <h3 id="facetview_rangechoices_' + rel + '" style="margin-left:10px; margin-right:10px; float:left; clear:none;" class="clearfix"> \
@@ -960,7 +968,7 @@ search box - the end user will not know they are happening.
             rangeselect += '<a class="facetview_facetrange_remove btn" rel="' + rel + '" alt="remove" title="eliminar" \
                  href="#"><i class="icon-remove"></i></a> \
                 </div></div> \
-                <div class="clearfix" style="margin:20px;" id="facetview_slider_' + rel + '"></div> \
+                ' + name + ' <div class="clearfix" style="margin:20px;" id="facetview_slider_' + rel + '"></div> \
                 </div>';
             $('#facetview_selectedfilters', obj).after(rangeselect);
             $('.facetview_facetrange_remove', obj).unbind('click',clearfacetrange);
@@ -1411,7 +1419,7 @@ search box - the end user will not know they are happening.
                                 var n =  accounting.formatMoney(line);
 
                                 if (line) {
-                                    lines += "<span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                    lines += "<br><span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
                                 }
                             }
 
@@ -1449,10 +1457,10 @@ search box - the end user will not know they are happening.
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
                                 if (line) {
-                                    lines +="<span style='font-size: 12px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                    lines +="<span style='font-size: 12px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
                                 }
                             }
-     
+                                
                             if(parts =='aviso,Kilometraje'){
 
                                 if (parts.length == 1) {

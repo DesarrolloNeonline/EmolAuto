@@ -34,7 +34,7 @@ $contenido = '
             <table align="center" width="560" cellspacing="0" cellpadding="0" border="0">
               <tr>
                 <td>
-                  <h1 style="font-family:Arial, Helvetica, sans-serif; font-size:21px; color:#444444; font-weight:normal; margin:0">Vehículos seleccionados</h1>    
+                  <h1 style="font-family:Arial, Helvetica, sans-serif; font-size:21px; color:#444444; font-weight:normal; margin:0">Veh&iacute;culos seleccionados</h1>    
                 </td>
               </tr>
                 </tbody>
