@@ -971,7 +971,7 @@ var sortQuery = null;
                 }
             }
 
-            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
+            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix" style="border-top-width: 256px; margin-top: 200px;"> \
                 <div class="clearfix"> \
                 <h3 id="facetview_rangechoices_' + rel + '" style="margin-left:10px; margin-right:10px; float:left; clear:none;" class="clearfix"> \
                 <span class="facetview_lowrangeval_' + rel + '">...</span> \
@@ -1313,7 +1313,7 @@ var sortQuery = null;
             }
             // add the record based on display template if available
             var display = options.result_display;
-            var lines = '<div><a href="'+urlFichaAuto+'" style="text-decoration: none; color: #000;">';
+            var lines = '<div class="Txt_Resul"><a href="'+urlFichaAuto+'" style="text-decoration: none; color: #000;">';
             for ( var lineitem = 0; lineitem < display.length; lineitem++ ) {
                 line = "";
                     if(display[lineitem]){
@@ -1403,10 +1403,10 @@ var sortQuery = null;
                                 }
                                 if ( line && sino ){
 
-                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp;&nbsp;";
+                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong><br>";
                                 }else{
 
-                                    lines += '&nbsp;&nbsp;';
+                                    lines += '<br>';
                                 }
                             } 
 
@@ -1448,7 +1448,7 @@ var sortQuery = null;
                                 var n =  accounting.formatMoney(line);
 
                                 if (line) {
-                                    lines += "<p><span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span></p>";
+                                    lines += "<span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
                                 }
                             }
 
@@ -1486,7 +1486,7 @@ var sortQuery = null;
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
                                 if (line) {
-                                    lines +="<span style='font-size: 12px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                    lines +="<span style='font-size: 12px;'>A&ntilde;o "+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;";
                                 }
                             }
                                 
@@ -1535,7 +1535,9 @@ var sortQuery = null;
                                 }
 
                                 if( line && sino ) {
-                                    lines +="<span style='font-size: 13px;'>"+Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+"Kms,&nbsp;</span>";
+                                    lines +="<span style='font-size: 12px;'>"+Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms&nbsp;</span><br>";
+                                } else {
+                                        lines +="<br>";
                                 }
                             }    
 
@@ -1584,7 +1586,7 @@ var sortQuery = null;
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'>T."+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+",&nbsp;</span>";
+                                    lines +="<span style='font-size: 13px;'>T."+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+"&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>";
                                 }
                             } 
 
@@ -1680,7 +1682,7 @@ var sortQuery = null;
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'><img src='upload/concesionarios/"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"'></span>";
+                                    lines +="<div class='img_Conse_resul'><img src='upload/concesionarios/"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"'></div>";
                                 }
                             }
 
@@ -1972,15 +1974,15 @@ var sortQuery = null;
                     bool['must'].push( {'query_string': qryval } );
                 };
                 nested ? bool['must'].push(nested) : "";
-                qs['sortQuery query'] = {'bool': bool};
+                qs['query'] = {'bool': bool};
             } else {
                 if ( options.q != "" ) {
                     var qryval = { 'query': fuzzify(options.q) };
                     $('.facetview_searchfield', obj).val() != "" ? qryval.default_field = $('.facetview_searchfield', obj).val() : "";
                     options.default_operator !== undefined ? qryval.default_operator = options.default_operator : false;
-                    qs['sortQuery query'] = {'query_string': qryval };
+                    qs['query'] = {'query_string': qryval };
                 } else {
-                    qs['sortQuery query'] = {'match_all': {}};
+                    qs['query'] = {'match_all': {}};
                 };
             };
             // set any paging
@@ -2012,19 +2014,16 @@ var sortQuery = null;
             }
             options.sharesave_link ? $('.facetview_sharesaveurl', obj).val('http://' + window.location.host + window.location.pathname + '?source=' + options.querystring) : "";
 
+
             if(sortQuery==="desc"){
-                var query = 'sort":[{"aviso.precio":{"order":"desc"}},"_score"],"';
-                qy = qy.replace('sortQuery', query);
-                qy = qy.replace(' ','');
+                var query = '"sort":[{"aviso.precio":{"order":"desc"}},"_score"],';
+                var position = 1;
+                qy = qy.substr(0, position) + query + " " + qy.substr(position);
             }else
                 if(sortQuery==="asd"){
-                    var query = 'sort":[{"aviso.precio":{"order":"asd"}},"_score"],"';
-                    qy = qy.replace('sortQuery', query);
-                    qy = qy.replace(' ','');
-                }else{
-                    var query = '';
-                    qy = qy.replace('sortQuery ', query);
-                    qy = qy.replace(' ','');
+                    var query = '"sort":[{"aviso.precio":{"order":"asd"}},"_score"],';
+                    var position = 1;
+                    qy = qy.substr(0, position) + query + " " + qy.substr(position);
                 }
 
             return qy;

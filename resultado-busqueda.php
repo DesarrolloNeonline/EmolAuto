@@ -64,12 +64,12 @@
                               {"field": "aviso.Modelo"}
                           ],
                           [
-                              {"field": "aviso.Anno"}
-                          ],
-  						            [
                                {"field": "aviso.precio"}
                           ],
                           [
+                              {"field": "aviso.Anno"}
+                          ],
+  						            [
                               {"field": "aviso.Kilometraje"}
                           ],
                           [
@@ -112,20 +112,21 @@
                           [
                               {"field": "aviso.Modelo"}
                           ],
+                          
+                          [
+                               {"field": "aviso.precio"}
+                          ],
                           [
                               {"field": "aviso.Anno"}
                           ],
                           [
-                               {"field": "aviso.precio"}
+                              {"field": "aviso.Kilometraje"}
                           ],
                           [
                               {"field": "aviso.Transmision"}
                           ],
                           [
                               {"field": "aviso.Combustible"}
-                          ],
-                          [
-                              {"field": "aviso.Kilometraje"}
                           ],
                           [
                               {"field": "aviso.logo_operador"}

@@ -1812,7 +1812,7 @@ ul.List_result{
 	}
 	
 ul.List_result li{
-	height:49px;
+	height:83px;
 	border:1px solid #adacac;
 	width:295px;
 	margin:0 0 14px 14px;
@@ -1821,16 +1821,27 @@ ul.List_result li{
 	position:relative;
 	}
 	
+ul.List_result li .img_Conse_resul{
+	position:absolute;
+	left:8px;
+	bottom:8px;
+	width:85px;
+	}
+
+.Txt_Resul{
+	line-height:21px;
+	}
+	
 ul.List_result li strong{
 	color:#5283d9;
 	font-size:13px;
 	}
 	
 .img_Auto_list{
-	width:66px;
-	height:49px;
+	width:85px;
+	height:100%;
 	float:left;
-	margin-right:8px;
+	margin-right:11px;
 	}
 	
 .content_Txt_list{
