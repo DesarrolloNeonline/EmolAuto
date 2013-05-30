@@ -85,7 +85,7 @@
                       paging: 
                       {
                           from: 0,
-                          size: 20
+                          size: 10
                       }
                   });
               

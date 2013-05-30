@@ -24,11 +24,12 @@
   <?php
     function decode($texto)
     {
-        $despues = Array('&aacute;','&eacute;','&iacute;','&oacute;','&uacute;','&agrave;','&egrave;','&igrave;','&ograve;','&ugrave;','&Agrave;','&Egrave;','&Igrave;','&Ograve;','&Ugrave;','&atilde;','&otilde;','&acirc;','&ecirc;','&ecirc;','&ocirc;','&ucirc;','&ccedil;','&uuml;','&Aacute;','&Eacute;','&Iacute;','&Oacute;','&Uacute;','&Atilde;','&Otilde;','&Acirc;','&Ecirc;','&Icirc;','&Ocirc;','&Ucirc;','&Ccedil;','&Uuml;','&ntilde;','&Ntilde;','&acute;','&prime;','&lsquo;','&rsquo;','&ldquo;','&rdquo;','&bdquo;','&iquest;','&#63;','&copy;','&reg;','&#153;','&ordm;','&deg;','&ordf;','&sect;','&#161;');
-        $antes   = Array('Ã¡','Ã©','Ã­','Ã³','Ãº','Ã ','Ã¨','Ã¬','Ã²','Ã¹','Ã€','Ãˆ','ÃŒ','Ã’','Ã™','Ã£','Ãµ','Ã¢','Ãª','Ã®','Ã´','Ã»','Ã§','Ã¼','Ã','Ã‰','Ã','Ã“','Ãš','Ãƒ','Ã•','Ã‚','ÃŠ','ÃŽ','Ã”','Ã›','Ã‡','Ãœ','Ã±','Ã‘','Â´','\'','â€˜','â€™','â€œ','â€','â€ž','Â¿','?','Â©','Â®','â„¢','Âº','Â°','Âª','Â§','Â¡');
-        $nuevo   = str_replace($antes,$despues,$texto);
-        return $nuevo;
-    } 
+      $despues = Array('&aacute;','&eacute;','&iacute;','&oacute;','&uacute;','&agrave;','&egrave;','&igrave;','&ograve;','&ugrave;','&Agrave;','&Egrave;','&Igrave;','&Ograve;','&Ugrave;','&atilde;','&otilde;','&acirc;','&ecirc;','&ecirc;','&ocirc;','&ucirc;','&ccedil;','&uuml;','&Aacute;','&Eacute;','&Iacute;','&Oacute;','&Uacute;','&Atilde;','&Otilde;','&Acirc;','&Ecirc;','&Icirc;','&Ocirc;','&Ucirc;','&Ccedil;','&Uuml;','&ntilde;','&Ntilde;','&acute;','&prime;','&lsquo;','&rsquo;','&ldquo;','&rdquo;','&bdquo;','&iquest;','&#63;','&copy;','&reg;','&#153;','&ordm;','&deg;','&ordf;','&sect;','&#161;');
+      $antes   = Array('á','é','í','ó','ú','à','è','ì','ò','ù','À','È','Ì','Ò','Ù','ã','õ','â','ê','î','ô','û','ç','ü','Á','É','Í','Ó','Ú','Ã','Õ','Â','Ê','Î','Ô','Û','Ç','Ü','ñ','Ñ','´','\'','‘','’','“','”','„','¿','?','©','®','™','º','°','ª','§','¡');
+      $nuevo   = str_replace($antes,$despues,$texto);
+      return $nuevo;
+    }
+
     include('connect.php'); 
     include('menu.php');
 
@@ -189,7 +190,7 @@
 
     <?php
 
-        $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
+        $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario.'&size=100';
         $content = file_get_contents($url);
         $json = json_decode($content, true);
         $hits = $json["hits"];
@@ -220,6 +221,9 @@
                         $marca              = decode($item['marca']);
                         $modelo             = decode($item['modelo']);
                         $texto              = decode($item['texto']);
+                        $kms_actuales       = $item['kms_actuales'];
+                        $transmision        = decode($item['transmision']);
+                        $combustible        = decode($item['combustible']);
                         $anno               = $item['año']; 
                         $precio             = $item['precio'];  
                         $id_aviso           = $item['id_aviso'];
@@ -235,14 +239,76 @@
                           
                         }
 
+                        if($kms_actuales)
+                        {
+                          $kms_actuales = number_format($kms_actuales, 0, ',', '.');
+                          $kms_actuales = str_replace('$','',$kms_actuales);
+                          $kms_actuales = $kms_actuales.'Kms';
+                
+                        } else
+                              {
+                                $kms_actuales = '';
+                              }
+
+                        if($transmision =="No Especificado")
+                        {
+                          $transmision = '';
+                        } else
+                              {
+                                $transmision = $transmision;
+                              }      
+
+
+                         if($combustible =="No Especificado")
+                        {
+                          $combustible = '';
+                        } else
+                              {
+                                $combustible =  $combustible;
+                              }
+
+                        if($modelo =="No Especificado")
+                        {
+                          $modelo = '';
+                        } else
+                              {
+                                $modelo =  $modelo;
+                              }
+
+
+                        if($anno =="No Especificado")
+                        {
+                          $anno = '';
+                        } else
+                              {
+                                $$anno =  $$anno;
+                              }
+
+                        if($marca =="No Especificado")
+                        {
+                          $marca = '';
+                        } else
+                              {
+                                $marca =  $marca;
+                              }
+
+                        if($precio =="No Especificado")
+                        {
+                          $precio = '';
+                        } else
+                              {
+                                $precio  =  $precio ;
+                              }
+                         
+
                          ?>
 
                         <li>
                           <div class="img_Auto_list"><a href="despliegue.php?id=<?php echo $id_aviso;?>"><img src="<?php echo $imagen;?>" alt="Auto" /></a></div>
                             <div class="content_Txt_list">
-                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a><br />
+                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a>  <?php echo $anno;?><br />
                             <span>$ <?php echo  number_format($precio, 0, ',', '.');?> </span><br />
-                            <?php echo $anno;?>  
+                            <?php echo $kms_actuales.' '.$combustible.' '.$transmision;?>  
                           </div>
                         </li>
 

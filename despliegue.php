@@ -8,27 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="css/normalize.min.css">
   <link rel="stylesheet" href="css/main.css">
-  <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
-  <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
-  <script src="http://apps.emol.com/widgets/mapas/v3/xygo.min.js"></script>
+<script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
+<script src="http://apps.emol.com/widgets/mapas/v3/xygo.min.js"></script>
+<!-- load jQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<!-- load Galleria -->
+<script src="http://club.mersap.com/emol_automovil_merge/js/galleria-1.2.8.min.js"></script>
   
-  <link rel="stylesheet" href="css/refineslide.css" />
-  <script src="js/jquery.refineslide.min.js"></script>
- <script type="text/javascript">
-    $(document).ready(function () {
-        $('.rs-slider').refineSlide({
-            transition         : 'slideH',
-            transitionDuration : 1000,
-            autoPlay           : true,
-            keyNav             : true,
-            delay              : 0,
-            controls           : 'thumbs',
-			thumbMargin        : 3,
-			arrowTemplate      : '<div class="rs-arrows"><a href="#" class="rs-prev"></a><a href="#" class="rs-next"></a></div>'
-        });
-    });
-  </script>
-  <script>
+<link rel="stylesheet" href="css/refineslide.css" />
+<script src="js/jquery.refineslide.min.js"></script>
+<script>
   function getUrlVars() 
   {
     var vars = {};
@@ -37,7 +27,7 @@
     });
     return vars;
   }
-  </script> 
+</script> 
   <!--Parseando json por jquery!-->
   <!--<script type="text/javascript" > 
 	var first = getUrlVars()["id"];
@@ -478,7 +468,15 @@
 			            $longitud_json       		= $item['ubicacion_coordenada_y'];
 
 					}	
-				
+						
+						$url_aviso = 'http://ailab01.mersap.com/autos/aviso/'.$valores[0];
+						$content_aviso = file_get_contents($url_aviso);
+						$json_aviso = json_decode($content_aviso, true);
+
+						foreach($json_aviso["_source"] as $item) 
+						{
+							$fechaPublicacion    = $item['fecha_primerapub'];
+						}
 
 						$sql_concesionario = 'select nombre_fantasia, logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
 					    telefono, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario, id_concesionario
@@ -580,122 +578,140 @@
 							$hits_image = $json_image["hits"];
 								if($hits_image["total"] != 0)
 								{ ?>
+								<div class="content">
 									<div class="box_info_despliegue">
-						    			<ul class="rs-slider" >
-			    						<?php
-						    				foreach($hits_image["hits"] as $hit_img) 
-											{ ?>
-												<li>
-												<?php
-													$item_img = $hit_img["_source"]["imagen"];
-													$img_autos = $item_img['archivo'];
-													$id_img    =  $item_img['id_ficha'];
-							                    ?>
-													<img  style="width:500;height:440px;"src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
-												<li>
-										<?php
-											} ?>
-						    
-						          		</ul>
+										<div id="galleria_imagen">
+							    			<?php
+							    				foreach($hits_image["hits"] as $hit_img) 
+												{ ?>
+													
+													<?php
+														$item_img = $hit_img["_source"]["imagen"];
+														$img_autos = $item_img['archivo'];
+														$id_img    =  $item_img['id_ficha'];
+								                    ?>
+														<img src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
+											<?php
+												} ?>
+							    
+							          	
+							          	</div>
 						        	</div>
+					        	</div>
+
+						        <script>
+
+							    // Load the classic theme
+							    Galleria.loadTheme('http://club.mersap.com/emol_automovil_merge/js/galleria.classic.min.js');
+
+							    // Initialize Galleria
+							    Galleria.run('#galleria_imagen');
+
+							    </script>
 						    <?php
 								} ?>
+
 					        
 					        <div id="Detalles_mobile"><h1 class="title_color_despliegue">Detalles</h1>
-					        
-					        <div class="box_info_despliegue">
-			          
-								<ul class="list_Detalles_despliegue fl">
-					                <li id="fechaPubicacion">
-										<span>Fecha de Publicaci&oacute;n</span>
-					                    <?php
-					                        echo substr($fechaPublicacion,0,11);
-					                    ?>
-					                </li>
-									<?php if($anno){ ?>
-											<li id="anno">
-											<span>A&ntilde;o</span><?php echo $anno;?>
-											</li>
-									<?php } ?>
-
-									<?php if($kms_actuales){ ?>
-											<li id="kilometros">
-											<span>Kms actuales</span><?php echo $kms_actuales;?>
-											</li>
-									<?php } ?>
-									
-					                <?php if($color){  ?>
-											<li id="color">
-											<span>Color</span><?php echo $color;?>
-											</li>
-					                <?php } ?>
-									
-									<?php if($direccion){  ?>
-											<li id="direccion">
-											<span>Direcci&oacute;n</span><?php echo $direccion;?>
-											</li>
-									<?php } ?>
-
-					                <?php if($traccion){  ?>
-											<li id="traccion">
-											<span>Tracci&oacute;n</span><?php echo $traccion;?>
-											</li>
-									<?php } ?>
-
-					                <?php if($puertas){  ?>
-											<li id="puertas">
-											<span>Puertas</span><?php echo $puertas;?>
-											</li>
-									<?php } ?>
-
-									<?php if($transmision){  ?>
-											<li id="transmision">
-											<span>Transmisi&oacute;n</span><?php echo $transmision;?>
-											</li>
-									<?php } ?>
-								</ul>
-
-								<ul class="list_Detalles_despliegue fr">
-					                <?php if($corridas_de_asientos){  ?>
-											<li id="corridasasiento">
-											<span>Corridas de asiento</span><?php echo $corridas_de_asientos;?>
-											</li>
-									<?php } ?>
-
-									<?php if($equipo_de_sonido){  ?>
-											<li id="equiposonido">
-											<span>Equipo de sonido</span><?php echo $equipo_de_sonido;?>
-											</li>
-									<?php } ?>
-
-									<?php if($oportunidad_comercial){  ?>
-											<li id="oportunidadcomercial">
-											<span>Oportunidad comercial</span><?php echo $oportunidad_comercial;?>
-											</li>
-									<?php } ?>
-
-									<?php if($capacidad_estanque){  ?>
-											<li id="capacidadestanque">
-											<span>Capacidad estanque</span><?php echo $capacidad_estanque;?>
-											</li>
-									<?php } ?>
-
-									<?php if($potencia_hp){  ?>
-											<li id="potencia">
-											<span>Potencia (HP)</span><?php echo $potencia_hp;?>
-											</li>
-									<?php } ?>
-
-									<?php if($motor_cc){  ?>
-											<li id="motor">
-											<span>Motor (cc)</span><?php echo $motor_cc;?>
-											</li>
-									<?php } ?>
-
-							</ul>
+					        		<div class="box_info_despliegue">
 					          
-					        </div></div>
-			        
+										<ul class="list_Detalles_despliegue fl">
+							                <li id="fechaPubicacion">
+												<span>Fecha de Publicaci&oacute;n</span>
+							                    <?php
+							                        echo substr($fechaPublicacion ,0,11);
+							                    ?>
+							                </li>
+											<?php if($anno){ ?>
+													<li id="anno">
+													<span>A&ntilde;o</span><?php echo $anno;?>
+													</li>
+											<?php } ?>
+
+											<?php if($kms_actuales){ ?>
+													<li id="kilometros">
+													<span>Kms actuales</span><?php echo $kms_actuales;?>
+													</li>
+											<?php } ?>
+											
+							                <?php if($color){  ?>
+													<li id="color">
+													<span>Color</span><?php echo $color;?>
+													</li>
+							                <?php } ?>
+											
+											<?php if($direccion){  ?>
+													<li id="direccion">
+													<span>Direcci&oacute;n</span><?php echo $direccion;?>
+													</li>
+											<?php } ?>
+
+							                <?php if($traccion){  ?>
+													<li id="traccion">
+													<span>Tracci&oacute;n</span><?php echo $traccion;?>
+													</li>
+											<?php } ?>
+
+							                <?php if($puertas){  ?>
+													<li id="puertas">
+													<span>Puertas</span><?php echo $puertas;?>
+													</li>
+											<?php } ?>
+
+											<?php if($transmision){  ?>
+													<li id="transmision">
+													<span>Transmisi&oacute;n</span><?php echo $transmision;?>
+													</li>
+											<?php } ?>
+										</ul>
+
+										<ul class="list_Detalles_despliegue fr">
+							                <?php if($corridas_de_asientos){  ?>
+													<li id="corridasasiento">
+													<span>Corridas de asiento</span><?php echo $corridas_de_asientos;?>
+													</li>
+											<?php } ?>
+
+											<?php if($equipo_de_sonido){  ?>
+													<li id="equiposonido">
+													<span>Equipo de sonido</span><?php echo $equipo_de_sonido;?>
+													</li>
+											<?php } ?>
+
+											<?php if($oportunidad_comercial){  ?>
+													<li id="oportunidadcomercial">
+													<span>Oportunidad comercial</span><?php echo $oportunidad_comercial;?>
+													</li>
+											<?php } ?>
+
+											<?php if($capacidad_estanque){  ?>
+													<li id="capacidadestanque">
+													<span>Capacidad estanque</span><?php echo $capacidad_estanque;?>
+													</li>
+											<?php } ?>
+
+											<?php if($potencia_hp){  ?>
+													<li id="potencia">
+													<span>Potencia (HP)</span><?php echo $potencia_hp;?>
+													</li>
+											<?php } ?>
+
+											<?php if($motor_cc){  ?>
+													<li id="motor">
+													<span>Motor (cc)</span><?php echo $motor_cc;?>
+													</li>
+											<?php } ?>
+
+									</ul>
+							          
+							        </div>
+						    </div>
+					<?php 
+						if(($control_crucero) || ($computador_abordo) || ($dvd) || ($vidrios_electricos) || ($cierre_centralizado) ||
+							($llantas_aleacion) || ($neblineros) || ($aire_acondicionado) || ($alarma)   || ($techo_corredizo) ||
+							($frenos_abs) || ($airbag) || ($barras_laterales)){  ?>
+
+		
 					        <h1 class="title_color_despliegue">Ficha T&eacute;cnica</h1>
 					        
 					        <div class="box_info_despliegue">
@@ -788,7 +804,9 @@
 								</ul>
 					        
 					        </div>
-			        <?php 
+			        <?php 	
+			        		}
+			        		
 							if($count_concesionarios!=0){ ?>
 			        
 						        <div class="btn_rojo"><a href="modal-mas-info.php?id_emol=<?php echo $valores[0];?>" rel="Shadowbox;width=445;height=600;">PEDIR INFORMACI&oacute;N</a></div>
@@ -817,9 +835,9 @@
 						          </div>
 						        </div>
                                 
-                                <h1 class="title_color_despliegue">Detalles</h1>
+                                <h1 class="title_color_despliegue" id="Detalle_Desktop">Detalles</h1>
                                 
-                                <div class="boxes_aside">
+                                <div class="boxes_aside" id="Detalle_Desktop">
                                   <ul class="list_Detalles_despliegue fl">
 					                <li id="fechaPubicacion">
 										<span>Fecha de Publicaci&oacute;n</span>

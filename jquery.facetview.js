@@ -697,7 +697,9 @@ to do a complex search term so no action will be taken. NOTE these changes are n
 search box - the end user will not know they are happening.
 
 */
+//Variable filter
 
+var sortQuery = null;
 
 // now the facetview function
 (function($){
@@ -950,12 +952,23 @@ search box - the end user will not know they are happening.
             // should perhaps also remove any selections already made on that facet
             event.preventDefault();
             var rel = $(this).attr('rel');
-            if(rel == 3){
+            var first = getUrlVars()["busqueda"];
 
-            var  name = "Precio";
+            if(first == 'inteligente'){
+                if(rel == 3){
+                    var  name = "Precio";
+                }
+                if(rel == 4){
+                    var  name = "A&ntilde;o";
+                }
             }
-            if(rel == 4){
-            var  name = "A&ntilde;o";
+            if(first == 'categoria'){
+                if(rel == 1){
+                    var  name = "Precio";
+                }
+                if(rel == 3){
+                    var  name = "A&ntilde;o";
+                }
             }
 
             var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
@@ -1181,6 +1194,9 @@ search box - the end user will not know they are happening.
                 $('#facetview_selectedfilters', obj).append(pobj);
             };
 
+            $('.sortDesc', obj).bind('click',sortDesc);
+            $('.sortAsd', obj).bind('click',sortAsd);
+
             $('.facetview_filterselected', obj).unbind('click',clearfilter);
             $('.facetview_filterselected', obj).bind('click',clearfilter);
             if ( event ) {
@@ -1203,6 +1219,17 @@ search box - the end user will not know they are happening.
         // ===============================================
         // functions to do with building results
         // ===============================================
+
+
+        var sortAsd = function(event) {
+            sortQuery = "asd";   
+            dosearch();
+        };
+
+        var sortDesc = function(event) {
+            sortQuery = "desc";   
+            dosearch();
+        };
 
         // read the result object and return useful vals
         // returns an object that contains things like ["data"] and ["facets"]
@@ -1274,10 +1301,12 @@ search box - the end user will not know they are happening.
                 {
                     if((img[0] =="http://imgclasificados.emol.com/Publicador/imgNoDisponible.gif") || 
                         (img[0] =="http://imgclasificados.emol.com/13026258_0/860/F222271962247614949249271444220810815860.jpg") ||
-                       (img[0].indexOf("imagen_no_disponible.gif")) !='-1')
+                       (img[0].indexOf("imagen_no_disponible.gif") !='-1') ||
+					   (img[0].indexOf("Empresas") !='-1'))
                     {
                         
-                    } else{
+                    }
+					else{
                             result += ' <div class="img_Auto_list"><a href="'+urlFichaAuto+'"><img src="' + img[0] + '"  alt="Auto" /></a></div>';
                           }
                 }
@@ -1419,7 +1448,7 @@ search box - the end user will not know they are happening.
                                 var n =  accounting.formatMoney(line);
 
                                 if (line) {
-                                    lines += "<br><span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                    lines += "<p><span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span></p>";
                                 }
                             }
 
@@ -1639,7 +1668,7 @@ search box - the end user will not know they are happening.
                                         line += thevalue;
                                     }
                                     display[lineitem][object]['post'] 
-                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                        ? line += display[lineitem][object]['post'] : line += '';
                                 }
 
                                 var valorCombustible = line;
@@ -1651,7 +1680,7 @@ search box - the end user will not know they are happening.
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'><img href='"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"'>.</span>";
+                                    lines +="<span style='font-size: 13px;'><img src='upload/concesionarios/"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"'></span>";
                                 }
                             }
 
@@ -1768,12 +1797,12 @@ search box - the end user will not know they are happening.
             }
             $('.facetview_filterchoice', obj).bind('click',clickfilterchoice);
             $('.facetview_filters', obj).each(function() {
-                $(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal'}).children('i').show();
+                $(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal' }).children('i').show();
                 if ( $(this).children().find('.facetview_filtervalue').length > 1 ) {
                     $(this).show();
                 } else {
-                    //$(this).hide();
-                    $(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal'}).children('i').hide();
+                    $(this).hide();
+                    $(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal' }).children('i').hide();
                 }
             });
 
@@ -1943,15 +1972,15 @@ search box - the end user will not know they are happening.
                     bool['must'].push( {'query_string': qryval } );
                 };
                 nested ? bool['must'].push(nested) : "";
-                qs['query'] = {'bool': bool};
+                qs['sortQuery query'] = {'bool': bool};
             } else {
                 if ( options.q != "" ) {
                     var qryval = { 'query': fuzzify(options.q) };
                     $('.facetview_searchfield', obj).val() != "" ? qryval.default_field = $('.facetview_searchfield', obj).val() : "";
                     options.default_operator !== undefined ? qryval.default_operator = options.default_operator : false;
-                    qs['query'] = {'query_string': qryval };
+                    qs['sortQuery query'] = {'query_string': qryval };
                 } else {
-                    qs['query'] = {'match_all': {}};
+                    qs['sortQuery query'] = {'match_all': {}};
                 };
             };
             // set any paging
@@ -1982,6 +2011,22 @@ search box - the end user will not know they are happening.
                 options.querystring = JSON.stringify(qs)
             }
             options.sharesave_link ? $('.facetview_sharesaveurl', obj).val('http://' + window.location.host + window.location.pathname + '?source=' + options.querystring) : "";
+
+            if(sortQuery==="desc"){
+                var query = 'sort":[{"aviso.precio":{"order":"desc"}},"_score"],"';
+                qy = qy.replace('sortQuery', query);
+                qy = qy.replace(' ','');
+            }else
+                if(sortQuery==="asd"){
+                    var query = 'sort":[{"aviso.precio":{"order":"asd"}},"_score"],"';
+                    qy = qy.replace('sortQuery', query);
+                    qy = qy.replace(' ','');
+                }else{
+                    var query = '';
+                    qy = qy.replace('sortQuery ', query);
+                    qy = qy.replace(' ','');
+                }
+
             return qy;
         };
 
@@ -2001,6 +2046,8 @@ search box - the end user will not know they are happening.
                 var currurl = '?source=' + options.querystring;
                 //window.history.pushState("","search",currurl);
             };
+
+
             $.ajax({
                 type: "get",
                 url: options.search_url,
@@ -2189,11 +2236,11 @@ search box - the end user will not know they are happening.
                 </div>';
         }
         thefacetview += '</div>';
-        thefacetview += '<p class="Filtrar_por"> \
-		  <strong>Ordenar por:</strong> &nbsp;\
-		  <a href="#">Precio ascendente</a> &nbsp;|&nbsp;\
-		  <a href="#">Precio descendente</a> &nbsp;&nbsp;\
-		</p>\
+        thefacetview += '<p class="Filtrar_por">\
+        <strong>Ordenar por:</strong> &nbsp;&nbsp;&nbsp;\
+          <a class="sortAsd"  href="#">Precio ascendente</a> &nbsp;&nbsp;|&nbsp;&nbsp;\
+          <a class="sortDesc" href="#">Precio descendente</a>\
+        </p>\
 		<div class="content_btn_enviar">\
 		  <span style="float:left; width:77px; font-size:11px; color:#000; text-align:left; padding-top:4px;">Avisos seleccionados</span>\
 		  <div class="btn_Save_select"><a onclick="setVisibility();" title="enviar selecci&oacute;n de autos">enviar</a></div>\

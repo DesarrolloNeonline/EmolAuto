@@ -37,14 +37,28 @@
     });
   </script>
   <script>
-   function busqueda_nomal(marca,ciudad)
-   {
-		
-			location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
-      
+    function busqueda_nomal(marca,ciudad)
+    {
+  	  if((marca == '')&&(ciudad =='')){
+
+          location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
+      }
+        else
+            if((marca === '')&&(ciudad!='')){
+
+        			location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
+        		
+            } else if((marca != '')&&(ciudad=='')) {
+      		        	 
+                     location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
+      		          }	 else if((marca !='')&&(ciudad !='')){
+
+                                   location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
+
+                             }
    }
-   </script>
-   <script type="text/javascript">   
+  </script>
+  <script type="text/javascript">   
     function alpha(e) {
     var k;
     document.all ? k = e.keyCode : k = e.which;
@@ -56,22 +70,22 @@
       }
     }
 
-    </script>
-    <script>
-     function busqueda_sofisticada(price,year)
+  </script>
+  <script>
+    function busqueda_sofisticada(price,year)
     {
-		var posicion_price = price.indexOf(';');
-		var precio = price.substring(posicion_price+1);
-		var posicion_year = year.indexOf(';');
-		var anno = year.substring(posicion_year+1);
+  		var posicion_price = price.indexOf(';');
+  		var precio = price.substring(posicion_price+1);
+  		var posicion_year = year.indexOf(';');
+  		var anno = year.substring(posicion_year+1);
 		
-		for(i=0;i<document.formulario_tipo.tipo.length;i++)
-		{
-			if(document.formulario_tipo.tipo[i].checked) 
-			{
-				tipo_check = document.formulario_tipo.tipo[i].value;
-			}
-		}
+  		for(i=0;i<document.formulario_tipo.tipo.length;i++)
+  		{
+  			if(document.formulario_tipo.tipo[i].checked) 
+  			{
+  				tipo_check = document.formulario_tipo.tipo[i].value;
+  			}
+  		}
 		
 		/*if(document.getElementById("checkbox1").checked)		
 		{
@@ -114,7 +128,7 @@
 			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
 		}
     */
-    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
+      location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
    }
    </script>
   <!-- Tooltip -->
