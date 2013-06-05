@@ -41,7 +41,7 @@
     $result_concesionarios= mysql_query($sql_concesionario);
     $row_concesionarios=mysql_fetch_row($result_concesionarios);
     $nombre_fantasia=$row_concesionarios[0];
-    $logo=$row_concesionarios[1]; 
+    $logo_chico=$row_concesionarios[1]; 
     $bp_concesionario = $row_concesionarios[2];
     $calle=$row_concesionarios[3];
     $numero=$row_concesionarios[4];
@@ -110,7 +110,7 @@
         </div>
         
         <div class="content_info_concesionario">
-          <div class="img_Logo_concesionario"><img src="upload/concesionarios/<?php echo $logo;?>" alt="Nombre concesionario" /></div>
+          <div class="img_Logo_concesionario"><img src="upload/concesionarios/<?php echo $logo_grande;?>" alt="Nombre concesionario" /></div>
           <div class="info_concesionario"><strong>Tipo</strong><br /><?php echo $tipo;?></div>
           <div class="info_concesionario">
             <strong>Contacto</strong><br />
@@ -239,27 +239,27 @@
                           
                         }
 
-                        if($kms_actuales)
+                        if(($kms_actuales) || ($kms_actuales!=0))
                         {
                           $kms_actuales = number_format($kms_actuales, 0, ',', '.');
                           $kms_actuales = str_replace('$','',$kms_actuales);
-                          $kms_actuales = $kms_actuales.'Kms';
+                          $kms_actuales = $kms_actuales.' Kms';
                 
                         } else
                               {
                                 $kms_actuales = '';
                               }
 
-                        if($transmision =="No Especificado")
+                        if(($transmision =="No Especificado") || ($transmision==""))
                         {
                           $transmision = '';
                         } else
                               {
-                                $transmision = $transmision;
+                                $transmision = 'T.'.$transmision.'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;';
                               }      
 
 
-                         if($combustible =="No Especificado")
+                         if(($combustible =="No Especificado") || ($combustible==""))
                         {
                           $combustible = '';
                         } else
@@ -267,7 +267,7 @@
                                 $combustible =  $combustible;
                               }
 
-                        if($modelo =="No Especificado")
+                        if(($modelo =="No Especificado") || ($modelo==""))
                         {
                           $modelo = '';
                         } else
@@ -276,15 +276,15 @@
                               }
 
 
-                        if($anno =="No Especificado")
+                        if(($anno =="No Especificado") || ($modelo==""))
                         {
                           $anno = '';
                         } else
                               {
-                                $$anno =  $$anno;
+                                $anno =  'A&ntilde;o '.$anno.'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;';
                               }
 
-                        if($marca =="No Especificado")
+                        if(($marca =="No Especificado") || ($marca==""))
                         {
                           $marca = '';
                         } else
@@ -292,23 +292,31 @@
                                 $marca =  $marca;
                               }
 
-                        if($precio =="No Especificado")
+                        if(($precio =="No Especificado") || ($precio==""))
                         {
                           $precio = '';
                         } else
                               {
                                 $precio  =  $precio ;
                               }
-                         
-
                          ?>
 
                         <li>
-                          <div class="img_Auto_list"><a href="despliegue.php?id=<?php echo $id_aviso;?>"><img src="<?php echo $imagen;?>" alt="Auto" /></a></div>
-                            <div class="content_Txt_list">
-                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a>  <?php echo $anno;?><br />
+                        <?php
+
+                          $condicion_img = strrpos($imagen, 'imagen_no_disponible.gif');
+                          if($condicion_img == false){ ?>
+                            <div class="img_Auto_list"><a href="despliegue.php?id=<?php echo $id_aviso;?>"><img src="<?php echo $imagen;?>" alt="Auto" /></a></div>
+                      <?php    
+                          } else{
+                                
+                          } ?>
+                          
+                            <div class="content_Txt_list" style="">
+                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a> <br />
                             <span>$ <?php echo  number_format($precio, 0, ',', '.');?> </span><br />
-                            <?php echo $kms_actuales.' '.$combustible.' '.$transmision;?>  
+                             <?php echo $anno.$kms_actuales;?><br />
+                             <?php echo $transmision.$combustible;?>  
                           </div>
                         </li>
 

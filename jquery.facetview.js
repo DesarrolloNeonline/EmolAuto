@@ -810,7 +810,7 @@ var sortQuery = null;
             },
             "pager_on_top": false,
             "pager_slider": false,
-            "searchwrap_start": '<form id ="frm1"><div class="content_result_busq" style="width: auto;float: left; text-align: left;"><ul class="List_result" id="facetview_results" style="list-style: none;">',
+            "searchwrap_start": '<form id ="frm1"><div id="content_result_busq"><ul class="List_result" id="facetview_results" style="list-style: none;">',
             "searchwrap_end": "</ul></div></form>",
             "resultwrap_start": "", // XXX was "<tr><td>"
             "resultwrap_end": "", // XXX was "</td></tr>"
@@ -1047,8 +1047,8 @@ var sortQuery = null;
                                 }
 
                 
- 
-                    if ((options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))) {
+                        //(options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
+                    if (false) {
                         _filterTmpl += '<a class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
                     }
                     _filterTmpl +='</div> \
@@ -1092,7 +1092,8 @@ var sortQuery = null;
                                 var fast = '{{FILTER_NAME}}';
                                 var test = fast.replace(/{{FILTER_NAME}}/g, filters[idx]['field'].replace(/\./gi, '').replace(/\:/gi, '')).replace(/{{FILTER_EXACT}}/g, filters[idx]['field']);
                                 
-                                if((test == 'avisoCategoria') || (test == 'avisoprecio') || (test == 'avisoAnno')){
+                                //(test == 'avisoCategoria') || (test == 'avisoprecio') || (test == 'avisoAnno')
+                                if(false){
                                      var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed "> \
                                     <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow facetview_open" title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
                                     style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> <i class="icon-minus"></i> \
@@ -1111,8 +1112,8 @@ var sortQuery = null;
                                             }
 
                             
-             
-                                if ((options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))) {
+                                //(options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
+                                if (false) {
                                     _filterTmpl += '<a class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
                                 }
                                 _filterTmpl += '</div> \
@@ -1356,7 +1357,7 @@ var sortQuery = null;
                                 }
 
                                 if (line) {
-                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>&nbsp";
+                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "&nbsp";
                                 }
                             }
 
@@ -1403,10 +1404,10 @@ var sortQuery = null;
                                 }
                                 if ( line && sino ){
 
-                                    lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong><br>";
+                                    lines += line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "</strong>";
                                 }else{
 
-                                    lines += '<br>';
+                                    lines += '</strong>';
                                 }
                             } 
 
@@ -1448,7 +1449,11 @@ var sortQuery = null;
                                 var n =  accounting.formatMoney(line);
 
                                 if (line) {
-                                    lines += "<span style='font-family: Arial, Helvetica, sans-serif;font-size: 16px;'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span><br>";
+                                    lines += "<span class='precio'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                }
+                                else{
+
+                                    lines += "";
                                 }
                             }
 
@@ -1483,10 +1488,10 @@ var sortQuery = null;
                                         line += thevalue;
                                     }
                                     display[lineitem][object]['post'] 
-                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                        ? line += display[lineitem][object]['post'] : line += '';
                                 }
                                 if (line) {
-                                    lines +="<span style='font-size: 12px;'>A&ntilde;o "+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;";
+                                    lines +="<span class='anno'>A&ntilde;o "+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"&nbsp; | &nbsp;";
                                 }
                             }
                                 
@@ -1522,7 +1527,7 @@ var sortQuery = null;
                                         line += thevalue;
                                     }
                                     display[lineitem][object]['post'] 
-                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                        ? line += display[lineitem][object]['post'] : line += '';
                                 }
 
                                 var  Kilometraje =  accounting.formatMoney(line); 
@@ -1535,9 +1540,9 @@ var sortQuery = null;
                                 }
 
                                 if( line && sino ) {
-                                    lines +="<span style='font-size: 12px;'>"+Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms&nbsp;</span><br>";
+                                    lines +=Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms</span>";
                                 } else {
-                                        lines +="<br>";
+                                        lines +="</span>";
                                 }
                             }    
 
@@ -1573,12 +1578,12 @@ var sortQuery = null;
                                         line += thevalue;
                                     }
                                     display[lineitem][object]['post'] 
-                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                        ? line += display[lineitem][object]['post'] : line += '';
                                 }
 
                                 var  Transmision = line;  
 
-                                if(Transmision == "Otro</span> "){
+                                if(Transmision == "Otro"){
                                     var  sino = false; 
                                 }else {
                                     var sino = true;
@@ -1586,7 +1591,10 @@ var sortQuery = null;
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'>T."+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+"&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>";
+                                    lines +="<span class='anno'>T.&nbsp;"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+"&nbsp; | &nbsp;";
+                                }
+                                else {
+                                        lines +="<span class='anno'>";
                                 }
                             } 
 
@@ -1622,11 +1630,11 @@ var sortQuery = null;
                                         line += thevalue;
                                     }
                                     display[lineitem][object]['post'] 
-                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                        ? line += display[lineitem][object]['post'] : line += '';
                                 }
 
                                 var valorCombustible = line;
-                                if(valorCombustible == 'Otro</span> '){
+                                if(valorCombustible == 'Otro'){
                                     var  sino = false; 
                                 }else {
                                     var sino = true;
@@ -1634,8 +1642,12 @@ var sortQuery = null;
 
                                 if ( line && sino ){
 
-                                    lines +="<span style='font-size: 13px;'>"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+".</span>";
+                                    lines +=line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
                                 }
+                                 else {
+                                        lines +="</span>";
+                                }
+
                             } 
 
                             if(parts =='aviso,logo_operador'){
@@ -1674,7 +1686,7 @@ var sortQuery = null;
                                 }
 
                                 var valorCombustible = line;
-                                if(valorCombustible == 'Otro</span> '){
+                                if(valorCombustible == 'Otro'){
                                     var  sino = false; 
                                 }else {
                                     var sino = true;
@@ -2224,32 +2236,24 @@ var sortQuery = null;
         }
         
         thefacetview += '<input type="text" class="facetview_freetext span4" style="display:inline-block;" name="q" \
-            value="" placeholder="Busque su auto" />';
-        if ( options.sharesave_link ) {
-            thefacetview += '<div class="btn_Save_select" style="float: left;cursor: default;"><a><i class="icon-share-alt"></i></a></div>';
-            thefacetview += '<div class="facetview_sharesavebox alert alert-info" style="display:none;position: absolute;width: 310px;"> \
-                <button type="button" class="facetview_sharesave close">×</button> \
-                <p>Share or save this search:</p> \
-                <textarea class="facetview_sharesaveurl" style="width:100%;height:100px;">http://' + window.location.host + 
-                window.location.pathname + '?source=' + options.querystring + '</textarea> \
-                </div>';
-        }
+            value="" placeholder="Busque su auto" /> \
+            <p class="Filtrar_por">\
+        <strong>Ordenar por precio:</strong> &nbsp;\
+          <a class="sortAsd"  href="#">Ascendente</a> &nbsp;|&nbsp;\
+          <a class="sortDesc" href="#">Descendente</a>\
+        </p>';
+        thefacetview +=  '<div id="Content_option_view"><span>Ver como:</span><div id ="styleTwo" style="opacity:0.3;filter:alpha(opacity=30)" class="Listado" onclick="setActiveStyleSheet(\'normal2\'); mostrarTwo(); return false;"></div><div id ="styleOne" style="opacity:1.0;filter:alpha(opacity=100)" class="Cuadricula" onclick="setActiveStyleSheet(\'normal1\'); mostrarOne(); return false;"></div></div>';
         thefacetview += '</div>';
-        thefacetview += '<p class="Filtrar_por">\
-        <strong>Ordenar por:</strong> &nbsp;&nbsp;&nbsp;\
-          <a class="sortAsd"  href="#">Precio ascendente</a> &nbsp;&nbsp;|&nbsp;&nbsp;\
-          <a class="sortDesc" href="#">Precio descendente</a>\
-        </p>\
-		<div class="content_btn_enviar">\
-		  <span style="float:left; width:77px; font-size:11px; color:#000; text-align:left; padding-top:4px;">Avisos seleccionados</span>\
+        thefacetview += '<div class="content_btn_enviar">\
+		  <span style="float:left; width:77px; font-size:11px; color:#000; text-align:left; padding-top:6px;">Avisos seleccionados</span>\
 		  <div class="btn_Save_select"><a onclick="setVisibility();" title="enviar selecci&oacute;n de autos">enviar</a></div>\
 		</div>\
 		';
         thefacetview += thehelp;
-        thefacetview += '<div style="clear:both;" class="btn-toolbar" id="facetview_selectedfilters"></div>';
+        thefacetview += '<div class="btn-toolbar" id="facetview_selectedfilters"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
         thefacetview += options.searchwrap_start + options.searchwrap_end;
-        thefacetview += '<div class="facetview_metadata" style="margin-top:200px;"></div></div></div></div>';
+        thefacetview += '<div class="facetview_metadata" style="float:left; text-align:center; width:100%;"></div></div></div></div>';
 
         var obj = undefined;
 

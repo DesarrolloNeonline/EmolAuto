@@ -74,18 +74,21 @@
   <script>
     function busqueda_sofisticada(price,year)
     {
-  		var posicion_price = price.indexOf(';');
-  		var precio = price.substring(posicion_price+1);
-  		var posicion_year = year.indexOf(';');
-  		var anno = year.substring(posicion_year+1);
-		
-  		for(i=0;i<document.formulario_tipo.tipo.length;i++)
-  		{
-  			if(document.formulario_tipo.tipo[i].checked) 
-  			{
-  				tipo_check = document.formulario_tipo.tipo[i].value;
-  			}
-  		}
+      var posicion_price = price.indexOf(';');
+      var priceUp = price.substring(posicion_price+1);
+      var priceDown = price.replace(priceUp ,'');
+      priceDown = priceDown.replace(';','');
+
+      var posicion_year = year.indexOf(';');
+      var anno = year.substring(posicion_year+1);
+    
+      for(i=0;i<document.formulario_tipo.tipo.length;i++)
+      {
+        if(document.formulario_tipo.tipo[i].checked) 
+        {
+          tipo_check = document.formulario_tipo.tipo[i].value;
+        }
+      }
 		
 		/*if(document.getElementById("checkbox1").checked)		
 		{
@@ -128,7 +131,7 @@
 			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
 		}
     */
-      location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
+      location.href='resultado-busqueda.php?source={"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Autos"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":2012,"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown;
    }
    </script>
   <!-- Tooltip -->
@@ -404,49 +407,101 @@
       
       <div class="content_Left_bottom_home">
         <div class="content_List_bottom_home">
-          
           <h1 class="title_color_home">Modelos usados m&aacute;s publicados</h1>
-          
           <hr />
-         
           <!-- ucwords -> Funcion PHP transforma primera letra en mayscual del string !-->
-          
           <ul class="List_mas_usados">
             <li class="title"><strong>Autos</strong></li>
-            <li>Toyota Yaris</li>
-            <li>Chevrolet Corsa</li>
-            <li>Subaru Legacy</li>
-            <li>Citroen C4</li>
-            <li>Hyundai Accent</li>
+           <?php 
+              $url_autos = 'http://ailab01.mersap.com/automoviles/mmp/1';
+              $content_autos = file_get_contents($url_autos);
+              $json_autos = json_decode($content_autos, true);
+              $hits_autos = $json_autos["_source"]["mmp"];
+             
+
+              foreach($hits_autos['lista'] as $item) 
+              {
+                $marca          = ucwords($item['marca']);
+                $modelo         = ucwords($item['modelo']);
+                $count          = $item['count']; ?>
+
+              <a href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Autos"}},{"term":{"aviso.Marca":"<?php echo $marca;?>"}},{"term":{"aviso.Modelo":"<?php echo $modelo;?>"}},{"query_string":{"query":""}}]}}}'><li><?php echo ucwords(strtolower($marca)).' '.ucwords(strtolower($modelo)).' ('.$count.')';?></li></a>
+              
+              
+           <?php
+              }
+          ?>
           </ul>
-          
+
+
           <ul class="List_mas_usados">
             <li class="title"><strong>Camionetas</strong></li>
-            <li>Ford Ranger</li>
-            <li>Sangyong Actyon</li>
-            <li>Toyota Hilux </li>
-            <li>Ford F-150</li>
-            <li>Nissan Terrano</li>
+           <?php 
+              $url_camionetas = 'http://ailab01.mersap.com/automoviles/mmp/4';
+              $content_camionetas = file_get_contents($url_camionetas);
+              $json_camionetas = json_decode($content_camionetas, true);
+              $hits_camionetas = $json_camionetas["_source"]["mmp"];
+             
+
+              foreach($hits_camionetas['lista'] as $item) 
+              {
+                $marca          = $item['marca'];
+                $modelo         = $item['modelo'];
+                $count          = $item['count']; ?>
+
+              <a href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Camioneta"}},{"term":{"aviso.Marca":"<?php echo $marca;?>"}},{"term":{"aviso.Modelo":"<?php echo $modelo;?>"}},{"query_string":{"query":""}}]}}}'><li><?php echo ucwords(strtolower($marca)).' '.ucwords(strtolower($modelo)).' ('.$count.')';?></li></a>
+              
+              
+           <?php
+              }
+          ?>
           </ul>
-          
+
           <ul class="List_mas_usados">
-            <li class="title"><strong>Todo terreno</strong></li>
-            <li>Hyundai Tucson</li>
-            <li>Hyundai Santa Fe</li>
-            <li>Jeep Compass</li>
-            <li>Suzuki Grand Nomade</li>
-            <li>Suzuki Grand Vitara</li>
-          </ul>
-          
+            <li class="title"><strong>Todo Terreno</strong></li>
+           <?php 
+              $url_terreno = 'http://ailab01.mersap.com/automoviles/mmp/2';
+              $content_terreno = file_get_contents($url_terreno);
+              $json_terreno = json_decode($content_terreno, true);
+              $hits_terreno = $json_terreno["_source"]["mmp"];
+             
+
+              foreach($hits_terreno['lista'] as $item) 
+              {
+                $marca          = $item['marca'];
+                $modelo         = $item['modelo'];
+                $count          = $item['count']; ?>
+
+              <a href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Todo Terreno"}},{"term":{"aviso.Marca":"<?php echo $marca;?>"}},{"term":{"aviso.Modelo":"<?php echo $modelo;?>"}},{"query_string":{"query":""}}]}}}'><li><?php echo ucwords(strtolower($marca)).' '.ucwords(strtolower($modelo)).' ('.$count.')';?></li></a>
+              
+              
+           <?php
+              }
+          ?>
+          </ul> 
+
           <ul class="List_mas_usados">
             <li class="title"><strong>Motos</strong></li>
-            <li>Husaberg 450</li>
-            <li>BMW 650</li>
-            <li>KTM 990</li>
-            <li>Suzuki Bulevardli>
-            <li>Honda Buggi</li>
-          </ul>
-          
+           <?php 
+              $url_motos = 'http://ailab01.mersap.com/automoviles/mmp/6';
+              $content_motos = file_get_contents($url_motos);
+              $json_motos = json_decode($content_motos, true);
+              $hits_motos = $json_motos["_source"]["mmp"];
+             
+
+              foreach($hits_motos['lista'] as $item) 
+              {
+                $marca          = $item['marca'];
+                $modelo         = $item['modelo'];
+                $count          = $item['count']; ?>
+
+              <a href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Motos"}},{"term":{"aviso.Marca":"<?php echo $marca;?>"}},{"term":{"aviso.Modelo":"<?php echo $modelo;?>"}},{"query_string":{"query":""}}]}}}'><li><?php echo ucwords(strtolower($marca)).' '.ucwords(strtolower($modelo)).' ('.$count.')';?></li></a>
+              
+              
+           <?php
+              }
+          ?>
+          </ul>  
         </div>
         
 <?php 

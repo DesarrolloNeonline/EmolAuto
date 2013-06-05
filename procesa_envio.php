@@ -52,7 +52,7 @@ $contenido = '
       <table width="602" border="0" align="center" cellpadding="0" cellspacing="0" height="80">
         <tr>
           <td width="602" align="center" valign="middle" style="color:#000000"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; line-height:16px; text-align: center;">
-            Enviado a:  omadridv@neonline.cl<br />
+            Enviado a:  '.$email.'<br />
             <a href="http://vivedescuentos.us2.list-manage.com/about?u=a9a36829e777f003dd763ed26&id=779a64958d&e=41536289e6&c=0d71dc68c8" style="color:#5283d9">&iquest;Por qu&eacute; me lleg&oacute; esto?</a> | 
             <a href="http://vivedescuentos.us2.list-manage.com/unsubscribe?u=a9a36829e777f003dd763ed26&id=779a64958d&e=41536289e6&c=0d71dc68c8" style="color:#5283d9">Anular mi suscripci&oacute;n a esta lista</a> | <a href="http://vivedescuentos.us2.list-manage.com/profile?u=a9a36829e777f003dd763ed26&id=779a64958d&e=41536289e6" style="color:#5283d9">Actualizar datos de suscripci&oacute;n</a><br />
             Propiedades.emol.com &middot; Santa Mar&iacute;a 5542 &middot; Santiago .</span>

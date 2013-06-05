@@ -29,7 +29,7 @@
     $config = include(dirname(__FILE__) . "/config/config.php");
 
     $dbh = new PDO($config["dsn"], $config["username"], $config["password"]);
-    $stmt = $dbh->prepare('SELECT id_concesionario, calle, numero, comuna, ciudad, telefono, telefono_adicional, id_concesionario, prioridad, nombre_fantasia,logo_chico FROM concesionario ORDER BY nombre_fantasia ASC ');
+    $stmt = $dbh->prepare('SELECT id_concesionario, calle, numero, comuna, ciudad, telefono, telefono_adicional, id_concesionario, prioridad, nombre_fantasia,logo_chico, logo_grande FROM concesionario ORDER BY nombre_fantasia ASC ');
     $stmt->execute();
   	?>    
     <div id="wrap">
@@ -60,7 +60,7 @@
           <?php 
           while($value = $stmt->fetch()) {  ?>
             <li>
-              <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $value['id_concesionario'];?>"><img src="upload/concesionarios/<?php echo $value['logo_chico'];?>" /></a>
+              <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $value['id_concesionario'];?>"><img src="upload/concesionarios/<?php echo $value['logo_grande'];?>" /></a>
               <h1><?php echo $value['nombre_fantasia'];?></h1>
               <p>
               <?php if($value['calle']) {

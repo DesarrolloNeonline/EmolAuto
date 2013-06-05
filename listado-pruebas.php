@@ -24,23 +24,13 @@
 <body>
 <?php
   include('connect.php'); 
-	//Consulta de Menu de navegación.
   include('menu.php');
 
-	
-  //Consulta de Noticias cargadas.
-  try
-    {
-      $sql_pruebas_maneja = 'select id_prueba, titulo_prueba, periodista, fecha_prueba, bajada_titulo, estado_prueba, target 
-       from pruebas_manejo order by fecha_prueba DESC';
-      $result_pruebas_manejo= mysql_query($sql_pruebas_maneja);
-      $max = mysql_num_rows($result_pruebas_manejo);
-    }
-    catch(PDOException $e) 
-    {
-      error_log($e->getMessage());
-      die('Error al seleccionar noticias');
-    }
+  $config = include(dirname(__FILE__) . "/config/config.php");
+
+  $dbh      = new PDO($config['dsn'], $config['username'], $config['password']);
+  $stmt     = $dbh ->prepare('select id_prueba, titulo_prueba, periodista, fecha_prueba, bajada_titulo, estado_prueba, target from pruebas_manejo order by fecha_prueba DESC');
+  $stmt  -> execute(); 
 
 	?>     
   <div id="wrap">
@@ -79,47 +69,37 @@
       <div id="listado_noticias_Left">
       
         <ul class="List_noticias">
-         
-        <?php
-          for($i=0;$i<$max;$i++)
-          {
-              $array_pruebas_manejo =mysql_fetch_row($result_pruebas_manejo);
-              $id_prueba        =$array_pruebas_manejo[0];
-              $titulo_prueba      =$array_pruebas_manejo[1];
-              $periodista       =$array_pruebas_manejo[2];
-              $fecha          = $array_pruebas_manejo[3];
-              $bajada_titulo      = $array_pruebas_manejo[4];
-              $estado_prueba      = $array_pruebas_manejo[5];
-              $target             = $array_pruebas_manejo[6];
-              
-              $sql_img_pruebas  = 'select  id_imagen_prueba, imagen_prueba, id_prueba_manejo from automoviles.imagenes_pruebas_manejo where id_prueba_manejo = "'.$id_prueba.'"';
-              $result_img_prueba = mysql_query($sql_img_pruebas);
-              $array_img_prueba = mysql_fetch_array($result_img_prueba);
-              $id_img         = $array_img_prueba[0];
-              $nombre_imagen  = $array_img_prueba[1];
 
-              if($estado_prueba ==1)
-              {
-      
-                if($target == 1)
-                { ?>
+           <?php
+              while($post = $stmt-> fetch()){
+                $stmt_2    = $dbh ->prepare('select  id_imagen_prueba, imagen_prueba, id_prueba_manejo from automoviles.imagenes_pruebas_manejo where id_prueba_manejo = "'.$post["id_prueba"].'"');
+                $stmt_2  -> execute(); 
+                $post_2 = $stmt_2-> fetch();
+                  if($post['estado_prueba']==1)
+                  {  
+                    if($post['target']=='1')
+                    { ?>
                       <li>
-                        <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>" target="_blank"><img src="upload/pruebas-manejo/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_prueba;?>" /></a>
-                        <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>" target="_blank"><h1><?php echo $titulo_prueba;?></h1></a>
-                        <p><?php echo $bajada_titulo;?></p>
+                        <a href="despliegue-pruebas.php?id-prueba=<?php echo $post['id_prueba'];?>" target="_blank"><img src="upload/pruebas-manejo/<?php echo $post_2['imagen_prueba'];?>" alt="<?php echo  $post['titulo_prueba'];?>" /></a>
+                        <a href="despliegue-pruebas.php?id-prueba=<?php echo $post['id_prueba'];?>" target="_blank"><h1><?php echo $post['titulo_prueba'];?></h1></a>
+                        <p><?php echo $post['bajada_titulo'];?></p>
                       </li>
-         <?php  }
-                  else  { ?>
+                <?php
+                    } 
+                    else  { ?>
                             <li>
-                              <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><img src="upload/pruebas-manejo/<?php echo $nombre_imagen;?>" alt="<?php echo  $titulo_prueba;?>" /></a>
-                              <a href="despliegue-pruebas.php?id-noticia=<?php echo $id_prueba;?>"><h1><?php echo $titulo_prueba;?></h1></a>
-                              <p><?php echo $bajada_titulo;?></p>
+                              <a href="despliegue-pruebas.php?id-prueba=<?php echo $post['id_prueba'];?>"><img src="upload/pruebas-manejo/<?php echo  $post_2['imagen_prueba'];?>" alt="<?php echo  $post['titulo_prueba'];?>" /></a>
+                              <a href="despliegue-pruebas.php?id-prueba=<?php echo $post['id_prueba'];?>"><h1><?php echo $post['titulo_prueba'];?></h1></a>
+                              <p><?php echo $post['bajada_titulo'];?></p>
                             </li>
-         <?php 
-                       }
-              }
-          } ?>
-        </ul>
+                <?php
+                          } 
+                  } 
+              } ?>
+        
+            </ul>
+
+        
         
     <!--<div class="pagination">
           <ul>

@@ -10,6 +10,12 @@
   <link rel="stylesheet" href="css/normalize.min.css">
   <link rel="stylesheet" href="css/main.css">
   <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
+
+  
+  <script type="text/javascript" src="styleswitcher.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/normal1.css" title="normal1">
+  <link rel="stylesheet" type="text/css" href="css/normal2.css" title="normal2">
+
   <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
@@ -26,6 +32,13 @@
 	<link rel="stylesheet" href="css/style.css">
 
   <script type="text/javascript">
+
+    var sort="desc";;
+
+     function sort() {  
+        sort = "asd"; 
+        alert(sort);// jQuery ensures 'this' will be the button  
+    };
 
     function getUrlVars() 
     {
@@ -346,7 +359,6 @@
             <label>Correo</label>
             <input name="email" id="email" type="text" value="" placeholder="Ej: correo@correo.cl"/>
             <input name="enviar"  type="button" value="Enviar" onclick="enviar()" title="enviar correo" />
-            <input name="eliminar"  type="button" value="Limpiar" onclick="limpiar()" title="limpiar historial"/>
           </div>
         </div>
     
