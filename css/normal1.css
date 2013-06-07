@@ -130,8 +130,12 @@ ul.List_result li .img_Conse_resul{
 @media only screen and (min-width: 768px) and (max-width: 859px){
 
 	.Txt_Resul{
-		width:120px;
+		width:145px;
 		}
+		
+	.img_Auto_list, ul.List_result li .img_Conse_resul{
+		width:60px;
+		}	
 
 }
 

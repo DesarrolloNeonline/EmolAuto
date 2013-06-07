@@ -131,7 +131,7 @@
 			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
 		}
     */
-      location.href='resultado-busqueda.php?source={"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Autos"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":2012,"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown;
+    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
    }
    </script>
   <!-- Tooltip -->

@@ -9,23 +9,23 @@ function decode($texto)
 
 $id_emol = $_POST['id_auto'];
 $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_emol;
-		$content = file_get_contents($url);
-		$json = json_decode($content, true);
+    $content = file_get_contents($url);
+    $json = json_decode($content, true);
 
-		foreach($json['_source'] as $item) 
-		{
-			$marca            = decode($item['Marca']);
-			$modelo      		  = decode($item['Modelo']);
-			$precio       		= $item['precio'];
-			$anno      	 	    = $item['Anno']; 
-			$kms_actuales     = $item['Kilometraje'];
-			$transmision      = decode($item['Transmision']);
-			$combustible      = decode($item['Combustible']);
-			$imagen        		= $item['imagen'];
+    foreach($json['_source'] as $item) 
+    {
+      $marca            = decode($item['Marca']);
+      $modelo           = decode($item['Modelo']);
+      $precio           = $item['precio'];
+      $anno             = $item['Anno']; 
+      $kms_actuales     = $item['Kilometraje'];
+      $transmision      = decode($item['Transmision']);
+      $combustible      = decode($item['Combustible']);
+      $imagen           = $item['imagen'];
       $logo_operador    = $item['logo_operador'];
-		}	
+    } 
 
-		if($kms_actuales !="-1" && ($kms_actuales))
+    if($kms_actuales !="-1" && ($kms_actuales))
         {
           $kms_actuales = number_format($kms_actuales, 0, ',', '.');
           $kms_actuales = str_replace('$','',$kms_actuales);
@@ -93,9 +93,9 @@ $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_emol;
   $condicion_img = strrpos($imagen, 'imagen_no_disponible.gif');
   if($condicion_img == false){ ?>
     <div class="img_Auto_list" style="width: 85px;height: auto;float: left;margin-right: 12px;">
-    	<a href="http://club.mersap.com/emol_automovil_merge/despliegue.php?id=<?php echo $id_emol;?>">
-    		<img style="max-width: 100%;height: auto;border: 0;"src="<?php echo $imagen;?>" alt="Auto" />
-    	</a>
+      <a href="http://club.mersap.com/emol_automovil_merge/despliegue.php?id=<?php echo $id_emol;?>">
+        <img style="max-width: 100%;height: auto;border: 0;"src="<?php echo $imagen;?>" alt="Auto" />
+      </a>
     </div>
 <?php    
   } else{
@@ -104,7 +104,7 @@ $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_emol;
   
     <div style="float: left;font-size: 13px;color: #000000;line-height: 21px;" class="content_Txt_list">
     <a href="http://club.mersap.com/emol_automovil_merge/despliegue.php?id=<?php echo $id_emol;?>"><strong style="margin-bottom: 3px;"><?php echo  $marca.' '.$modelo;?></strong></a><br /> 
-    <span style="font-size: 17px;margin-bottom: 5px;position: absolute;top: 30%;right: 10px;">$ <?php echo  number_format($precio, 0, ',', '.');?> </span>
+    <span style="font-size: 17px;margin-bottom: 5px;position: absolute;top: 30%;right: 5px;">$ <?php echo  number_format($precio, 0, ',', '.');?> </span>
     <span class="anno" style="font-size: 12px;"><?php echo $anno.$kms_actuales;?></span>
     <span class="anno" style="font-size: 12px;"><?php echo $transmision.$combustible;?></span>
     <div style="display: block; margin-top: 5px; "class="img_Conse_resul"><img src="http://club.mersap.com/emol_automovil_merge/upload/concesionarios/<?php echo $logo_operador;?>"></div> 
