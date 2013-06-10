@@ -31,7 +31,7 @@
       var name = current.attr('href');
       $('a.selected').removeClass('selected');
       current.addClass("selected");
-		
+    
         return false;
       });
     });
@@ -39,19 +39,19 @@
   <script>
     function busqueda_nomal(marca,ciudad)
     {
-  	  if((marca == '')&&(ciudad =='')){
+      if((marca == '')&&(ciudad =='')){
 
           location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
       }
         else
             if((marca === '')&&(ciudad!='')){
 
-        			location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
-        		
+              location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
+            
             } else if((marca != '')&&(ciudad=='')) {
-      		        	 
+                     
                      location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
-      		          }	 else if((marca !='')&&(ciudad !='')){
+                    }  else if((marca !='')&&(ciudad !='')){
 
                                    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
 
@@ -89,49 +89,49 @@
           tipo_check = document.formulario_tipo.tipo[i].value;
         }
       }
-		
-		/*if(document.getElementById("checkbox1").checked)		
-		{
-			estado_nuevo = document.getElementById("checkbox1").value;
-		}
-		if(document.getElementById("checkbox2").checked)		
-		{
-			estado_usado = document.getElementById("checkbox2").value;
-		}
-		if(document.getElementById("checkbox3").checked)		
-		{
-			estado_particular = document.getElementById("checkbox3").value;
-		}
-		if(document.getElementById("checkbox1").checked)
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_nuevo;
-		}
-		if(document.getElementById("checkbox2").checked)
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_usado;
-		}
-		if(document.getElementById("checkbox3").checked)
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_particular;
-		}
-		if((document.getElementById("checkbox1").checked)  && (document.getElementById("checkbox3").checked))
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_particular; 
-		}
-		if((document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_usado+" "+estado_particular; 
-		}
-		if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked))
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado; 
-		}
-		if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
-		{
-			location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
-		}
+    
+    /*if(document.getElementById("checkbox1").checked)    
+    {
+      estado_nuevo = document.getElementById("checkbox1").value;
+    }
+    if(document.getElementById("checkbox2").checked)    
+    {
+      estado_usado = document.getElementById("checkbox2").value;
+    }
+    if(document.getElementById("checkbox3").checked)    
+    {
+      estado_particular = document.getElementById("checkbox3").value;
+    }
+    if(document.getElementById("checkbox1").checked)
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_nuevo;
+    }
+    if(document.getElementById("checkbox2").checked)
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_usado;
+    }
+    if(document.getElementById("checkbox3").checked)
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_particular;
+    }
+    if((document.getElementById("checkbox1").checked)  && (document.getElementById("checkbox3").checked))
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_particular; 
+    }
+    if((document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_usado+" "+estado_particular; 
+    }
+    if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked))
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado; 
+    }
+    if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
+    {
+      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
+    }
     */
-    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria';
+      location.href='resultado-busqueda.php?source={"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":'+anno+',"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown;
    }
    </script>
   <!-- Tooltip -->
@@ -145,9 +145,9 @@
   </script>
   
   <script type="text/javascript">
-	function showhide(divid, state){
-	  document.getElementById(divid).style.display=state
-	}
+  function showhide(divid, state){
+    document.getElementById(divid).style.display=state
+  }
   </script>
   
 </head>
@@ -197,10 +197,10 @@
        <script type="text/javascript">
         $("#ocultar").click(function(){
           $("body").animate({"padding-top": "0"}, "middle");
-		  $("#publicidad_fondo").animate({"opacity": "0"}, "middle");
-		  $("#Logo_01").animate({"opacity": "0"}, "middle");
-		  $("#Logo_02").animate({"opacity": "1"}, "middle");
-		  $("#ocultar").animate({"opacity": "0"}, "middle");
+      $("#publicidad_fondo").animate({"opacity": "0"}, "middle");
+      $("#Logo_01").animate({"opacity": "0"}, "middle");
+      $("#Logo_02").animate({"opacity": "1"}, "middle");
+      $("#ocultar").animate({"opacity": "0"}, "middle");
         });
       </script>
 </div>
@@ -232,11 +232,11 @@
             </form>
       
           </div>
-        	
+          
           <div class="btn_Slide_busq_avanzada_home" id="busq-cat">Búsqueda por categoría</div>
         
         </div>
-			
+      
         <div class="content_Busq_home" id="Busq_categoria">
           <div class="content_Busq_auto">
       
@@ -246,20 +246,20 @@
             
               <div class="Block_busq_cat">
               
-				<div class="select-category">
-						<input type="radio" id="autos" name="tipo" value="Autos" checked>
-						<label for="autos"><img src="img/autos.png" alt="Autos" /></label>
-						<input type="radio" id="todo-terreno" name="tipo" value="Todo Terreno">
-						<label for="todo-terreno"><img src="img/todo-terreno.png" alt="Todo Terreno" /></label>
-						<input type="radio" id="camionetas" name="tipo" value="Camioneta">
-						<label for="camionetas"><img src="img/camionetas.png" alt="Camionetas" /></label>
-						<input type="radio" id="furgon" name="tipo" value="Furg&oacute;n">
-						<label for="furgon"><img src="img/furgones.png" alt="Furgones" /></label>
-						<input type="radio" id="camiones" name="tipo" value="Camiones">
-						<label for="camiones"><img src="img/camiones.png" alt="Camiones" /></label>
-						<input type="radio" id="motos" name="tipo" value="Motos">
-						<label for="motos" style="margin-right:0px;"><img src="img/motos.png" alt="Motos" /></label>
-				</div>
+        <div class="select-category">
+            <input type="radio" id="autos" name="tipo" value="Autos" checked>
+            <label for="autos"><img src="img/autos.png" alt="Autos" /></label>
+            <input type="radio" id="todo-terreno" name="tipo" value="Todo Terreno">
+            <label for="todo-terreno"><img src="img/todo-terreno.png" alt="Todo Terreno" /></label>
+            <input type="radio" id="camionetas" name="tipo" value="Camioneta">
+            <label for="camionetas"><img src="img/camionetas.png" alt="Camionetas" /></label>
+            <input type="radio" id="furgon" name="tipo" value="Furg&oacute;n">
+            <label for="furgon"><img src="img/furgones.png" alt="Furgones" /></label>
+            <input type="radio" id="camiones" name="tipo" value="Camiones">
+            <label for="camiones"><img src="img/camiones.png" alt="Camiones" /></label>
+            <input type="radio" id="motos" name="tipo" value="Motos">
+            <label for="motos" style="margin-right:0px;"><img src="img/motos.png" alt="Motos" /></label>
+        </div>
                 
                 <hr />
                 
@@ -280,7 +280,7 @@
                 </div>
               
               </form>
-		 
+     
                 <!--<p class="Busq_avanzada"><a href="#">B&uacute;squeda avanzada &raquo;</a></p>-->
               
               </div>
@@ -310,55 +310,55 @@
       
     </div>
 <?php
-	// Consulta de Destacados Home.
-	try 
-		{
-			$sql_destacado1  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 0';
-			$destacado1 = mysql_query($sql_destacado1);
-			$result_destacado1 = mysql_fetch_array($destacado1);
-			$url_origen= $result_destacado1[0];
-			$url_destino= $result_destacado1[1];
-			$titulo= $result_destacado1[2];
-			$sub_titulo= $result_destacado1[3];
-			$descripcion= $result_destacado1[4];
-		}
-		catch(PDOException $e) 
-		{
-			error_log($e->getMessage());
-			die('Error al seleccionar primer Destacado');
-		}
-		try 
-		{
-			$sql_destacado2  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 1';
-			$destacado2 = mysql_query($sql_destacado2);
-			$result_destacado2 = mysql_fetch_array($destacado2);
-			$url_origen2= $result_destacado2[0];
-			$url_destino2= $result_destacado2[1];
-			$titulo2= $result_destacado2[2];
-			$sub_titulo2= $result_destacado2[3];
-			$descripcion2= $result_destacado2[4];
-		}
-		catch(PDOException $e) 
-		{
-			error_log($e->getMessage());
-			die('Error al seleccionar segundo Destacado');
-		}
-		try
-		{
-			$sql_destacado3  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 2';
-			$destacado3 = mysql_query($sql_destacado3);
-			$result_destacado3 = mysql_fetch_array($destacado3);
-			$url_origen3= $result_destacado3[0];
-			$url_destino3= $result_destacado3[1];
-			$titulo3= $result_destacado3[2];
-			$sub_titulo3= $result_destacado3[3];
-			$descripcion3= $result_destacado3[4];
-		}
-		catch(PDOException $e) 
-		{
-			error_log($e->getMessage());
-			die('Error al seleccionar tercer Destacado');
-		}
+  // Consulta de Destacados Home.
+  try 
+    {
+      $sql_destacado1  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 0';
+      $destacado1 = mysql_query($sql_destacado1);
+      $result_destacado1 = mysql_fetch_array($destacado1);
+      $url_origen= $result_destacado1[0];
+      $url_destino= $result_destacado1[1];
+      $titulo= $result_destacado1[2];
+      $sub_titulo= $result_destacado1[3];
+      $descripcion= $result_destacado1[4];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar primer Destacado');
+    }
+    try 
+    {
+      $sql_destacado2  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 1';
+      $destacado2 = mysql_query($sql_destacado2);
+      $result_destacado2 = mysql_fetch_array($destacado2);
+      $url_origen2= $result_destacado2[0];
+      $url_destino2= $result_destacado2[1];
+      $titulo2= $result_destacado2[2];
+      $sub_titulo2= $result_destacado2[3];
+      $descripcion2= $result_destacado2[4];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar segundo Destacado');
+    }
+    try
+    {
+      $sql_destacado3  = 'select nombre_img, url_destino, titulo, sub_titulo, descripcion from automoviles.destacados_home where id_destacado = 2';
+      $destacado3 = mysql_query($sql_destacado3);
+      $result_destacado3 = mysql_fetch_array($destacado3);
+      $url_origen3= $result_destacado3[0];
+      $url_destino3= $result_destacado3[1];
+      $titulo3= $result_destacado3[2];
+      $sub_titulo3= $result_destacado3[3];
+      $descripcion3= $result_destacado3[4];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar tercer Destacado');
+    }
 ?>    
     <div id="noticias_home">
     
@@ -646,7 +646,7 @@ try
   
   </div>
 <?php 
-	mysql_close($conn);   
+  mysql_close($conn);   
 ?>
 </body>
 </html>

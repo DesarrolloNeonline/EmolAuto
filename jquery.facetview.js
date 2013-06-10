@@ -698,8 +698,18 @@ search box - the end user will not know they are happening.
 
 */
 //Variable filter
+var sortQuery = localStorage.getItem("sortQuery");
+if(sortQuery === null){
+    localStorage.setItem("sortQuery", null);
+}
 
-var sortQuery = null;
+if(getUrlVars()["busqueda"]){
+    localStorage.setItem("typeSearch", getUrlVars()["busqueda"]);
+    localStorage.setItem("typeGet", getUrlVars()["type"]);
+    localStorage.setItem("priceUpGet", getUrlVars()["priceUp"]);
+    localStorage.setItem("priceDownGet", getUrlVars()["priceDown"]);
+    localStorage.setItem("annoGet", getUrlVars()["anno"]);
+}
 
 // now the facetview function
 (function($){
@@ -942,8 +952,28 @@ var sortQuery = null;
         // clear a facet range
         var clearfacetrange = function(event) {
             event.preventDefault();
+            var rel = $(this).attr('rel');
+            var tipe_search = localStorage.getItem("typeSearch");
             $('#facetview_rangeresults_' + $(this).attr('rel'), obj).remove();
             $('#facetview_rangeplaceholder_' + $(this).attr('rel'), obj).remove();
+
+            if(tipe_search == 'inteligente'){
+                if(rel == 3){
+                    document.getElementById('rango_price_3').style.display ="block";
+                }
+                if(rel == 4){
+                    document.getElementById('rango_anno_4').style.display ="block";
+                }
+            }
+             else {
+
+                if(rel == 1){
+                    document.getElementById('rango_price_3').style.display ="block";
+                }
+                if(rel == 2){
+                    document.getElementById('rango_anno_4').style.display ="block";
+                }
+            }
             dosearch();
         };
         // build a facet range selector
@@ -952,23 +982,28 @@ var sortQuery = null;
             // should perhaps also remove any selections already made on that facet
             event.preventDefault();
             var rel = $(this).attr('rel');
-            var first = getUrlVars()["busqueda"];
+            var tipe_search = localStorage.getItem("typeSearch");
 
-            if(first == 'inteligente'){
+            //Nombre de Rangos y logica de Display Bottones
+            if(tipe_search == 'inteligente'){
                 if(rel == 3){
                     var  name = "Precio";
+                    document.getElementById('rango_price_3').style.display ="none";
                 }
                 if(rel == 4){
                     var  name = "A&ntilde;o";
+                    document.getElementById('rango_anno_4').style.display ="none";
                 }
-            }
-            if(first == 'categoria'){
-                if(rel == 1){
-                    var  name = "Precio";
-                }
-                if(rel == 3){
-                    var  name = "A&ntilde;o";
-                }
+            } else {
+           
+                    if(rel == 1){
+                        var  name = "Precio";
+                        document.getElementById('rango_price_3').style.display ="none";
+                    }
+                    if(rel == 2){
+                        var  name = "A&ntilde;o";
+                        document.getElementById('rango_anno_4').style.display ="none";
+                    }
             }
 
             var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix" style="border-top-width: 256px; margin-top: 200px;"> \
@@ -1012,9 +1047,9 @@ var sortQuery = null;
             if ( options.facets.length > 0 ) {
                 var filters = options.facets;
                 var thefilters = '';
-                var first = getUrlVars()["busqueda"];
+                var tipe_search = localStorage.getItem("typeSearch");
                 for ( var idx = 0; idx < filters.length; idx++ ) {
-                  if(first=='inteligente'){
+                  if(tipe_search=='inteligente'){
                   
               
                     var fast = '{{FILTER_NAME}}';
@@ -1046,11 +1081,13 @@ var sortQuery = null;
                                   
                                 }
 
-                
-                        //(options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
+                    //Botton Rango Facet
+                    /*
+                    (options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
                     if (false) {
                         _filterTmpl += '<a class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
                     }
+                    */
                     _filterTmpl +='</div> \
                         </td></tr> \
                         </table>';
@@ -1165,6 +1202,9 @@ var sortQuery = null;
                 $('.facetview_filtershow', obj).bind('click',showfiltervals);
                 $('.facetview_learnmore', obj).unbind('click',learnmore);
                 $('.facetview_learnmore', obj).bind('click',learnmore);
+                $('.sortDesc', obj).bind('click',sortDesc);
+                $('.sortAsd', obj).bind('click',sortAsd);
+
                 options.description ? $('#facetview_filters', obj).append('<div>' + options.description + '</div>') : "";
             };
         };
@@ -1178,6 +1218,12 @@ var sortQuery = null;
                 var href = $(this).attr("href");
             }
             var relclean = rel.replace(/\./gi,'_').replace(/\:/gi,'_');
+
+            // Do nothing if element already exists.
+            if( $('a.facetview_filterselected[href="'+href+'"][rel="'+rel+'"]').length ){
+                return null;
+            }
+
             var newobj = '<a class="facetview_filterselected facetview_clear btn btn-info';
             if ( $('.facetview_or[href="' + rel + '"]', obj).attr('rel') == 'OR' ) {
                 newobj += ' facetview_logic_or';
@@ -1195,8 +1241,7 @@ var sortQuery = null;
                 $('#facetview_selectedfilters', obj).append(pobj);
             };
 
-            $('.sortDesc', obj).bind('click',sortDesc);
-            $('.sortAsd', obj).bind('click',sortAsd);
+
 
             $('.facetview_filterselected', obj).unbind('click',clearfilter);
             $('.facetview_filterselected', obj).bind('click',clearfilter);
@@ -1224,11 +1269,13 @@ var sortQuery = null;
 
         var sortAsd = function(event) {
             sortQuery = "asd";   
+            localStorage.setItem("sortQuery", sortQuery);
             dosearch();
         };
 
         var sortDesc = function(event) {
-            sortQuery = "desc";   
+            sortQuery = "desc";  
+            localStorage.setItem("sortQuery", sortQuery); 
             dosearch();
         };
 
@@ -1303,11 +1350,11 @@ var sortQuery = null;
                     if((img[0] =="http://imgclasificados.emol.com/Publicador/imgNoDisponible.gif") || 
                         (img[0] =="http://imgclasificados.emol.com/13026258_0/860/F222271962247614949249271444220810815860.jpg") ||
                        (img[0].indexOf("imagen_no_disponible.gif") !='-1') ||
-					   (img[0].indexOf("Empresas") !='-1'))
+                       (img[0].indexOf("Empresas") !='-1'))
                     {
                         
                     }
-					else{
+                    else{
                             result += ' <div class="img_Auto_list"><a href="'+urlFichaAuto+'"><img src="' + img[0] + '"  alt="Auto" /></a></div>';
                           }
                 }
@@ -1713,7 +1760,6 @@ var sortQuery = null;
             event.preventDefault();
             var record = options.data['records'][$(this).attr('href')];
             alert(JSON.stringify(record,"","    "));
-            
         }
 
         // put the results on the page
@@ -1815,8 +1861,8 @@ var sortQuery = null;
                 if ( $(this).children().find('.facetview_filtervalue').length > 1 ) {
                     $(this).show();
                 } else {
-                    $(this).hide();
-                    $(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal' }).children('i').hide();
+                    //$(this).hide();
+                    //$(this).find('.facetview_filtershow').css({'color': '#333', 'font-weight': 'normal' }).children('i').hide();
                 }
             });
 
@@ -1840,8 +1886,8 @@ var sortQuery = null;
                         <li class="active"><a>{{from}} &ndash; {{to}} de {{total}}</a></li> \
                         <li class="next"><a class="facetview_increment" href="{{to}}">Siguiente &raquo;</a></li> \
                     </ul> \
-				</div> \
-				';
+                </div> \
+                ';
             }
             ;
             $('.facetview_metadata', obj).first().html("No hay resultados para la b&uacute;squeda.");
@@ -1912,7 +1958,7 @@ var sortQuery = null;
             return rqs;
         };
 
-        // build the search query URL based on current params
+ // build the search query URL based on current params
         var elasticsearchquery = function() {
             var qs = {};
             var bool = false;
@@ -2026,7 +2072,7 @@ var sortQuery = null;
             }
             options.sharesave_link ? $('.facetview_sharesaveurl', obj).val('http://' + window.location.host + window.location.pathname + '?source=' + options.querystring) : "";
 
-
+            var sortQuery = localStorage.getItem("sortQuery");
             if(sortQuery==="desc"){
                 var query = '"sort":[{"aviso.precio":{"order":"desc"}},"_score"],';
                 var position = 1;
@@ -2038,6 +2084,7 @@ var sortQuery = null;
                     qy = qy.substr(0, position) + query + " " + qy.substr(position);
                 }
 
+            //qy='{"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Camiones"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":2012,"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}';
             return qy;
         };
 
@@ -2054,11 +2101,22 @@ var sortQuery = null;
             var qrystr = elasticsearchquery();
             // augment the URL bar if possible
             if ( options.pushstate ) {
-                var currurl = '?source=' + options.querystring;
-                //window.history.pushState("","search",currurl);
+                var currurl = '?source=' + qrystr;
+                window.history.pushState("","search",currurl);
             };
 
 
+            var typeSearch = localStorage.getItem("typeSearch");
+
+
+            if(typeSearch == "categoria"){
+                var type = localStorage.getItem("typeGet");
+                var priceUp = localStorage.getItem("priceUpGet");
+                var priceDown = localStorage.getItem("priceDownGet");
+                var anno = localStorage.getItem("annoGet");
+                query = '"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+type+'"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":'+anno+',"to":2013},"aviso.precio":{"from":'+priceDown+',"to":'+priceUp+'}}';
+                qrystr = qrystr.replace('"match_all":{}',query);
+            }
             $.ajax({
                 type: "get",
                 url: options.search_url,
@@ -2068,6 +2126,7 @@ var sortQuery = null;
                 success: showresults
             });
         };
+
 
         // show search help
         var learnmore = function(event) {
@@ -2239,16 +2298,28 @@ var sortQuery = null;
             value="" placeholder="Busque su auto" /> \
             <p class="Filtrar_por">\
         <strong>Ordenar por precio:</strong> &nbsp;\
-          <a class="sortAsd"  href="#">Ascendente</a> &nbsp;|&nbsp;\
-          <a class="sortDesc" href="#">Descendente</a>\
+          <a  class="sortAsd">Ascendente</a> &nbsp;|&nbsp;\
+          <a class="sortDesc">Descendente</a>\
         </p>';
         thefacetview +=  '<div id="Content_option_view"><span>Ver como:</span><div id ="styleTwo" style="opacity:0.3;filter:alpha(opacity=30)" class="Listado" onclick="setActiveStyleSheet(\'normal2\'); mostrarTwo(); return false;"></div><div id ="styleOne" style="opacity:1.0;filter:alpha(opacity=100)" class="Cuadricula" onclick="setActiveStyleSheet(\'normal1\'); mostrarOne(); return false;"></div></div>';
         thefacetview += '</div>';
         thefacetview += '<div class="content_btn_enviar">\
-		  <span style="float:left; width:77px; font-size:11px; color:#000; text-align:left; padding-top:6px;">Avisos seleccionados</span>\
-		  <div class="btn_Save_select"><a onclick="setVisibility();" title="enviar selecci&oacute;n de autos">enviar</a></div>\
-		</div>\
-		';
+          <span style="float:left; width:77px; font-size:11px; color:#000; text-align:left; padding-top:6px;">Avisos seleccionados</span>\
+          <div class="btn_Save_select"><a onclick="setVisibility();" title="enviar selecci&oacute;n de autos">enviar</a></div>\
+        </div>\
+        ';
+
+
+        //Botones Rango
+        var tipe_search = localStorage.getItem("typeSearch");
+        if(tipe_search=='inteligente'){
+          thefacetview += '<a id="rango_price_3" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="3" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
+                          <a id="rango_anno_4" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="4" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
+        } else {
+                  thefacetview += '<a id="rango_price_3" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="1" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
+                                   <a id="rango_anno_4" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="2" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
+        }
+
         thefacetview += thehelp;
         thefacetview += '<div class="btn-toolbar" id="facetview_selectedfilters"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
