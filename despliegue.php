@@ -164,7 +164,8 @@
 									<li id="fechaPubicacion">
 										<span>Fecha de Publicaci&oacute;n</span>
 						 				<?php
-                        				 	echo substr($fechaPublicacion,0,11);
+                        				 	$fecha = substr($fechaPublicacion,0,11);
+                        				 	echo substr($fecha,8,2)."/".substr($fecha,5,2)."/".substr($fecha,0,4);
                  						?>
              						</li>
 					                <li id="anno">
@@ -210,7 +211,9 @@
 							            echo $tranccion; ?>
 							        </li>
 							                <?php } ?>
-							                <?php if(!($numeropuertas=='')&&!($numeropuertas==$MESSAGE_INVALID)){  ?>
+							                
+
+							        <?php if(!($numeropuertas=='')&&!($numeropuertas==$MESSAGE_INVALID)&&!(substr($numeropuertas ,-1)==='S')&&!(substr($numeropuertas ,-1)==='s')){  ?>
 							        <li>
 							          <span>Puertas</span>
 							          <?php 
@@ -218,7 +221,7 @@
 							            echo $numeropuertas;
 							          ?>
 							        </li>
-							                <?php } ?>
+							        <?php } ?>
 							                <?php if(!($transmision=='')&&!($transmision==$MESSAGE_INVALID)){  ?>
 							        <li id="transmicion">
 							          <span>Transmisi&oacute;n</span>
@@ -246,7 +249,7 @@
 						          ?>
 						        </li>
 						                <?php }?>
-						                <?php if(!(substr($oportunidadcomercial ,20)=='')&&!(substr($oportunidadcomercial ,20)==$MESSAGE_INVALID)){  ?>
+						        <?php if(!(substr($oportunidadcomercial ,20)=='')&&!(substr($oportunidadcomercial ,20)==$MESSAGE_INVALID)){  ?>
 						        <li>
 						          <span>Oportunidad comercial</span>
 						          <?php
@@ -619,7 +622,8 @@
 							                <li id="fechaPubicacion">
 												<span>Fecha de Publicaci&oacute;n</span>
 							                    <?php
-							                        echo substr($fechaPublicacion ,0,11);
+		                        				 	$fecha = substr($fechaPublicacion,0,11);
+		                        				 	echo substr($fecha,8,2)."/".substr($fecha,5,2)."/".substr($fecha,0,4);
 							                    ?>
 							                </li>
 											<?php if(!($anno=='') &&!($anno==$MESSAGE_INVALID)){ ?>
@@ -629,8 +633,8 @@
 											<?php } ?>
 
 											<?php if(!($kms_actuales=='') &&!($kms_actuales==$MESSAGE_INVALID)){ 
-													$kms_actuales = number_format($kms_actuales, 0, ',', '.');?>
-                          							$kms_actuales = str_replace('$','',$kms_actuales);
+													$kms_actuales = number_format($kms_actuales, 0, ',', '.');
+                          							$kms_actuales = str_replace('$','',$kms_actuales);?>
 													<li id="kilometros">
 														<span>Kms actuales</span><?php echo $kms_actuales;?>
 													</li>
@@ -846,46 +850,43 @@
 					                <li id="fechaPubicacion">
 										<span>Fecha de Publicaci&oacute;n</span>
 					                    <?php
-					                        echo substr($fechaPublicacion,0,11);
+                        				 	$fecha = substr($fechaPublicacion,0,11);
+                        				 	echo substr($fecha,8,2)."/".substr($fecha,5,2)."/".substr($fecha,0,4);
 					                    ?>
 					                </li>
-									<?php if($anno){ ?>
+									<?php if(!($anno=='') &&! ($anno==$MESSAGE_INVALID)){  ?>
 											<li id="anno">
 											<span>A&ntilde;o</span><?php echo $anno;?>
 											</li>
 									<?php } ?>
-
-									<?php if($kms_actuales){ ?>
+									<?php if(!($kms_actuales=='') &&! ($kms_actuales==$MESSAGE_INVALID)){  ?>
 											<li id="kilometros">
 											<span>Kms actuales</span><?php echo $kms_actuales;?>
 											</li>
 									<?php } ?>
-									
-					                <?php if($color){  ?>
+									<?php if(!($color=='') &&! ($color==$MESSAGE_INVALID)){  ?>
 											<li id="color">
 											<span>Color</span><?php echo $color;?>
 											</li>
 					                <?php } ?>
-									
-									<?php if($direccion){  ?>
+									<?php if(!($direccion=='') &&! ($direccion==$MESSAGE_INVALID)){  ?>
 											<li id="direccion">
 											<span>Direcci&oacute;n</span><?php echo $direccion;?>
 											</li>
 									<?php } ?>
-
-					                <?php if($traccion){  ?>
+									<?php if(!($traccion=='') &&! ($traccion==$MESSAGE_INVALID)){  ?>
 											<li id="traccion">
 											<span>Tracci&oacute;n</span><?php echo $traccion;?>
 											</li>
 									<?php } ?>
 
-					                <?php if($puertas){  ?>
+									<?php if(!($puertas=='') &&! ($puertas==$MESSAGE_INVALID)){  ?>
 											<li id="puertas">
 											<span>Puertas</span><?php echo $puertas;?>
 											</li>
 									<?php } ?>
 
-									<?php if($transmision){  ?>
+									<?php if(!($transmision=='') &&! ($transmision==$MESSAGE_INVALID)){  ?>
 											<li id="transmision">
 											<span>Transmisi&oacute;n</span><?php echo $transmision;?>
 											</li>
@@ -893,37 +894,37 @@
 								</ul>
 
 								  <ul class="list_Detalles_despliegue fr">
-					                <?php if($corridas_de_asientos){  ?>
+									<?php if(!($corridas_de_asientos=='') &&! ($corridas_de_asientos==$MESSAGE_INVALID)){  ?>
 											<li id="corridasasiento">
 											<span>Corridas de asiento</span><?php echo $corridas_de_asientos;?>
 											</li>
 									<?php } ?>
 
-									<?php if($equipo_de_sonido){  ?>
+									<?php if(!($equipo_de_sonido=='') &&! ($equipo_de_sonido==$MESSAGE_INVALID)){  ?>
 											<li id="equiposonido">
 											<span>Equipo de sonido</span><?php echo $equipo_de_sonido;?>
 											</li>
 									<?php } ?>
 
-									<?php if($oportunidad_comercial){  ?>
+									<?php if(!($oportunidad_comercial=='') &&!($oportunidad_comercial==$MESSAGE_INVALID)){  ?>
 											<li id="oportunidadcomercial">
 											<span>Oportunidad comercial</span><?php echo $oportunidad_comercial;?>
 											</li>
 									<?php } ?>
 
-									<?php if($capacidad_estanque){  ?>
+									<?php if(!($capacidad_estanque=='') &&! ($capacidad_estanque==$MESSAGE_INVALID)){  ?>
 											<li id="capacidadestanque">
 											<span>Capacidad estanque</span><?php echo $capacidad_estanque;?>
 											</li>
 									<?php } ?>
 
-									<?php if($potencia_hp){  ?>
+									<?php if(!($potencia_hp=='') &&! ($potencia_hp==$MESSAGE_INVALID)){  ?>
 											<li id="potencia">
 											<span>Potencia (HP)</span><?php echo $potencia_hp;?>
 											</li>
 									<?php } ?>
 
-									<?php if($motor_cc){  ?>
+									<?php if(!($motor_cc=='') &&! ($motor_cc==$MESSAGE_INVALID)){  ?>
 											<li id="motor">
 											<span>Motor (cc)</span><?php echo $motor_cc;?>
 											</li>
@@ -945,8 +946,9 @@
 						                <p class="info_concesionaria">
 						                  <span>Tel&eacute;fono</span> <?php echo $telefono;?><br />
 						                  <span>Direcci&oacute;n</span> <?php echo $calle.' '.$numero;?><br />
-						                  <span>Comuna</span> <?php echo $comuna;?><br />
-						                  <span>Ciudad</span> <?php echo $ciudad;?>
+						                  <span>Comuna</span> <?php echo ucwords(strtolower($comuna));?><br />
+						                  <span>Ciudad</span> <?php echo ucwords(strtolower($ciudad));?><br />
+						                  <span>Contacto</span> <?php echo ucwords(strtolower($encargado));?>
 						                </p>
 						              </td>
 						            </tr>

@@ -1006,17 +1006,17 @@ if(getUrlVars()["busqueda"]){
                     }
             }
 
-            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix" style="border-top-width: 256px; margin-top: 200px;"> \
+            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
                 <div class="clearfix"> \
-                <h3 id="facetview_rangechoices_' + rel + '" style="margin-left:10px; margin-right:10px; float:left; clear:none;" class="clearfix"> \
+                <h3 id="facetview_rangechoices_' + rel + '" class="clearfix"> \
                 <span class="facetview_lowrangeval_' + rel + '">...</span> \
-                <small>to</small> \
+                <small>a</small> \
                 <span class="facetview_highrangeval_' + rel + '">...</span></h3> \
                 <div class="btn-group">';
             rangeselect += '<a class="facetview_facetrange_remove btn" rel="' + rel + '" alt="remove" title="eliminar" \
                  href="#"><i class="icon-remove"></i></a> \
                 </div></div> \
-                ' + name + ' <div class="clearfix" style="margin:20px;" id="facetview_slider_' + rel + '"></div> \
+                ' + name + ' <div class="clearfix" id="facetview_slider_' + rel + '"></div> \
                 </div>';
             $('#facetview_selectedfilters', obj).after(rangeselect);
             $('.facetview_facetrange_remove', obj).unbind('click',clearfacetrange);
@@ -1026,7 +1026,26 @@ if(getUrlVars()["busqueda"]){
             valsobj.find('.facetview_filterchoice', obj).each(function() {
                 values.push( $(this).attr('href') );
             });
-            values = values.sort();
+
+            var tipe_search = localStorage.getItem("typeSearch");
+            var priceUp = localStorage.getItem("priceUpGet");
+            var priceDown = localStorage.getItem("priceDownGet");
+
+            if(((rel == 1)&&(tipe_search === "categoria"))||((rel == 3)&&(tipe_search === "inteligente"))){
+
+                var priceAux = parseInt(priceDown);
+                values[0]=parseInt(priceDown);
+                for(i=1;i<20;i++){
+                    priceAux +=  (parseInt(priceUp)-parseInt(priceDown))/20;
+                    values[i]=parseInt(priceAux);
+                }
+                values[21]=parseInt(priceUp);
+
+            }else{
+                values = values.sort();
+            }
+
+
             $( "#facetview_slider_" + rel, obj ).slider({
                 range: true,
                 min: 0,
@@ -1151,7 +1170,7 @@ if(getUrlVars()["busqueda"]){
                             
                                 //(options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
                                 if (false) {
-                                    _filterTmpl += '<a class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
+                                    _filterTmpl += '<a class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
                                 }
                                 _filterTmpl += '</div> \
                                     </td></tr> \
@@ -2105,16 +2124,14 @@ if(getUrlVars()["busqueda"]){
                 window.history.pushState("","search",currurl);
             };
 
-
             var typeSearch = localStorage.getItem("typeSearch");
-
 
             if(typeSearch == "categoria"){
                 var type = localStorage.getItem("typeGet");
                 var priceUp = localStorage.getItem("priceUpGet");
                 var priceDown = localStorage.getItem("priceDownGet");
                 var anno = localStorage.getItem("annoGet");
-                query = '"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+type+'"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":'+anno+',"to":2013},"aviso.precio":{"from":'+priceDown+',"to":'+priceUp+'}}';
+                query = '"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+type+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}}}},"filter":{"range":{"aviso.precio":{"from":'+priceDown+',"to":'+priceUp+'}}';
                 qrystr = qrystr.replace('"match_all":{}',query);
             }
             $.ajax({
@@ -2313,11 +2330,11 @@ if(getUrlVars()["busqueda"]){
         //Botones Rango
         var tipe_search = localStorage.getItem("typeSearch");
         if(tipe_search=='inteligente'){
-          thefacetview += '<a id="rango_price_3" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="3" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
-                          <a id="rango_anno_4" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="4" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
+          thefacetview += '<a id="rango_price_3" class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="3" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
+                          <a id="rango_anno_4" class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="4" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
         } else {
-                  thefacetview += '<a id="rango_price_3" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="1" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
-                                   <a id="rango_anno_4" class="btn btn-small facetview_facetrange" title="make a range selection on this filter" rel="2" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
+                  thefacetview += '<a id="rango_price_3" class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="1" href="aviso.precio" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de precio</a>\
+                                   <a id="rango_anno_4" class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="2" href="aviso.Anno" style="float: right;padding: 12px 9px;margin-right: 10px;display:block;">rango de a&ntilde;o</a>';
         }
 
         thefacetview += thehelp;

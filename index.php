@@ -37,6 +37,18 @@
     });
   </script>
   <script>
+    function strtolower (str) {
+      return (str + '').toLowerCase();
+    }
+  </script>
+  <script>
+    function ucwords (str) {
+      return (str + '').replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function ($1) {
+      return $1.toUpperCase();
+      });
+    }
+  </script>
+  <script>
     function busqueda_nomal(marca,ciudad)
     {
       if((marca == '')&&(ciudad =='')){
@@ -46,12 +58,26 @@
         else
             if((marca === '')&&(ciudad!='')){
 
+                ciudad = strtolower(ciudad);
+                ciudad = ucwords(ciudad);
+                
+
               location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
             
             } else if((marca != '')&&(ciudad=='')) {
+
+                     marca = strtolower(marca);
+                     marca = ucwords(marca);
+
                      
                      location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
                     }  else if((marca !='')&&(ciudad !='')){
+
+                                  ciudad = strtolower(ciudad);
+                                  ciudad = ucwords(ciudad);
+
+                                  marca = strtolower(marca);
+                                  marca = ucwords(marca);
 
                                    location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
 
