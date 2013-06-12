@@ -53,8 +53,8 @@
 	<script type="text/javascript">
             jQuery(document).ready(function($) {
 
-          var first = getUrlVars()["busqueda"];
-            if(first=='inteligente')
+          var typeSearch = localStorage.getItem("typeSearch");
+            if(typeSearch=='inteligente')
             {
                 $('.facet-view-simple').facetview({
                       search_url: 'http://ailab01.mersap.com/autos/aviso/_search',

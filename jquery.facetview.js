@@ -474,6 +474,60 @@ if (!Array.prototype.indexOf) {
     }
 }
 
+function str_replace (search, replace, subject, count) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Gabriel Paderni
+  // +   improved by: Philip Peterson
+  // +   improved by: Simon Willison (http://simonwillison.net)
+  // +    revised by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
+  // +   bugfixed by: Anton Ongson
+  // +      input by: Onno Marsman
+  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +    tweaked by: Onno Marsman
+  // +      input by: Brett Zamir (http://brett-zamir.me)
+  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   input by: Oleg Eremeev
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // +   bugfixed by: Oleg Eremeev
+  // %          note 1: The count parameter must be passed as a string in order
+  // %          note 1:  to find a global variable in which the result will be given
+  // *     example 1: str_replace(' ', '.', 'Kevin van Zonneveld');
+  // *     returns 1: 'Kevin.van.Zonneveld'
+  // *     example 2: str_replace(['{name}', 'l'], ['hello', 'm'], '{name}, lars');
+  // *     returns 2: 'hemmo, mars'
+  var i = 0,
+    j = 0,
+    temp = '',
+    repl = '',
+    sl = 0,
+    fl = 0,
+    f = [].concat(search),
+    r = [].concat(replace),
+    s = subject,
+    ra = Object.prototype.toString.call(r) === '[object Array]',
+    sa = Object.prototype.toString.call(s) === '[object Array]';
+  s = [].concat(s);
+  if (count) {
+    this.window[count] = 0;
+  }
+
+  for (i = 0, sl = s.length; i < sl; i++) {
+    if (s[i] === '') {
+      continue;
+    }
+    for (j = 0, fl = f.length; j < fl; j++) {
+      temp = s[i] + '';
+      repl = ra ? (r[j] !== undefined ? r[j] : '') : r[0];
+      s[i] = (temp).split(f[j]).join(repl);
+      if (count && s[i] !== temp) {
+        this.window[count] += (temp.length - s[i].length) / f[j].length;
+      }
+    }
+  }
+  return sa ? s : s[0];
+}
+
 /* EXPLAINING THE FACETVIEW OPTIONS
 
 Facetview options can be set on instantiation. The list below details which options are available.
@@ -937,6 +991,8 @@ if(getUrlVars()["busqueda"]){
         var dofacetrange = function(rel) {
             $('#facetview_rangeresults_' + rel, obj).remove();
             var range = $('#facetview_rangechoices_' + rel, obj).html();
+            range = str_replace('$', '', range);
+            range = str_replace('.', '', range);
             var newobj = '<div style="display:none;" class="btn-group" id="facetview_rangeresults_' + rel + '"> \
                 <a class="facetview_filterselected facetview_facetrange facetview_clear \
                 btn btn-info" rel="' + rel + 
@@ -1009,14 +1065,14 @@ if(getUrlVars()["busqueda"]){
             var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
                 <div class="clearfix"> \
                 <h3 id="facetview_rangechoices_' + rel + '" class="clearfix"> \
-                <span class="facetview_lowrangeval_' + rel + '">...</span> \
+                ' + name + ': <span class="facetview_lowrangeval_' + rel + '">...</span> \
                 <small>a</small> \
                 <span class="facetview_highrangeval_' + rel + '">...</span></h3> \
                 <div class="btn-group">';
             rangeselect += '<a class="facetview_facetrange_remove btn" rel="' + rel + '" alt="remove" title="eliminar" \
                  href="#"><i class="icon-remove"></i></a> \
                 </div></div> \
-                ' + name + ' <div class="clearfix" id="facetview_slider_' + rel + '"></div> \
+                <div class="clearfix" id="facetview_slider_' + rel + '"></div> \
                 </div>';
             $('#facetview_selectedfilters', obj).after(rangeselect);
             $('.facetview_facetrange_remove', obj).unbind('click',clearfacetrange);
@@ -1040,13 +1096,26 @@ if(getUrlVars()["busqueda"]){
                     values[i]=parseInt(priceAux);
                 }
                 values[21]=parseInt(priceUp);
+                $( "#facetview_slider_" + rel, obj ).slider({
+
+                range: true,
+                min: 0,
+                max: values.length-1,
+                values: [0,values.length-1],
+                slide: function( event, ui ) {
+                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[0] ]) );
+                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[1] ]) );
+                    dofacetrange( rel );
+                }
+                });
+                $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[0]) );
+                $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ values.length-1]) );
 
             }else{
                 values = values.sort();
-            }
+            
+                 $( "#facetview_slider_" + rel, obj ).slider({
 
-
-            $( "#facetview_slider_" + rel, obj ).slider({
                 range: true,
                 min: 0,
                 max: values.length-1,
@@ -1059,6 +1128,8 @@ if(getUrlVars()["busqueda"]){
             });
             $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
             $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
+                }
+
         };
 
         // pass a list of filters to be displayed
@@ -1794,10 +1865,10 @@ if(getUrlVars()["busqueda"]){
                 var facetclean = options.facets[each]['field'].replace(/\./gi,'_').replace(/\:/gi,'_');
                 $('#facetview_' + facetclean, obj).children().find('.facetview_filtervalue').remove();
                 var records = data["facets"][ facet ];
-                 var first = getUrlVars()["busqueda"];
+                var typeSearch = localStorage.getItem("typeSearch");
                 for ( var item in records ) {
 
-                    if(first=='inteligente')
+                    if(typeSearch=='inteligente')
                     {
                        if(facet == "aviso.precio")
                        {
@@ -2119,10 +2190,30 @@ if(getUrlVars()["busqueda"]){
             // make the search query
             var qrystr = elasticsearchquery();
             // augment the URL bar if possible
+            var is_ie = navigator.userAgent.toLowerCase().indexOf('msie ') > -1;
+
+            if (is_ie ){
+                var posicion = navigator.userAgent.toLowerCase().lastIndexOf('msie ');
+                var ver_ie = navigator.userAgent.toLowerCase().substring(posicion+5, posicion+8);
+                //Comprobar version
+                ver_chrome = parseFloat(ver_ie);
+            
+                if((ver_ie=='9.') || (ver_ie=='10.') || (ver_ie=='11.') || (ver_ie=='12.')){
+                    if ( options.pushstate ) {
+                        var currurl = '?source=' + qrystr;
+                        window.history.pushState("","search",currurl);
+                    }
+                } 
+            }
+
+            if (!is_ie ){
             if ( options.pushstate ) {
-                var currurl = '?source=' + qrystr;
-                window.history.pushState("","search",currurl);
+                    var currurl = '?source=' + qrystr;
+                    window.history.pushState("","search",currurl);
             };
+            }
+           
+            
 
             var typeSearch = localStorage.getItem("typeSearch");
 

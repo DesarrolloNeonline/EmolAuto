@@ -821,6 +821,7 @@ ul.List_mas_usados li{
 ul.List_mas_usados li.title{
 	font-size:12px;
 	text-transform:uppercase;
+	color:#5283d9;
 	}
 	
 ul.List_concesionarias{
@@ -1922,6 +1923,25 @@ ul.List_result li strong{
 	width: 292px;
 	margin:20px 8px;
 	float: left;
+	}
+	
+.facetview_rangecontainer h3{
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	float:left;
+	}
+	
+.btn_close_filter{
+	float:right;
+	background:url(../img/chosen-sprite.png) -43px -11px no-repeat;
+	width:9px;
+	height:9px;
+	margin-top:8px;
+	}
+	
+.btn-group{
+	float:right;
 	}
 	
 

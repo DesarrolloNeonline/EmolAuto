@@ -53,7 +53,7 @@
     {
       if((marca == '')&&(ciudad =='')){
 
-          location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
+          location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
       }
         else
             if((marca === '')&&(ciudad!='')){
@@ -62,7 +62,7 @@
                 ciudad = ucwords(ciudad);
                 
 
-              location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente';
+              location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
             
             } else if((marca != '')&&(ciudad=='')) {
 
@@ -70,7 +70,7 @@
                      marca = ucwords(marca);
 
                      
-                     location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
+                     location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
                     }  else if((marca !='')&&(ciudad !='')){
 
                                   ciudad = strtolower(ciudad);
@@ -79,7 +79,7 @@
                                   marca = strtolower(marca);
                                   marca = ucwords(marca);
 
-                                   location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente';
+                                   location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
 
                              }
    }
@@ -157,7 +157,7 @@
       location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
     }
     */
-      location.href='resultado-busqueda.php?source={"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":'+anno+',"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown;
+      location.href='resultado-busqueda.php?source={"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":'+anno+',"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown+'&typeSearch=categoria';
    }
    </script>
   <!-- Tooltip -->
