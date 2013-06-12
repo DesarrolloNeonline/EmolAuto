@@ -1062,7 +1062,7 @@ if(getUrlVars()["busqueda"]){
                     }
             }
 
-            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
+            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix" > \
                 <div class="clearfix"> \
                 <h3 id="facetview_rangechoices_' + rel + '" class="clearfix"> \
                 ' + name + ': <span class="facetview_lowrangeval_' + rel + '">...</span> \
@@ -1493,6 +1493,8 @@ if(getUrlVars()["busqueda"]){
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
 
+                                line_marca = line;
+
                                 if (line) {
                                     lines += '<strong>'+line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') + "&nbsp";
                                 }
@@ -1532,6 +1534,8 @@ if(getUrlVars()["busqueda"]){
                                     display[lineitem][object]['post'] 
                                         ? line += display[lineitem][object]['post'] : line += '</span> ';
                                 }
+
+                                line_modelo = line;
 
                                 var  Modelo = line;  
                                 if(Modelo == "Otro</span> "){
@@ -1585,6 +1589,8 @@ if(getUrlVars()["busqueda"]){
                                 
                                 var n =  accounting.formatMoney(line);
 
+                                line_precio = line;
+
                                 if (line) {
                                     lines += "<span class='precio'>"+n.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
                                 }
@@ -1628,7 +1634,13 @@ if(getUrlVars()["busqueda"]){
                                         ? line += display[lineitem][object]['post'] : line += '';
                                 }
                                 if (line) {
-                                    lines +="<span class='anno'>A&ntilde;o "+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"&nbsp; | &nbsp;";
+                                    lines +="<span class='anno'>A&ntilde;o "+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"&nbsp;";
+                                }
+
+                                line_anno = line;
+
+                                if(line_anno =='Otro'){
+                                    line = '';
                                 }
                             }
                                 
@@ -1676,8 +1688,15 @@ if(getUrlVars()["busqueda"]){
                                     var sino = true;
                                 }
 
+                                line_kilometraje = line;
+
                                 if( line && sino ) {
-                                    lines +=Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms</span>";
+                                    if(line_anno){
+                                        lines +=' | &nbsp;'+Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms</span>";
+                                    } else{
+                                        lines +=Kilometraje.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('$', '')+" Kms</span>";
+                                    }
+
                                 } else {
                                         lines +="</span>";
                                 }
@@ -1726,9 +1745,15 @@ if(getUrlVars()["busqueda"]){
                                     var sino = true;
                                 }
 
+                                line_transmision = line;
+
+                                if(line_transmision =='Otro'){
+                                    line_transmision =''
+                                }
+
                                 if ( line && sino ){
 
-                                    lines +="<span class='anno'>T.&nbsp;"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+"&nbsp; | &nbsp;";
+                                    lines +="<span class='anno'>T.&nbsp;"+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '').replace('Manual', 'Mec&aacute;nica')+"&nbsp;";
                                 }
                                 else {
                                         lines +="<span class='anno'>";
@@ -1777,9 +1802,16 @@ if(getUrlVars()["busqueda"]){
                                     var sino = true;
                                 }
 
-                                if ( line && sino ){
+                                line_combustible = line;
 
-                                    lines +=line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                if ( line && sino ){
+                                    if(line_transmision){
+                                        lines +=' | &nbsp;'+line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                    }
+                                    else
+                                        {
+                                            lines +=line.replace(/^\s/, '').replace(/\s$/, '').replace(/\,$/, '')+"</span>";
+                                        }
                                 }
                                  else {
                                         lines +="</span>";
