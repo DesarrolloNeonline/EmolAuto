@@ -1591,7 +1591,7 @@ h1.nombre_concesionario{
 	}
 	
 	.btn_concesionario{
-		width:203px;
+		width:206px;
 		text-align:center;
 		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 		font-size: 14px;
@@ -1883,7 +1883,17 @@ ul.List_result li strong{
 	
 .content_btn_enviar{
 	float:right;
+	margin-left:20px
 	}
+	
+	.content_btn_enviar span{
+		float: left;
+		width: 77px;
+		font-size: 11px;
+		color: #000;
+		text-align: left;
+		padding-top: 6px;
+		}
 	
 #Content_option_view{
 	float:right;
@@ -1921,8 +1931,12 @@ ul.List_result li strong{
 	
 .facetview_rangecontainer{
 	width: 292px;
-	margin:20px 8px;
+	margin:10px 12px 20px 9px;
 	float: left;
+	}
+	
+#facetview_rangeplaceholder_3{
+	float:right;
 	}
 	
 .facetview_rangecontainer h3{
@@ -2567,6 +2581,25 @@ ul.List_result li strong{
 		padding:0 12px !important;
 		}
 		
+	.facetview_rangecontainer{
+		width: 259px;
+		}
+		
+	.content_btn_enviar{
+		width:100%;
+		margin:0 0 20px;
+		}
+		
+		.content_btn_enviar span{
+			width: 120px;
+			padding-top: 14px;
+			}
+			
+	.facetview_facetrange{
+		float:left !important;
+		margin:0 10px 20px 0 !important;
+		}
+		
 }
 
 @media only screen and (min-width: 341px) and (max-width: 399px) {
@@ -3118,8 +3151,21 @@ ul.List_result li strong{
 		
 	.row-fluid>.span3 .btn_Azul a{
 		width:267px;
-		}		
-
+		}
+		
+	.facetview_rangecontainer{
+		width: 299px;
+		}
+		
+	.content_btn_enviar{
+		width:100%;
+		margin:0 0 20px;
+		}
+		
+		.content_btn_enviar span{
+			width: 120px;
+			padding-top: 14px;
+			}
 		
 }
 
@@ -3616,6 +3662,20 @@ ul.List_result li strong{
 	.row-fluid>.span3 .btn_Azul a{
 		width:328px;
 		}
+		
+	.facetview_rangecontainer{
+		width: 359px;
+		}
+		
+	.content_btn_enviar{
+		width:100%;
+		margin:0 0 20px;
+		}
+		
+		.content_btn_enviar span{
+			width: 120px;
+			padding-top: 14px;
+			}
 		
 }
 
@@ -4127,6 +4187,10 @@ ul.List_result li strong{
 	.row-fluid>.span3 .btn_Azul a{
 		width:408px;
 		}
+		
+	.facetview_rangecontainer{
+		width: 439px;
+		}
 
 }
 
@@ -4547,6 +4611,10 @@ ul.List_result li strong{
 	.row-fluid>.span3 .btn_Azul a{
 		width:468px;
 		}
+		
+	.facetview_rangecontainer{
+		width: 232px;
+		}
 
 }
 
@@ -4957,6 +5025,14 @@ ul.List_result li strong{
 	ul.List_Autos_selected li{
 		width:246px !important;
 		}
+		
+	.facetview_rangecontainer{
+		width: 369px;
+		}
+		
+	.facetview_facetrange{
+		margin:0 10px 20px 0 !important;
+		}
 	
 }
 
@@ -5274,6 +5350,10 @@ ul.List_result li strong{
 		width:443px !important;
 		margin:0 0 10px !important;
 		}
+		
+	.facetview_rangecontainer{
+		width: 214px;
+		}
 
 }
 
@@ -5577,6 +5657,10 @@ ul.List_result li strong{
 	input.span4{
 		width:498px !important;
 		margin:0 0 10px !important;
+		}
+		
+	.facetview_rangecontainer{
+		width: 242px;
 		}
 
 }

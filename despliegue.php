@@ -192,19 +192,16 @@
 					       			</li>
 				       			<?php	
 				       				} ?>
-					                <?php if(!($color=='')&&!($color==$MESSAGE_INVALID)){  ?>
-							        <li id="color">
-							          <span>Color</span>
-							          <?php 
-							            echo $color;
-							          ?>
-							        </li>
-							                <?php } ?>
-							        <li>
-							         <span>Direcci&oacute;n</span>
-							         Hidra&uacute;lica
-							        </li>
-							                <?php if(!($tranccion=='')&&!($tranccion==$MESSAGE_INVALID)){  ?>
+					                <?php if(!($color=='')&&!($color=='Otro')){  ?>
+							        	<li id="color">
+							          		<span>Color</span>
+							          	<?php 
+							            	echo $color;
+							          	?>
+						       		 	</li>
+					                <?php } ?>
+							        
+				                <?php if(!($tranccion=='')&&!($tranccion=='Otro')){  ?>
 							        <li id="traccion">
 							          <span>Tracci&oacute;n</span>
 							          <?php 
@@ -213,7 +210,7 @@
 							                <?php } ?>
 							                
 
-							        <?php if(!($numeropuertas=='')&&!($numeropuertas==$MESSAGE_INVALID)&&!(substr($numeropuertas ,-1)==='S')&&!(substr($numeropuertas ,-1)==='s')){  ?>
+							        <?php if(!($numeropuertas=='')&&!($numeropuertas=='Otro')&&!(substr($numeropuertas ,-1)==='S')&&!(substr($numeropuertas ,-1)==='s')){  ?>
 							        <li>
 							          <span>Puertas</span>
 							          <?php 
@@ -222,7 +219,7 @@
 							          ?>
 							        </li>
 							        <?php } ?>
-							                <?php if(!($transmision=='')&&!($transmision==$MESSAGE_INVALID)){  ?>
+							                <?php if(!($transmision=='')&&!($transmision=='Otro')){  ?>
 							        <li id="transmicion">
 							          <span>Transmisi&oacute;n</span>
 							          <?php 
@@ -232,7 +229,7 @@
 						    </ul>
 					         
 					         <ul class="list_Detalles_despliegue fr">
-						                <?php if(!($corridasAsientos=='')&&!($corridasAsientos==$MESSAGE_INVALID)){  ?>
+						                <?php if(!($corridasAsientos=='')&&!($corridasAsientos=='Otro')){  ?>
 						        <li id="corridas_asiento">
 						          <span>Corridas de asientos</span>
 						          <?php 
@@ -240,7 +237,7 @@
 						          ?>
 						       </li>
 						                <?php }?>
-						                <?php if((substr($equiposonido ,12)!='')&&(substr($equiposonido ,12)!=$MESSAGE_INVALID)){  ?>
+						                <?php if((substr($equiposonido ,12)!='')&&(substr($equiposonido ,12)!='Otro')){  ?>
 						        <li>
 						          <span>Equipo de sonido</span>
 						          <?php 
@@ -249,7 +246,7 @@
 						          ?>
 						        </li>
 						                <?php }?>
-						        <?php if(!(substr($oportunidadcomercial ,20)=='')&&!(substr($oportunidadcomercial ,20)==$MESSAGE_INVALID)){  ?>
+						        <?php if(!(substr($oportunidadcomercial ,20)=='')&&!(substr($oportunidadcomercial ,20)=='Otro')){  ?>
 						        <li>
 						          <span>Oportunidad comercial</span>
 						          <?php
@@ -267,7 +264,7 @@
 						              $capacidadEstanque=$capacidadEstanque;
 						              }
 						        ?>
-						                <?php if(!($capacidadEstanque=='')&&!($capacidadEstanque==$MESSAGE_INVALID)){  ?>
+						                <?php if(!($capacidadEstanque=='')&&!($capacidadEstanque=='Otro')){  ?>
 						        <li>
 						          <span>Capacidad Estanque</span>
 						          <?php
@@ -278,110 +275,111 @@
 						        
 						      </ul> 
 					       </div>
+
+			       <?php
+
+			       		if(((substr($oportunidadcomercial ,-1)) == 1) && ((substr($vidrioselectricos ,-1)) == 1) && 
+			       			((substr($llantasaleacion ,-1)) == 1) && ((substr($neblineros ,-1)) == 1) &&  ((substr($aireacondicionado ,-1)) == 1) &&
+			       				 ((substr($techocorresizo ,-1)) == 1) &&   ((substr($frenos ,-1)) == 1)) { ?>
+
 			        
 					        <h1 class="title_color_despliegue">Ficha T&eacute;cnica</h1>
 					        
 					        <div class="box_info_despliegue">
 					        
 								<ul class="list_Ficha_despliegue fl">
-									<li>
-							          <span>Control Crucero</span> 
+									
 							        <?php
 							            if((substr($oportunidadcomercial ,-1)) == 1)
 							            { ?>
-							              <img src="img/visto-bueno.png" alt="Si" />
+							        	  <li>
+							          		<span>Control Crucero</span> 	
+							              	<img src="img/visto-bueno.png" alt="Si" />
+							              </li>
 							        <?php  } 
 							            else{
 							              
 							              } ?>
-							        </li>
-							        <li>
-							          <span>Vidrios El&eacute;ctricos</span> 
+							        
+							         
 							        <?php
 							            if((substr($vidrioselectricos ,-1)) == 1)
 							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
-							        <?php  }
+							        		<li>
+						          				<span>Vidrios El&eacute;ctricos</span>
+							              		<img src="img/visto-bueno.png" alt="Si" />
+							               	</li>
+								<?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
-							        <li>
-							          <span>Cierre Centralizado</span> 
-							          <?php
-							            if((substr($vidrioselectricos ,-1)) == 1)
-							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
-							        <?php  }
-							            else{
-							               
-							              } ?>
-							        </li>
-							        <li>
-							          <span>Llantas Aleaci&oacute;n</span>
-							          <?php
+							       							        
+							        <?php
 							            if((substr($llantasaleacion ,-1)) == 1)
 							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
+							        	    <li>
+								          		<span>Llantas Aleaci&oacute;n</span>
+								              	<img src="img/visto-bueno.png" alt="Si" />
+							                </li>
 							        <?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
-							        <li>
-							          <span>Neblineros</span> 
-							          <?php
+							       
+							        <?php
 							            if((substr($neblineros ,-1)) == 1)
 							            {?>
-							             <img src="img/visto-bueno.png" alt="Si" />
+								        <li>
+								          <span>Neblineros</span> 
+								             <img src="img/visto-bueno.png" alt="Si" />
+								        </li>     
 							        <?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
 							     </ul>
 
 					          
 								<ul class="list_Ficha_despliegue fr">
 									
-									<li>
-							          <span>Aire Acondicionado</span>
+									
 							            <?php
 							            if((substr($aireacondicionado ,-1)) == 1)
 							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
+						        			<li>
+								          		<span>Aire Acondicionado</span>
+								              	<img src="img/visto-bueno.png" alt="Si" />
+							              	</li>
 							        <?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
-							       
-							        <li>
-							          <span>Techo Corredizo</span> 
-							          <?php
+							        <?php
 							            if((substr($techocorresizo ,-1)) == 1)
 							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
+						        			<li>
+							          			<span>Techo Corredizo</span> 
+							              		<img src="img/visto-bueno.png" alt="Si" />
+				              			  	</li>
 							        <?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
-							        <li>
-							          <span>Frenos ABS</span> 
-							          <?php
+							      	<?php
 							            if((substr($frenos ,-1)) == 1)
 							            {?>
-							              <img src="img/visto-bueno.png" alt="Si" />
+								         	<li>
+								         	 <span>Frenos ABS</span> 
+								              <img src="img/visto-bueno.png" alt="Si" />
+							                </li>
 							        <?php  }
 							            else{
 							                
 							              } ?>
-							        </li>
-								
-								</ul>
+							    </ul>
 					        
 					        </div>
+					      <?php } ?>
 			     
 						        
 						        <small class="detalle_Despliegue">* Los precios y caracter&iacute;sticas del producto publicados en esta ficha son referenciales y deben ser confirmados por el vendedor.</small>
@@ -579,42 +577,65 @@
 							$content_image = file_get_contents($url_image);
 							$json_image = json_decode($content_image, true);
 							$hits_image = $json_image["hits"];
+							$image_invalid = 'imagen_no_disponible.gif';
+							$image_invalid2 = 'imgNoDisponible.gif';
+
 								if($hits_image["total"] != 0)
-								{ ?>
-								<div class="content">
-									<div class="box_info_despliegue">
-										<div id="galleria_imagen">
-							    			<?php
-							    				foreach($hits_image["hits"] as $hit_img) 
-												{ ?>
-													
+								{ 
+
+				    				foreach($hits_image["hits"] as $hit_img) 
+									{ ?>
+										<?php
+											$item_img = $hit_img["_source"]["imagen"];
+											$img_autos = $item_img['archivo'];
+											$id_img    =  $item_img['id_ficha'];
+
+									}
+				                    
+				                    $image_invalid_valid = strpos($img_autos, $image_invalid);
+				                    $image_invalid_valid2 = strpos($img_autos, $image_invalid2);
+
+				                    //echo $image_invalid_valid.'hola'.$image_invalid_valid2;
+				                    	
+				                    	
+				             		//if(($image_invalid_valid) && ($image_invalid_valid2)){ ?>
+
+
+										<div class="content">
+											<div class="box_info_despliegue">
+												<div id="galleria_imagen">
+									    			<?php
+									    				foreach($hits_image["hits"] as $hit_img) 
+														{ ?>
+															
+															<?php
+																$item_img = $hit_img["_source"]["imagen"];
+																$img_autos = $item_img['archivo'];
+																$id_img    =  $item_img['id_ficha'];
+										                    ?>
+																<img src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
 													<?php
-														$item_img = $hit_img["_source"]["imagen"];
-														$img_autos = $item_img['archivo'];
-														$id_img    =  $item_img['id_ficha'];
-								                    ?>
-														<img src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
-											<?php
-												} ?>
-							    
-							          	
-							          	</div>
-						        	</div>
-					        	</div>
+														} ?>
+									    
+									          	
+									          	</div>
+								        	</div>
+							        	</div>
 
-						        <script>
+								        <script>
 
-							    // Load the classic theme
-							    Galleria.loadTheme('http://club.mersap.com/emol_automovil_merge/js/galleria.classic.min.js');
+									    // Load the classic theme
+									    Galleria.loadTheme('http://club.mersap.com/emol_automovil_merge/js/galleria.classic.min.js');
 
-							    // Initialize Galleria
-							    Galleria.run('#galleria_imagen');
+									    // Initialize Galleria
+									    Galleria.run('#galleria_imagen');
 
-							    </script>
+									    </script>
 						    <?php
+								//	}
 								} ?>
 
-					        
+					       
 					        <div id="Detalles_mobile"><h1 class="title_color_despliegue">Detalles</h1>
 					        		<div class="box_info_despliegue">
 					          
@@ -948,7 +969,11 @@
 						                  <span>Direcci&oacute;n</span> <?php echo $calle.' '.$numero;?><br />
 						                  <span>Comuna</span> <?php echo ucwords(strtolower($comuna));?><br />
 						                  <span>Ciudad</span> <?php echo ucwords(strtolower($ciudad));?><br />
-						                  <span>Contacto</span> <?php echo ucwords(strtolower($encargado));?>
+						                  <?php
+						                    if($encargado){ ?>
+						                    	 <span>Contacto</span> <?php echo ucwords(strtolower($encargado));?>
+						                   <?php 
+						                    } ?>
 						                </p>
 						              </td>
 						            </tr>

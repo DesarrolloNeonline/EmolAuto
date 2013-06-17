@@ -63,7 +63,7 @@
                           {'field':'aviso.Comuna', 'display': 'Comuna'} ,
                           {'field':'aviso.Marca', 'display': 'Marca'} ,
                           {'field':'aviso.Modelo', 'display': 'Modelo'} ,
-                          {'field':'aviso.precio', 'display': 'Precio'} , 
+                          {'field':'aviso.precio', 'display': 'Precio'} ,
                           {'field':'aviso.Anno', 'display': 'A&ntilde;o'},
                           {'field':'aviso.Categoria', 'display': 'Categoria'} , 
                           {'field':'aviso.Color', 'display': 'Color'}
@@ -110,7 +110,7 @@
                         search_index: 'elasticsearch',
                         facets: [
                             {'field':'aviso.Categoria', 'display': 'Categoria'} , 
-                            {'field':'aviso.precio', 'display': 'Precio'} , 
+                            {'field':'aviso.precio', 'display': 'Precio'} ,
                             {'field':'aviso.Anno', 'display': 'A&ntilde;o'},
                             {'field':'aviso.Marca', 'display': 'Marca'} ,
                             {'field':'aviso.Modelo', 'display': 'Modelo'} ,

@@ -16,13 +16,17 @@
 // first define the bind with delay function from (saves loading it separately) 
 // https://github.com/bgrins/bindWithDelay/blob/master/bindWithDelay.js
 
+
+
+
+
 if (typeof console == "undefined") var console = { log: function() {} }; 
 
 if (typeof JSON !== 'object') {
     JSON = {};
 }
 
-(function () {
+(function () { 
     'use strict';
 
     function f(n) {
@@ -439,6 +443,11 @@ function getUrlVars()
     });
     return vars;
 }
+
+function sortNumber(a,b) {
+    return a - b;
+}
+
 // Deal with indexOf issue in <IE9
 // provided by commentary in repo issue - https://github.com/okfn/facetview/issues/18
 if (!Array.prototype.indexOf) {
@@ -752,8 +761,9 @@ search box - the end user will not know they are happening.
 
 */
 //Variable filter
-var sortQuery = localStorage.getItem("sortQuery");
-if(sortQuery === null){
+
+if(getUrlVars()["busqueda"]){
+
     localStorage.setItem("sortQuery", null);
 }
 
@@ -764,6 +774,9 @@ if(getUrlVars()["busqueda"]){
     localStorage.setItem("priceDownGet", getUrlVars()["priceDown"]);
     localStorage.setItem("annoGet", getUrlVars()["anno"]);
 }
+var counterClick = null;
+var counterRangePrice = null;
+var counterClick2 = null;
 
 // now the facetview function
 (function($){
@@ -1061,20 +1074,19 @@ if(getUrlVars()["busqueda"]){
                         document.getElementById('rango_anno_4').style.display ="none";
                     }
             }
-
-            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix" > \
-                <div class="clearfix"> \
+            var rangeselect = '<div id="facetview_rangeplaceholder_' + rel + '" class="facetview_rangecontainer clearfix"> \
+                <div class="clearfix" style="margin-bottom:10px;"> \
                 <h3 id="facetview_rangechoices_' + rel + '" class="clearfix"> \
-                ' + name + ': <span class="facetview_lowrangeval_' + rel + '">...</span> \
-                <small>a</small> \
+                <strong>' + name + ':</strong> <span class="facetview_lowrangeval_' + rel + '">...</span> \
+                a \
                 <span class="facetview_highrangeval_' + rel + '">...</span></h3> \
                 <div class="btn-group">';
-            rangeselect += '<a class="facetview_facetrange_remove btn" rel="' + rel + '" alt="remove" title="eliminar" \
-                 href="#"><i class="icon-remove"></i></a> \
+            rangeselect += '<a class="facetview_facetrange_remove btn_close_filter" rel="' + rel + '" alt="remove" title="eliminar" \
+                 href="#"></a> \
                 </div></div> \
                 <div class="clearfix" id="facetview_slider_' + rel + '"></div> \
                 </div>';
-            $('#facetview_selectedfilters', obj).after(rangeselect);
+            $('#facetview_selectedfilters_filter', obj).after(rangeselect);
             $('.facetview_facetrange_remove', obj).unbind('click',clearfacetrange);
             $('.facetview_facetrange_remove', obj).bind('click',clearfacetrange);
             var values = [];
@@ -1087,15 +1099,14 @@ if(getUrlVars()["busqueda"]){
             var priceUp = localStorage.getItem("priceUpGet");
             var priceDown = localStorage.getItem("priceDownGet");
 
-            if(((rel == 1)&&(tipe_search === "categoria"))||((rel == 3)&&(tipe_search === "inteligente"))){
-
+            if((rel == 1)&&(tipe_search === "categoria")){
                 var priceAux = parseInt(priceDown);
                 values[0]=parseInt(priceDown);
                 for(i=1;i<20;i++){
                     priceAux +=  (parseInt(priceUp)-parseInt(priceDown))/20;
                     values[i]=parseInt(priceAux);
                 }
-                values[21]=parseInt(priceUp);
+                values[20]=parseInt(priceUp);
                 $( "#facetview_slider_" + rel, obj ).slider({
 
                 range: true,
@@ -1110,26 +1121,47 @@ if(getUrlVars()["busqueda"]){
                 });
                 $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[0]) );
                 $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ values.length-1]) );
+            }else 
+                if((rel == 2)&&(tipe_search === "categoria")){
 
-            }else{
-                values = values.sort();
-            
-                 $( "#facetview_slider_" + rel, obj ).slider({
+                    var values=[];
+                    var anno = localStorage.getItem("annoGet");
+                    var annoMax = 2014;
+                    var range = annoMax - parseInt(anno);
+                    values[0]=parseInt(anno);
+                    for(i=1;i<range;i++){
+                        values[i]=parseInt(anno)+i;
+                    }
+                    $( "#facetview_slider_" + rel, obj ).slider({
+                        range: true,
+                        min: 0,
+                        max: values.length-1,
+                        values: [0,values.length-1],
+                        slide: function( event, ui ) {
+                            $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[ ui.values[0] ] );
+                            $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ ui.values[1] ] );
+                            dofacetrange( rel );
+                        }
+                    });
+                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
+                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
 
-                range: true,
-                min: 0,
-                max: values.length-1,
-                values: [0,values.length-1],
-                slide: function( event, ui ) {
-                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[ ui.values[0] ] );
-                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ ui.values[1] ] );
-                    dofacetrange( rel );
+                }else{
+                    values = values.sort(sortNumber);
+                    $( "#facetview_slider_" + rel, obj ).slider({
+                        range: true,
+                        min: 0,
+                        max: values.length-1,
+                        values: [0,values.length-1],
+                        slide: function( event, ui ) {
+                            $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[ ui.values[0] ] );
+                            $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ ui.values[1] ] );
+                            dofacetrange( rel );
+                        }
+                    });
+                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
+                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
                 }
-            });
-            $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
-            $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
-                }
-
         };
 
         // pass a list of filters to be displayed
@@ -1899,79 +1931,79 @@ if(getUrlVars()["busqueda"]){
                 var records = data["facets"][ facet ];
                 var typeSearch = localStorage.getItem("typeSearch");
                 for ( var item in records ) {
-
-                    if(typeSearch=='inteligente')
-                    {
-                       if(facet == "aviso.precio")
-                       {
-                                var price = accounting.formatMoney(item);
-
-                                var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
-                                '" rel="' + facet + '" href="' + item + '">' + price +
-                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
-                                $('#facetview_' + facetclean, obj).append(append);
-                            } 
-                            if(facet == "aviso.Marca")
-                            {
-                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
-                                '" rel="' + facet + '" href="' + item + '">' + item +
-                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
-                                $('#facetview_' + facetclean, obj).append(append);
-                            } 
-                            if(facet == "aviso.Comuna")
-                            {
-                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
-                                '" rel="' + facet + '" href="' + item + '">' + item +
-                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
-                                $('#facetview_' + facetclean, obj).append(append);
-                            }  
-                            if(facet == "aviso.Modelo")
-                            {
-                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
-                                '" rel="' + facet + '" href="' + item + '">' + item +
-                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
-                                $('#facetview_' + facetclean, obj).append(append);
-                            }  
-                            if((facet !== "aviso.precio") && (facet !== "aviso.Marca") && (facet !== "aviso.Modelo") && (facet !== "aviso.Comuna")) {
-                                        var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
-                                        '" rel="' + facet + '" href="' + item + '">' + item +
-                                        ' &nbsp;<span>(' + records[item] + ')</span></a></td></tr>';
-                                        $('#facetview_' + facetclean, obj).append(append);
-                            }
-                    } 
-                        else {
-                                 if(facet == "aviso.precio")
+                    if(records[item] != undefined){
+                        if(typeSearch=='inteligente')
+                        {
+                                if(facet == "aviso.precio")
                                 {
                                     var price = accounting.formatMoney(item);
-                
-                                    var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
+
+                                    var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
                                     '" rel="' + facet + '" href="' + item + '">' + price +
                                     ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
                                     $('#facetview_' + facetclean, obj).append(append);
                                 } 
-                                if(facet == "aviso.Categoria")
+                                if(facet == "aviso.Marca")
                                 {
                                     var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
                                     '" rel="' + facet + '" href="' + item + '">' + item +
                                     ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
                                     $('#facetview_' + facetclean, obj).append(append);
                                 } 
-                                if(facet == "aviso.Anno")
+                                if(facet == "aviso.Comuna")
                                 {
                                     var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
                                     '" rel="' + facet + '" href="' + item + '">' + item +
                                     ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
                                     $('#facetview_' + facetclean, obj).append(append);
                                 }  
-                                if((facet !== "aviso.precio") && (facet !== "aviso.Categoria") && (facet !== "aviso.Anno")) {
+                                if(facet == "aviso.Modelo")
+                                {
+                                    var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
+                                    '" rel="' + facet + '" href="' + item + '">' + item +
+                                    ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
+                                    $('#facetview_' + facetclean, obj).append(append);
+                                }  
+                                if((facet !== "aviso.precio") && (facet !== "aviso.Marca") && (facet !== "aviso.Modelo") && (facet !== "aviso.Comuna")) {
                                             var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
                                             '" rel="' + facet + '" href="' + item + '">' + item +
                                             ' &nbsp;<span>(' + records[item] + ')</span></a></td></tr>';
                                             $('#facetview_' + facetclean, obj).append(append);
                                 }
-                             }
+                        } 
+                        else {
+                            if(facet == "aviso.precio")
+                            {
+                                var price = accounting.formatMoney(item);
+            
+                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
+                                '" rel="' + facet + '" href="' + item + '">' + price +
+                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
+                                $('#facetview_' + facetclean, obj).append(append);
+                            } 
+                            if(facet == "aviso.Categoria")
+                            {
+                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
+                                '" rel="' + facet + '" href="' + item + '">' + item +
+                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
+                                $('#facetview_' + facetclean, obj).append(append);
+                            } 
+                            if(facet == "aviso.Anno")
+                            {
+                                var append = '<tr class="facetview_filtervalue" style="display:block;"><td><a class="facetview_filterchoice' +
+                                '" rel="' + facet + '" href="' + item + '">' + item +
+                                ' &nbsp;<span>(' + records[item]  + ')</span></a></td></tr>';
+                                $('#facetview_' + facetclean, obj).append(append);
+                            }  
+                            if((facet !== "aviso.precio") && (facet !== "aviso.Categoria") && (facet !== "aviso.Anno")) {
+                                        var append = '<tr class="facetview_filtervalue" style="display:none;"><td><a class="facetview_filterchoice' +
+                                        '" rel="' + facet + '" href="' + item + '">' + item +
+                                        ' &nbsp;<span>(' + records[item] + ')</span></a></td></tr>';
+                                        $('#facetview_' + facetclean, obj).append(append);
+                            }
+                        }
+                    }
                 }
-                
                
                 if ( $('.facetview_filtershow[rel="' + facetclean + '"]', obj).hasClass('facetview_open') ) {
                     $('#facetview_' + facetclean, obj ).children().find('.facetview_filtervalue').show();
@@ -2080,12 +2112,13 @@ if(getUrlVars()["busqueda"]){
             return rqs;
         };
 
- // build the search query URL based on current params
+        // build the search query URL based on current params
         var elasticsearchquery = function() {
             var qs = {};
             var bool = false;
             var nested = false;
             var seenor = []; // track when an or group are found and processed
+
             $('.facetview_filterselected',obj).each(function() {
                 !bool ? bool = {'must': [] } : "";
                 if ( $(this).hasClass('facetview_facetrange') ) {
@@ -2206,12 +2239,12 @@ if(getUrlVars()["busqueda"]){
                     qy = qy.substr(0, position) + query + " " + qy.substr(position);
                 }
 
-            //qy='{"query":{"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"Camiones"}}]}}}},"filter":{"range":{"aviso.Anno":{"from":2012,"include_lower": false}}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}';
             return qy;
         };
 
         // execute a search
         var dosearch = function() {
+
             jQuery('.notify_loading').show();
             // update the options with the latest q value
             if ( options.searchbox_class.length == 0 ) {
@@ -2237,25 +2270,25 @@ if(getUrlVars()["busqueda"]){
                     }
                 } 
             }
-
             if (!is_ie ){
-            if ( options.pushstate ) {
+                if ( options.pushstate ) {
                     var currurl = '?source=' + qrystr;
                     window.history.pushState("","search",currurl);
-            };
+                };
             }
-           
-            
-
             var typeSearch = localStorage.getItem("typeSearch");
-
-            if(typeSearch == "categoria"){
-                var type = localStorage.getItem("typeGet");
-                var priceUp = localStorage.getItem("priceUpGet");
-                var priceDown = localStorage.getItem("priceDownGet");
-                var anno = localStorage.getItem("annoGet");
-                query = '"filtered":{"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+type+'"}},{"term":{"aviso.Anno":"'+anno+'"}}]}}}},"filter":{"range":{"aviso.precio":{"from":'+priceDown+',"to":'+priceUp+'}}';
-                qrystr = qrystr.replace('"match_all":{}',query);
+            if(typeSearch === "categoria"){
+                if (counterClick === null) {
+                    $("#rango_anno_4").click();
+                    $("#rango_price_3").click();
+                    counterClick = 0;
+                    counterClick2 = 0;
+                    dofacetrange( 1 );
+                }    
+                if (counterClick2 === 0) {
+                    counterClick2 = 1;
+                    dofacetrange( 2 );
+                }
             }
             $.ajax({
                 type: "get",
@@ -2265,8 +2298,8 @@ if(getUrlVars()["busqueda"]){
                 dataType: options.datatype,
                 success: showresults
             });
-        };
 
+        };
 
         // show search help
         var learnmore = function(event) {
@@ -2461,7 +2494,7 @@ if(getUrlVars()["busqueda"]){
         }
 
         thefacetview += thehelp;
-        thefacetview += '<div class="btn-toolbar" id="facetview_selectedfilters"></div>';
+        thefacetview += '<div class="btn-toolbar" id="facetview_selectedfilters"></div><div id="facetview_selectedfilters_filter"></div>';
         options.pager_on_top ? thefacetview += '<div class="facetview_metadata" style="margin-top:20px;"></div>' : "";
         thefacetview += options.searchwrap_start + options.searchwrap_end;
         thefacetview += '<div class="facetview_metadata" style="float:left; text-align:center; width:100%;"></div></div></div></div>';
@@ -2476,6 +2509,7 @@ if(getUrlVars()["busqueda"]){
             
             // what to do when ready to go
             var whenready = function() {
+                        $('#rango_price_3').trigger('click');
                 // append the facetview object to this object
                 thefacetview = thefacetview.replace(/{{HOW_MANY}}/gi,options.paging.size);
                 obj.append(thefacetview);
@@ -2554,3 +2588,9 @@ if(getUrlVars()["busqueda"]){
     $.fn.facetview.options = {};
     
 })(jQuery);
+
+
+
+
+
+

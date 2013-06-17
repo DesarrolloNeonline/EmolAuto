@@ -130,31 +130,46 @@ p.Filtrar_por a{
 	margin-bottom:17px;
 	padding:10px;
 	}
+
+	#facetview_selectedfilters_filter{
+	width:620px;
+	float:left;
+	margin-bottom:10px;
+	padding:10px;
+	}
 	
 @media only screen and (max-width: 340px){
 	.facetview_search_options_container{width:260px !important;}
+	#facetview_selectedfilters_filter{width:260px !important;}
 }
 
 @media only screen and (min-width: 341px) and (max-width: 399px){
 	.facetview_search_options_container{width:300px !important;}
+	#facetview_selectedfilters_filter{width:300px !important;}
 }
 
 @media only screen and (min-width: 400px) and (max-width: 479px){
 	.facetview_search_options_container{width:360px !important;}
+	#facetview_selectedfilters_filter{width:360px !important;}
 }
 
 @media only screen and (min-width: 480px) and (max-width: 539px){
 	.facetview_search_options_container{width:440px !important;}
+	#facetview_selectedfilters_filter{width:440px !important;}
 }
 @media only screen and (min-width: 540px) and (max-width: 639px){
 	.facetview_search_options_container{width:500px !important;}
+	#facetview_selectedfilters_filter{width:500px !important;}
 }
 @media only screen and (min-width: 640px) and (max-width: 767px){
 	.facetview_search_options_container{width:370px !important;}
+	#facetview_selectedfilters_filter{width:370px !important;}
 }
 @media only screen and (min-width: 768px) and (max-width: 859px){
 	.facetview_search_options_container{width:465px !important;}
+	#facetview_selectedfilters_filter{width:465px !important;}
 }
 @media only screen and (min-width: 860px) and (max-width: 1023px){
 	.facetview_search_options_container{width:520px !important;}
+	#facetview_selectedfilters_filter{width:520px !important;}
 }
