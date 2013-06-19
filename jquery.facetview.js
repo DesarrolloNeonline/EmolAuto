@@ -1045,6 +1045,7 @@ var counterClick2 = null;
             }
             dosearch();
         };
+
         // build a facet range selector
         var facetrange = function(event) {
             // TODO: when a facet range is requested, should hide the facet list from the menu
@@ -1095,6 +1096,7 @@ var counterClick2 = null;
                 values.push( $(this).attr('href') );
             });
 
+
             var tipe_search = localStorage.getItem("typeSearch");
             var priceUp = localStorage.getItem("priceUpGet");
             var priceDown = localStorage.getItem("priceDownGet");
@@ -1108,19 +1110,19 @@ var counterClick2 = null;
                 }
                 values[20]=parseInt(priceUp);
                 $( "#facetview_slider_" + rel, obj ).slider({
-
-                range: true,
-                min: 0,
-                max: values.length-1,
-                values: [0,values.length-1],
-                slide: function( event, ui ) {
-                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[0] ]) );
-                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[1] ]) );
-                    dofacetrange( rel );
-                }
+                    range: true,
+                    min: 0,
+                    max: values.length-1,
+                    values: [0,values.length-1],
+                    slide: function( event, ui ) {
+                        $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[0] ]) );
+                        $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[1] ]) );
+                        dofacetrange( rel );
+                    }
                 });
                 $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[0]) );
                 $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ values.length-1]) );
+
             }else 
                 if((rel == 2)&&(tipe_search === "categoria")){
 
@@ -1146,22 +1148,40 @@ var counterClick2 = null;
                     $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
                     $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
 
-                }else{
-                    values = values.sort(sortNumber);
-                    $( "#facetview_slider_" + rel, obj ).slider({
-                        range: true,
-                        min: 0,
-                        max: values.length-1,
-                        values: [0,values.length-1],
-                        slide: function( event, ui ) {
-                            $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[ ui.values[0] ] );
-                            $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ ui.values[1] ] );
-                            dofacetrange( rel );
-                        }
-                    });
-                    $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
-                    $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] );
-                }
+                }else
+                    if((rel == 3)&&(tipe_search === "inteligente")){
+
+                        values = values.sort(sortNumber);
+                        $( "#facetview_slider_" + rel, obj ).slider({
+                            range: true,
+                            min: 0,
+                            max: values.length-1,
+                            values: [0,values.length-1],
+                            slide: function( event, ui ) {
+                                $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[ui.values[0]]));
+                                $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ ui.values[1]]));
+                                dofacetrange( rel );
+                            }
+                        });
+                        $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( accounting.formatMoney(values[0]));
+                        $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( accounting.formatMoney(values[ values.length-1]));
+                   
+                    }else{
+                        values = values.sort(sortNumber);
+                        $( "#facetview_slider_" + rel, obj ).slider({
+                            range: true,
+                            min: 0,
+                            max: values.length-1,
+                            values: [0,values.length-1],
+                            slide: function( event, ui ) {
+                                $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[ ui.values[0] ] );
+                                $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ ui.values[1] ] );
+                                dofacetrange( rel );
+                            }
+                        });
+                        $('#facetview_rangechoices_' + rel + ' .facetview_lowrangeval_' + rel, obj).html( values[0] );
+                        $('#facetview_rangechoices_' + rel + ' .facetview_highrangeval_' + rel, obj).html( values[ values.length-1] ); 
+                    }
         };
 
         // pass a list of filters to be displayed
@@ -1247,7 +1267,6 @@ var counterClick2 = null;
                     }
              
                     else      {
-            
                                 var fast = '{{FILTER_NAME}}';
                                 var test = fast.replace(/{{FILTER_NAME}}/g, filters[idx]['field'].replace(/\./gi, '').replace(/\:/gi, '')).replace(/{{FILTER_EXACT}}/g, filters[idx]['field']);
                                 
@@ -1269,8 +1288,6 @@ var counterClick2 = null;
                                                 <div class="btn-group facetview_filteroptions" style="display:none; margin-top:5px;">'; 
                                               
                                             }
-
-                            
                                 //(options.enable_rangeselect)&&((test == 'avisoprecio')||(test == 'avisoAnno'))
                                 if (false) {
                                     _filterTmpl += '<a class="btn btn-info facetview_facetrange" title="make a range selection on this filter" rel="{{FACET_IDX}}" href="{{FILTER_EXACT}}" style="color:#aaa;">rango</a>';
