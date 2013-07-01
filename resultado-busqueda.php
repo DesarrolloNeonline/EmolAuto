@@ -12,7 +12,7 @@
   <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
 
   
-  <script type="text/javascript" src="styleswitcher.js"></script>
+  <script type="text/javascript" src="js/styleswitcher.js"></script>
   <link rel="stylesheet" type="text/css" href="css/normal1.css" title="normal1">
   <link rel="stylesheet" type="text/css" href="css/normal2.css" title="normal2">
 
@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
 	<script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
 
-	<script type="text/javascript" src="jquery.facetview.js"></script>
+	<script type="text/javascript" src="js/jquery.facetview.js"></script>
 
 	<link rel="stylesheet" href="css/facetview.css">
 
@@ -148,7 +148,7 @@
                         paging: 
                         {
                             from: 0,
-                            size: 10
+                            size: 30
                         }
                     });
                   }

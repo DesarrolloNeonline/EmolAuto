@@ -70,7 +70,7 @@
                      marca = ucwords(marca);
 
                      
-                     location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
+                     location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
                     }  else if((marca !='')&&(ciudad !='')){
 
                                   ciudad = strtolower(ciudad);
@@ -79,7 +79,7 @@
                                   marca = strtolower(marca);
                                   marca = ucwords(marca);
 
-                                   location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"\\"'+marca+'\\""}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
+                                   location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
 
                              }
    }
@@ -178,8 +178,9 @@
   
 </head>
 
-<body style="padding-top: 160px;">
-<div id="publicidad_fondo"></div>
+<body>
+<!--body style="padding-top: 160px;">
+<div id="publicidad_fondo"></div>-->
 <?php
   include ('connect.php'); 
  //Consulta de Menu de navegación.
@@ -195,10 +196,13 @@
       <div id="publicidad_Mobile_02">
         <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
     
-      <div id="Logo_01">
+      <!--div id="Logo_01">
         <img src="img/Logo-transparente.png" alt="Emol automviles" />      </div>
       
       <div id="Logo_02" style="margin-left:-127px; opacity:0; filter: alpha(opacity = 0);">
+        <img src="img/Logo.png" alt="Emol automviles" />      </div-->
+        
+      <div id="Logo_02">
         <img src="img/Logo.png" alt="Emol automviles" />      </div>
       
       <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="MenÃº" /></div>
@@ -218,7 +222,8 @@
               {
 
               } ?>
-        <a href="#" id="ocultar" style="float:right;">Ocultar publicidad</a>      </div>
+      <!-- <a href="#" id="ocultar" style="float:right;">Ocultar publicidad</a> -->     
+      </div>
       
        <script type="text/javascript">
         $("#ocultar").click(function(){

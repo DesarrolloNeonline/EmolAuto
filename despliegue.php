@@ -595,7 +595,7 @@
 				                    $image_invalid_valid = strpos($img_autos, $image_invalid);
 				                    $image_invalid_valid2 = strpos($img_autos, $image_invalid2);
 
-				                    //echo $image_invalid_valid.'hola'.$image_invalid_valid2;
+				                    echo $image_invalid_valid.'hola'.$image_invalid_valid2;
 				                    	
 				                    	
 				             		//if(($image_invalid_valid) && ($image_invalid_valid2)){ ?>

@@ -11,7 +11,20 @@
     <link rel="stylesheet" href="css/main.css">
     <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="js/styleswitcher.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/normal1.css" title="normal1">
+    <link rel="stylesheet" type="text/css" href="css/normal2.css" title="normal2">
       
+
+
+    <!-- Style
+
+    <script src="styleswitcher.js" type="text/javascript">
+    <link title="normal1" href="css/normal1.css" type="text/css" rel="stylesheet">
+    <link title="normal2" href="css/normal2.css" type="text/css" rel="stylesheet">
+
+    -->
+    
     <!-- LIGHTBOX -->
     <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
     <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
@@ -111,7 +124,7 @@
         
         <div class="content_info_concesionario">
           <div class="img_Logo_concesionario"><img src="upload/concesionarios/<?php echo $logo_grande;?>" alt="Nombre concesionario" /></div>
-          <div class="info_concesionario"><strong>Tipo</strong><br /><?php echo $tipo;?></div>
+          <!--<div class="info_concesionario"><strong>Tipo</strong><br /><?php echo $tipo;?></div> -->
           <div class="info_concesionario">
             <strong>Contacto</strong><br />
             <?php 
@@ -169,6 +182,7 @@
         </ul>
         
 		<?php  
+
 		if(($latitud!=0) &&($longitud!=0))
 		{ ?>
 				<div id="content_mapa_sucursal" style="display:block;">
@@ -188,7 +202,7 @@
 				</div>
 		<?php   } ?>
 
-    <?php
+    <?php  
 
         $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario.'&size=100';
         $content = file_get_contents($url);
@@ -201,6 +215,7 @@
           <div id="content_List_autos">
             
               <h1 class="title_color_despliegue">Avisos publicados</h1>
+              <div id="Content_option_view"><span>Ver como:</span><div onclick="setActiveStyleSheet('normal2'); mostrarTwo(); return false;" class="Listado" style="opacity: 0.3;" id="styleTwo"></div><div onclick="setActiveStyleSheet('normal1'); mostrarOne(); return false;" class="Cuadricula" style="opacity: 1;" id="styleOne"></div></div>
         
               <ul class="List_result">
 
@@ -228,7 +243,7 @@
                         $precio             = $item['precio'];  
                         $id_aviso           = $item['id_aviso'];
 
-
+    
                         $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_aviso;
                         $content = file_get_contents($url);
                         $json = json_decode($content, true);
@@ -236,14 +251,14 @@
                         foreach($json['_source'] as $item) 
                         {
                             $imagen           = $item['imagen'];
-                          
+
                         }
 
                         if(($kms_actuales) || ($kms_actuales!=0))
                         {
                           $kms_actuales = number_format($kms_actuales, 0, ',', '.');
                           $kms_actuales = str_replace('$','',$kms_actuales);
-                          $kms_actuales = $kms_actuales.' Kms';
+                          $kms_actuales = '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'.$kms_actuales.' Kms';
                 
                         } else
                               {
@@ -255,7 +270,7 @@
                           $transmision = '';
                         } else
                               {
-                                $transmision = 'T.'.$transmision.'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;';
+                                $transmision = 'T.'.$transmision;
                               }      
 
 
@@ -264,7 +279,7 @@
                           $combustible = '';
                         } else
                               {
-                                $combustible =  $combustible;
+                                $combustible =  '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'.$combustible;
                               }
 
                         if(($modelo =="No Especificado") || ($modelo==""))
@@ -276,12 +291,13 @@
                               }
 
 
-                        if(($anno =="No Especificado") || ($modelo==""))
+                        if(($anno =="No Especificado") || ($anno==""))
                         {
                           $anno = '';
                         } else
-                              {
-                                $anno =  'A&ntilde;o '.$anno.'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;';
+                              { 
+
+                                $anno =  'A&ntilde;o '.$anno;
                               }
 
                         if(($marca =="No Especificado") || ($marca==""))
@@ -312,11 +328,11 @@
                                 
                           } ?>
                           
-                            <div class="content_Txt_list" style="">
-                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a> <br />
-                            <span>$ <?php echo  number_format($precio, 0, ',', '.');?> </span><br />
-                             <?php echo $anno.$kms_actuales;?><br />
-                             <?php echo $transmision.$combustible;?>  
+                            <div class="Txt_Resul" style="">
+                            <a href="despliegue.php?id=<?php echo $id_aviso;?>"><strong><?php echo  $marca.' '.$modelo;?></strong></a>
+                            <span class="precio">$ <?php echo  number_format($precio, 0, ',', '.');?> </span>
+                             <span class="anno"><?php echo $anno.$kms_actuales;?></span>
+                             <span class="anno"><?php echo $transmision.$combustible;?></span>
                           </div>
                         </li>
 

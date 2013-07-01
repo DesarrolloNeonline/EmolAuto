@@ -29,7 +29,8 @@
     $config = include(dirname(__FILE__) . "/config/config.php");
 
     $dbh = new PDO($config["dsn"], $config["username"], $config["password"]);
-    $stmt = $dbh->prepare('SELECT id_concesionario, calle, numero, comuna, ciudad, telefono, telefono_adicional, id_concesionario, prioridad, nombre_fantasia,logo_chico, logo_grande FROM concesionario ORDER BY nombre_fantasia ASC ');
+    $stmt = $dbh->prepare('SELECT id_concesionario, calle, numero, comuna, ciudad, telefono, telefono_adicional, id_concesionario, prioridad,
+    nombre_fantasia,logo_chico, logo_grande, estado_publicacion, bp_concesionario FROM concesionario where estado_publicacion = "1" ORDER BY nombre_fantasia ASC ');
     $stmt->execute();
   	?>    
     <div id="wrap">
@@ -56,20 +57,33 @@
         <div id="Listado_concesionarios">
           <p class="indicador_seccion" style="padding-left:21px;"><a href="index.php">Inicio</a> > <a style="text-decoration: none;">Concesionarios</a></p>
           <ul class="List_conces">
-         
-          <?php 
-          while($value = $stmt->fetch()) {  ?>
-            <li>
-              <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $value['id_concesionario'];?>"><img src="upload/concesionarios/<?php echo $value['logo_grande'];?>" /></a>
-              <h1><?php echo $value['nombre_fantasia'];?></h1>
-              <p>
-              <?php if($value['calle']) {
-                   echo $value['calle'].' '.$value['numero'].', '.$value['comuna']; ?><br />
-              <?php } ?>
-               Fono: <?php echo $value['telefono'];?></p>
-            </li>
-        <?php  
-                }
+
+        <?php
+   
+          while($value = $stmt->fetch()) {  
+
+            $bp_concesionario = $value['bp_concesionario'];
+
+            $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario;
+            $content = file_get_contents($url);
+            $json = json_decode($content, true);
+            $hits = $json["hits"]; 
+            $hits['total'];
+               
+               if($hits['total'] > 5){ ?>
+
+                <li>
+                  <a href="despliegue-concesionarios.php?id_concesionario=<?php echo $value['id_concesionario'];?>"><img src="upload/concesionarios/<?php echo $value['logo_grande'];?>" /></a>
+                  <h1><?php echo $value['nombre_fantasia'];?></h1>
+                  <p>
+                  <?php if($value['calle']) {
+                       echo $value['calle'].' '.$value['numero'].', '.$value['comuna']; ?><br />
+                  <?php } ?>
+                   Fono: <?php echo $value['telefono'];?></p>
+                </li>
+          <?php
+             }
+          }
         ?>
           </ul>
         
