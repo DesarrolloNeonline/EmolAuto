@@ -579,6 +579,7 @@
 							$hits_image = $json_image["hits"];
 							$image_invalid = 'imagen_no_disponible.gif';
 							$image_invalid2 = 'imgNoDisponible.gif';
+							
 
 								if($hits_image["total"] != 0)
 								{ 
@@ -592,15 +593,14 @@
 
 									}
 				                    
-				                    $image_invalid_valid = strpos($img_autos, $image_invalid);
-				                    $image_invalid_valid2 = strpos($img_autos, $image_invalid2);
+				                    $valida_image_1 = strpos($img_autos, $image_invalid);
+				                    $valida_image_2 = strpos($img_autos, $image_invalid2);
 
-				                    echo $image_invalid_valid.'hola'.$image_invalid_valid2;
+				                    echo $valida_image_1; 
 				                    	
 				                    	
-				             		//if(($image_invalid_valid) && ($image_invalid_valid2)){ ?>
-
-
+				             		if((!$valida_image_1) && (!$valida_image_2)){ ?>
+										
 										<div class="content">
 											<div class="box_info_despliegue">
 												<div id="galleria_imagen">
@@ -632,8 +632,8 @@
 
 									    </script>
 						    <?php
-								//	}
-								} ?>
+									}
+								 }?>
 
 					       
 					        <div id="Detalles_mobile"><h1 class="title_color_despliegue">Detalles</h1>
