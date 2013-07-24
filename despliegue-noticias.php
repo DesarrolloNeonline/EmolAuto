@@ -10,16 +10,22 @@
   <link rel="stylesheet" href="css/main.css">
   <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
   <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
-    
+  <!-- load jQuery -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+  <!-- load Galleria -->
+  <script src="http://club.mersap.com/emol_automovil_merge/js/galleria-1.2.8.min.js"></script>
   <!-- LIGHTBOX -->
   <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
   <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
+  <link rel="stylesheet" href="css/refineslide.css" />
+  <script src="js/jquery.refineslide.min.js"></script>
   <script type="text/javascript">
     Shadowbox.init();
   </script>
-
-    
-</head>
+  <!--Setup Publicidades Addserver!-->
+  <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/setup_detalle.js"></script>
+  <!--end-->
+  </head>
 
 <body>
 <?php
@@ -42,11 +48,16 @@
       $periodista= $array_noticia[5]; 
       $estado_publicacion= $array_noticia[6]; 
 
-      $sql_img_noticias  = 'select  id_imagen_noticia, nombre_imagen, id_noticia from automoviles.imagenes_noticias where id_noticia = "'.$id_noticia.'"';
+      $sql_img_noticias  = 'select  id_imagen_noticia, nombre_imagen_1, nombre_imagen_2, nombre_imagen_3, nombre_imagen_4, 
+      nombre_imagen_5, id_noticia from automoviles.imagenes_noticias where id_noticia = "'.$id_noticia.'"';
       $result_img_noticias = mysql_query($sql_img_noticias);
       $array_img_noticia = mysql_fetch_array($result_img_noticias);
       $id_img         = $array_img_noticia[0];
-      $nombre_imagen  = $array_img_noticia[1];
+      $nombre_imagen_1  = $array_img_noticia[1];
+      $nombre_imagen_2  = $array_img_noticia[2];
+      $nombre_imagen_3  = $array_img_noticia[3];
+      $nombre_imagen_4  = $array_img_noticia[4];
+      $nombre_imagen_5  = $array_img_noticia[5];
 	?>  
   <div id="wrap">
   
@@ -54,7 +65,10 @@
 
       <div id="Logo_02">
         <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
-	  </div>
+      </div>
+      <div class="content_publicidad_728">
+        <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+      </div>
       
       <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
       
@@ -88,9 +102,33 @@
         <h1 class="titulo_noticia"><?php echo $subtitulo_noticia;?></h1>
         
         <p class="bajada_noticia"><?php echo $bajada_titulo;?></p>
-        
-        <div class="content_img_despliegue"><a href="upload/noticias-autos/<?php echo $nombre_imagen;?>" rel="shadowbox"><img src="upload/noticias-autos/<?php echo $nombre_imagen;?>" alt="" /></a></div>
-        
+
+        <div class="box_info_despliegue">
+          <div id="galleria_imagen">
+             <img src="upload/noticias-autos/<?php echo $nombre_imagen_1;?>" alt="">
+             <?php 
+                if($nombre_imagen_2){?>
+                  <img src="upload/noticias-autos/<?php echo $nombre_imagen_2;?>" alt="">
+          <?php }
+                if($nombre_imagen_3){?>
+                  <img src="upload/noticias-autos/<?php echo $nombre_imagen_3;?>" alt="">
+          <?php }
+                if($nombre_imagen_4){?>
+                  <img src="upload/noticias-autos/<?php echo $nombre_imagen_4;?>" alt="">
+          <?php }
+                if($nombre_imagen_5){?>
+                  <img src="upload/noticias-autos/<?php echo $nombre_imagen_5;?>" alt="">
+          <?php } ?>
+          </div>
+        </div>
+        <script>
+        // Load the classic theme
+            Galleria.loadTheme('http://club.mersap.com/emol_automovil_merge/js/galleria.classic.min.js');
+
+        // Initialize Galleria
+            Galleria.run('#galleria_imagen');
+        </script>
+
         <div class="content_info_txt">
           <div class="box fr" id="desktop"><a onclick="window.print();" style="cursor: pointer;"><img src="img/btn_impr.gif" alt="Imprimir" /></a></div>
           <p class="autor"><?php echo $periodista;?> | El Mercurio</p>
@@ -117,15 +155,19 @@
           </div>
         </div>
         
-        <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
+        <div class="content_publicidad_300">
+          <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        </div>
         
-        <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
+          <!--div id="publicidad_Mobile_02">
+            <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+          </div-->
         
       </div>
     
     </div>
     
-    <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+    <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
   
   </div>
 

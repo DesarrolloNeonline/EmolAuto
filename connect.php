@@ -13,6 +13,15 @@ $folder_web= '/var/www/emol_automovil';
 
 $folder_frontend = 'http://club.mersap.com/emol_automovil_merge';
 $folder_backend = 'http://club.mersap.com/backend_automoviles';
+
+//Variables de Indices de Emol Automoviles
+$indice_aviso = 'http://ailab01.mersap.com/autos/aviso/';
+$indice_ficha = 'http://es-bea.mersap.com/automoviles/ficha/';
+$indice_concesionario = 'http://es-bea.mersap.com/automoviles/concesionario/';
+$indice_imagen = 'http://es-bea.mersap.com/automoviles/imagen/';
+$indice_mmp = 'http://es-bea.mersap.com/automoviles/mmp/';
+
+
 /*=========== Tiempo Max Ejecucion Query==========*/
 set_time_limit(260);
 

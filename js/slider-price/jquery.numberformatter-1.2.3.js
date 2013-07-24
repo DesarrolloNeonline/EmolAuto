@@ -108,7 +108,7 @@
 	var nfLocalesLikeFR = [ 'cz','fi','fr','ru','se','pl' ];
 	var nfLocalesLikeCH = [ 'ch' ];
 	
-	var nfLocaleFormatting = [ [".", ","], [",", "."], [",", " "], [".", "'"] ]; 
+	var nfLocaleFormatting = [ [".", ","], [".", ","], [".", " "], [".", "'"] ]; 
 	var nfAllLocales = [ nfLocalesLikeUS, nfLocalesLikeDE, nfLocalesLikeFR, nfLocalesLikeCH ]
 
 	function FormatData(dec, group, neg) {
@@ -132,8 +132,8 @@
 			init();
 
          // default values
-         var dec = ".";
-         var group = ",";
+         var dec = ",";
+         var group = ".";
          var neg = "-";
          
          if (isFullLocale == false) {

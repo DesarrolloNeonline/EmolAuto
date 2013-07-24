@@ -14,17 +14,14 @@
     <script type="text/javascript" src="js/styleswitcher.js"></script>
     <link rel="stylesheet" type="text/css" href="css/normal1.css" title="normal1">
     <link rel="stylesheet" type="text/css" href="css/normal2.css" title="normal2">
-      
-
-
+    <!--Setup Publicidades Addserver!-->
+    <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/setup_detalle.js"></script>
+    <!--end-->
     <!-- Style
-
     <script src="styleswitcher.js" type="text/javascript">
     <link title="normal1" href="css/normal1.css" type="text/css" rel="stylesheet">
     <link title="normal2" href="css/normal2.css" type="text/css" rel="stylesheet">
-
     -->
-    
     <!-- LIGHTBOX -->
     <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
     <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
@@ -50,7 +47,8 @@
     $id_concesionario = $valores[0];
 
     $sql_concesionario = 'select nombre_fantasia,  logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
-    telefono, telefono_adicional, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario from concesionario  where id_concesionario = "'.$id_concesionario.'"';
+    telefono, telefono_adicional, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario,
+    email_concesionario from concesionario  where id_concesionario = "'.$id_concesionario.'"';
     $result_concesionarios= mysql_query($sql_concesionario);
     $row_concesionarios=mysql_fetch_row($result_concesionarios);
     $nombre_fantasia=$row_concesionarios[0];
@@ -70,7 +68,7 @@
     $longitud = $row_concesionarios[14];
     $logo_grande = $row_concesionarios[15];
     $imagen_concesionario = $row_concesionarios[16];
-
+    $email_concesionario = $row_concesionarios[17];
 
 ?> 
   <div id="wrap">
@@ -79,7 +77,10 @@
       
       <div id="Logo_02">
         <a href="index.php"><img src="img/Logo.png" alt="Emol automoviles" /></a>
-	  </div>
+      </div>
+      <div class="content_publicidad_728">
+        <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+      </div>
       
       <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
       
@@ -149,7 +150,7 @@
         </div>
         
         <div class="content_Btn_concesionario">
-          <div class="btn_concesionario"><a href="modal-mas-info-concesionario.php?" rel="Shadowbox;width=445;height=600;">pedir informaci&oacute;n</a></div>
+          <div class="btn_concesionario"><a href="modal-mas-info-concesionario.php?email=<?php echo $email_concesionario;?>" rel="Shadowbox;width=445;height=600;">pedir informaci&oacute;n</a></div>
           <div class="btn_concesionario"><a onClick="$('#content_mapa_sucursal').slideToggle('middle')">mapa de ubicaci&oacute;n</a></div>
           <div class="btn_concesionario"><a onClick="$('#sucursales').slideToggle('middle')">otras sucursales</a></div>
         </div>
@@ -204,7 +205,7 @@
 
     <?php  
 
-        $url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=nro_bp:'.$bp_concesionario.'&size=100';
+        $url = $indice_ficha.'_search?q=nro_bp:'.$bp_concesionario.'&size=100';
         $content = file_get_contents($url);
         $json = json_decode($content, true);
         $hits = $json["hits"];
@@ -244,7 +245,7 @@
                         $id_aviso           = $item['id_aviso'];
 
     
-                        $url = 'http://ailab01.mersap.com/autos/aviso/'.$id_aviso;
+                        $url = $indice_aviso.$id_aviso;
                         $content = file_get_contents($url);
                         $json = json_decode($content, true);
 
@@ -349,18 +350,17 @@
       </div>
         
       <div id="despliegue_concesionario_Right">
-        
-        <div class="content_publicidad_300"><img src="images/publicidad_2.jpg" alt="Publicidad" /></div>
-        
-        <div id="publicidad_Mobile_02"><img src="images/banner-publicidad.jpg" alt="Emol automviles" /></div>
-        
-      </div>
+        <div class="content_publicidad_300">
+          <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        </div>
+        <!--div id="publicidad_Mobile_02">
+            <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        </div-->
     
     </div>
     </div>
-    <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+    <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
   
   </div>
-
 </body>
 </html>

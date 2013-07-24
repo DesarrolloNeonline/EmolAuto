@@ -51,12 +51,12 @@ $mensaje = $array_solicitud[5];
     </div>
     
     <div class="content_Item_form">
-      <label>RUT*</label>
+      <label>RUT</label>
       <?php echo $rut;?>
     </div>
     
     <div class="content_Item_form">
-      <label>Tel&eacute;fono*</label>
+      <label>Tel&eacute;fono</label>
       <?php echo $telefono;?>
     </div>
     

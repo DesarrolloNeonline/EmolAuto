@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="css/main.css">
     <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
+    <!--Setup Publicidades Addserver!-->
+    <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/setup_detalle.js"></script>
+    <!--end-->
     <!-- LIGHTBOX -->
     <link rel="stylesheet" type="text/css" href="js/lightbox/shadowbox.css">
     <script type="text/javascript" src="js/lightbox/shadowbox.js"></script>
@@ -35,6 +38,9 @@
       <div id="header">
         <div id="Logo_02">
           <a href="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
+        </div>
+        <div class="content_publicidad_728">
+          <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
         </div>
         <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')">
           <img src="img/btn-menu.gif" alt="Menú" />
@@ -62,7 +68,7 @@
           <ul class="List_noticias">
             <?php
               while($post = $stmt-> fetch()){
-                $stmt_2     = $dbh ->prepare('select  id_imagen_noticia, nombre_imagen, id_noticia from automoviles.imagenes_noticias where id_noticia = "'.$post["id_noticia"].'"');
+                $stmt_2     = $dbh ->prepare('select  id_imagen_noticia, nombre_imagen_1, id_noticia from automoviles.imagenes_noticias where id_noticia = "'.$post["id_noticia"].'"');
                 $stmt_2  -> execute(); 
                 $post_2 = $stmt_2-> fetch();
                   if($post['estado_publicacion']==1)
@@ -70,7 +76,7 @@
                     if($post['target']=='1')
                     { ?>
                       <li>
-                        <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia'];?>" target="_blank"><img src="upload/noticias-autos/<?php echo $post_2['nombre_imagen'];?>" alt="<?php echo $post['titulo_noticia'];?>" /></a>
+                        <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia'];?>" target="_blank"><img src="upload/noticias-autos/<?php echo $post_2['nombre_imagen_1'];?>" alt="<?php echo $post['titulo_noticia'];?>" /></a>
                         <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia'];?>" target="_blank"><h1><?php echo $post['titulo_noticia']; ?></h1></a>
                         <p><?php echo $post['bajada_titulo']; ?></p>
                       </li>
@@ -78,7 +84,7 @@
                     } 
                     else  { ?>
                             <li>
-                              <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia']; ?>"><img src="upload/noticias-autos/<?php echo $post_2['nombre_imagen'];?>" alt="<?php echo $post['titulo_noticia']; ?>" /></a>
+                              <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia']; ?>"><img src="upload/noticias-autos/<?php echo $post_2['nombre_imagen_1'];?>" alt="<?php echo $post['titulo_noticia']; ?>" /></a>
                               <a href="despliegue-noticias.php?id-noticia=<?php echo $post['id_noticia']; ?>"><h1><?php echo $post['titulo_noticia']; ?></h1></a>
                               <p><?php echo $post['bajada_titulo']; ?></p>
                             </li>
@@ -99,14 +105,14 @@
         </div>
         <div id="listado_noticias_Right">
           <div class="content_publicidad_300">
-            <img src="images/publicidad_2.jpg" alt="Publicidad" />
+            <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
           </div>
-          <div id="publicidad_Mobile_02">
-            <img src="images/banner-publicidad.jpg" alt="Emol automviles" />
-          </div>
+          <!--div id="publicidad_Mobile_02">
+            <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+          </div-->
         </div>
       </div>
-      <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+      <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
     </div>
 
 </body>

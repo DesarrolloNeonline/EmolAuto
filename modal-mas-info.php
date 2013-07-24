@@ -23,18 +23,6 @@
 					document.form.name.focus()
 					return 0;
 				} 
-				if (document.form.rut.value.length==0)
-				{
-					alert("Ingrese su RUT")
-					document.form.rut.focus()
-					return 0;
-				} 
-				if (document.form.telefono.value.length==0)
-				{
-					alert("Ingrese su telefono")
-					document.form.telefono.focus()
-					return 0;
-				} 
 				if (document.form.email.value.length==0)
 				{
 					alert("Ingrese su email")
@@ -152,12 +140,12 @@ function solonumeros(e) { // 1
     </div>
     
     <div class="content_Item_form">
-      <label>RUT*</label>
+      <label>RUT</label>
       <input name="rut" id="rut" type="text" value="" placeholder="Ingrese RUT sin puntos y sin gui&oacute;n"/>
     </div>
     
     <div class="content_Item_form">
-      <label>Tel&eacute;fono*</label>
+      <label>Tel&eacute;fono</label>
       <input name="telefono" id="telefono" type="text" value="" placeholder="Ingrese tel&eacute;fono" onkeypress="return solonumeros(event)"/>
     </div>
     
@@ -179,7 +167,7 @@ function solonumeros(e) { // 1
       <small>*Campos obligatorios</small>
     </div>
 		<input name="codigo_emol" type="hidden" value="<?php echo $valores[0];?>"  />
-    
+    	<input name="email_concesionario" type="hidden" value="<?php echo $valores[1];?>"  />
     <div class="content_Item_form">
 		<input name="enviar" class="btn_Azul" type="button" id="enviar" value="ENVIAR" onclick="procesa($('#name').val(),$('#rut').val(),$('#telefono').val(),$('#celular').val(),$('#email').val(),$('#mensaje').val());">	
 	</div>

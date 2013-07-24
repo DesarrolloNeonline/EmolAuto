@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="css/normalize.min.css">
   <link rel="stylesheet" href="css/main.css">
   <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
-
-  
   <script type="text/javascript" src="js/styleswitcher.js"></script>
   <link rel="stylesheet" type="text/css" href="css/normal1.css" title="normal1">
   <link rel="stylesheet" type="text/css" href="css/normal2.css" title="normal2">
@@ -26,6 +24,9 @@
 	<script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
 
 	<script type="text/javascript" src="js/jquery.facetview.js"></script>
+  <!--Setup Publicidades Addserver!-->
+    <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/setup_detalle.js"></script>
+  <!--end-->
 
 	<link rel="stylesheet" href="css/facetview.css">
 
@@ -50,6 +51,10 @@
     }
   </script>
 
+<?php 
+include('connect.php'); 
+?>
+
 	<script type="text/javascript">
             jQuery(document).ready(function($) {
 
@@ -57,7 +62,7 @@
             if(typeSearch=='inteligente')
             {
                 $('.facet-view-simple').facetview({
-                      search_url: 'http://ailab01.mersap.com/autos/aviso/_search',
+                      search_url: '<?php echo $indice_aviso;?>_search',
                       search_index: 'elasticsearch',
                       facets: [
                           {'field':'aviso.Comuna', 'display': 'Comuna'} ,
@@ -92,6 +97,9 @@
                               {"field": "aviso.Combustible"}
                           ],
                           [
+                              {"field": "aviso.moneda"}
+                          ],
+                          [
                               {"field": "aviso.logo_operador"}
                           ],
                       ],
@@ -106,7 +114,7 @@
               else {
 
                         $('.facet-view-simple').facetview({
-                        search_url: 'http://ailab01.mersap.com/autos/aviso/_search',
+                        search_url: '<?php echo $indice_aviso;?>_search',
                         search_index: 'elasticsearch',
                         facets: [
                             {'field':'aviso.Categoria', 'display': 'Categoria'} , 
@@ -142,13 +150,16 @@
                               {"field": "aviso.Combustible"}
                           ],
                           [
+                              {"field": "aviso.moneda"}
+                          ],
+                          [
                               {"field": "aviso.logo_operador"}
                           ],
                         ],
                         paging: 
                         {
                             from: 0,
-                            size: 30
+                            size: 10
                         }
                     });
                   }
@@ -309,7 +320,7 @@
 <body>
 <?php
   include('connect.php'); 
-	//Consulta de Menu de navegaci�n.
+	//Consulta de Menu de navegación.
   include('menu.php');
 	?>
   
@@ -319,9 +330,12 @@
       
       <div id="Logo_02" style="z-index: 0;">
         <a href="index.php"><img src="img/Logo.png" alt="Emol automviles"/></a>
-	  </div>
+      </div>
+      <div class="content_publicidad_728">
+        <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+      </div>
       
-      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
+      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="MenÃº" /></div>
       
       <div id="nav">
         <a href="<?php echo $url1;?>"><?php echo $menu1;?></a>
@@ -373,7 +387,7 @@
   <div id='fondoTransparente' style="display:none;position:fixed;">
 </div>
    </div>
-    <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+    <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
 
 </body>
 </html>

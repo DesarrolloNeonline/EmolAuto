@@ -20,6 +20,7 @@ $celular= $_POST['celular'];
 $email = $_POST['email'];
 $mensaje = decode($_POST['mensaje']);
 $date   = date('Y-m-d');
+$email_concesionario = $_POST['email_concesionario'];
 
 echo name.$rut.$telefono.$celular.$email.$mensaje.$date;
 
@@ -35,7 +36,19 @@ $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 $cabeceras .= 'From:'.$email_server.' ' . "\r\n" .
 $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-mail($para, $asunto, $mensaje, $cabeceras); ?>
+$cabeceras = decode($cabeceras);
+$asunto = decode($asunto);
+$mensaje = decode($mensaje);
+
+mail($para, $asunto, $mensaje, $cabeceras); 
+/*
+$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+$cabeceras .= 'From:'.$email.' ' . "\r\n" .
+$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$asunto = "solicitud de informacion por emol auto ";
+
+mail($email_concesionario, $asunto, $mensaje, $cabeceras);
+*/
 
 echo "El correo se ha registrado con &eacute;xito."; 
  mysql_close($conn);

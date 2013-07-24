@@ -768,6 +768,8 @@ if(getUrlVars()["busqueda"]){
 }
 
 if(getUrlVars()["busqueda"]){
+    localStorage.setItem("marca", getUrlVars()["marca"]);
+    localStorage.setItem("ciudad", getUrlVars()["ciudad"]);
     localStorage.setItem("typeSearch", getUrlVars()["busqueda"]);
     localStorage.setItem("typeGet", getUrlVars()["type"]);
     localStorage.setItem("priceUpGet", getUrlVars()["priceUp"]);
@@ -775,8 +777,8 @@ if(getUrlVars()["busqueda"]){
     localStorage.setItem("annoGet", getUrlVars()["anno"]);
 }
 var counterClick = null;
-var counterRangePrice = null;
 var counterClick2 = null;
+var counterEmpty = null;
 
 // now the facetview function
 (function($){
@@ -1271,7 +1273,7 @@ var counterClick2 = null;
                                 var test = fast.replace(/{{FILTER_NAME}}/g, filters[idx]['field'].replace(/\./gi, '').replace(/\:/gi, '')).replace(/{{FILTER_EXACT}}/g, filters[idx]['field']);
                                 
                                 //(test == 'avisoCategoria') || (test == 'avisoprecio') || (test == 'avisoAnno')
-                                if(false){
+                                if(true){
                                      var _filterTmpl = '<table id="facetview_{{FILTER_NAME}}" class="facetview_filters table table-bordered table-condensed "> \
                                     <tr bgcolor="#e9e7e7"><td onclick="ilumina(this)"><a class="facetview_filtershow facetview_open" title="Filtrar por {{FILTER_DISPLAY}}" rel="{{FILTER_NAME}}" \
                                     style="color:#333; font-weight:bold;" href=""> <span class="List_filter">{{FILTER_DISPLAY}}</span> <i class="icon-minus"></i> \
@@ -1508,6 +1510,50 @@ var counterClick2 = null;
                         for ( var object = 0; object < display[lineitem].length; object++ ) {
                             var thekey = display[lineitem][object]['field'];
                             parts = thekey.split('.');
+
+
+
+                            if(parts =='aviso,moneda'){
+                                if (parts.length == 1) {
+                                    var res = record;
+                                } else if (parts.length == 2) {
+                                    var res = record[parts[0]];
+                                } else if (parts.length == 3) {
+                                    var res = record[parts[0]][parts[1]];
+                                }
+                                var counter = parts.length - 1;
+                                if (res && res.constructor.toString().indexOf("Array") == -1) {
+                                    var thevalue = res[parts[counter]];  // if this is a dict
+                                } else {
+                                    var thevalue = [];
+                                    if ( res !== undefined ) {
+                                        for ( var row = 0; row < res.length; row++ ) {
+                                            thevalue.push(res[row][parts[counter]]);
+                                        }
+                                    }
+                                }
+                                if (thevalue && thevalue.toString().length) {
+                                    display[lineitem][object]['pre']
+                                        ? line += display[lineitem][object]['pre'] : false;
+                                    if ( typeof(thevalue) == 'object' ) {
+                                        for ( var val = 0; val < thevalue.length; val++ ) {
+                                            val != 0 ? line += ', ' : false;
+                                            line += thevalue[val];
+                                        }
+                                    } else {
+                                        line += thevalue;
+                                    }
+                                    display[lineitem][object]['post'] 
+                                        ? line += display[lineitem][object]['post'] : line += '</span> ';
+                                }
+
+                                if (line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') == "US$</span>") {
+                                    lines = lines.replace('$','USD ');
+                                }else 
+                                    if (line.replace(/^\s/,'').replace(/\s$/,'').replace(/\,$/,'') == "USD</span>") {
+                                        lines = lines.replace('$','USD ')
+                                    }
+                            }
 
                             if(parts =='aviso,Marca'){
                                 if (parts.length == 1) {
@@ -2256,8 +2302,22 @@ var counterClick2 = null;
                     var position = 1;
                     qy = qy.substr(0, position) + query + " " + qy.substr(position);
                 }
-
+            var typeSearch = localStorage.getItem("typeSearch");
+            if((typeSearch === "categoria")&&(counterClick === null)){
+                $("#rango_price_3").click();
+                $("#rango_anno_4").click();  
+                counterClick = 0;
+                counterClick2 = 0;
+                rankYear();
+            }  
+            if ((typeSearch === "categoria")&&(counterClick2 === 0)){
+                counterClick2 = 1;
+                setTimeout(rankPrice, 1100);
+            }
+            
+            alert(qy);
             return qy;
+
         };
 
         // execute a search
@@ -2298,21 +2358,6 @@ var counterClick2 = null;
                     window.history.pushState("","search",currurl);
                 };
             }
-            var typeSearch = localStorage.getItem("typeSearch");
-            if(typeSearch === "categoria"){
-                if (counterClick === null) {
-                    $("#rango_anno_4").click();
-                    $("#rango_price_3").click();
-                    counterClick = 0;
-                    counterClick2 = 0;
-                    dofacetrange( 1 );
-                }    
-                if (counterClick2 === 0) {
-                    counterClick2 = 1;
-                    dofacetrange( 2 );
-                }
-            }
-
             $.ajax({
                 type: "get",
                 url: options.search_url,
@@ -2322,6 +2367,14 @@ var counterClick2 = null;
                 success: showresults
             });
 
+        };
+
+        var rankYear = function(event) {
+            dofacetrange( 2 );
+        };
+
+        var rankPrice = function(event) {
+             dofacetrange( 1 );
         };
 
         // show search help

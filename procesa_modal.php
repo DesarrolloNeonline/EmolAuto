@@ -21,6 +21,9 @@ $email = $_POST['email'];
 $mensaje = decode($_POST['mensaje']);
 $date   = date('Y-m-d');
 $codigo_emol = $_POST['codigo_emol'];
+$email_concesionario = $_POST['email_concesionario'];
+
+$valores = array_values($_GET);
 
 echo name.$rut.$telefono.$celular.$email.$mensaje.$date;
 
@@ -33,11 +36,23 @@ $para =  $email;
 $asunto = "Solicitar informacion de auto";
 $email_server = 'matias.salvadores@gmail.com';
 $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-$cabeceras .= 'From:'.$email_server.' ' . "\r\n" .
+$cabeceras .= 'From:'.$email_concesionario.' ' . "\r\n" .
 $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-mail($para, $asunto, $mensaje, $cabeceras); ?>
+$asunto = decode($asunto);
+$mensaje = decode($mensaje);
+$cabeceras = decode($cabeceras);
 
+mail($para, $asunto, $mensaje, $cabeceras);
+
+/*
+$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+$cabeceras .= 'From:'.$email.' ' . "\r\n" .
+$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$asunto = "solicitud de informacion por emol auto ";
+
+mail($email_concesionario, $asunto, $mensaje, $cabeceras);
+*/
 echo "El correo se ha registrado con &eacute;xito."; 
  mysql_close($conn);
 ?>

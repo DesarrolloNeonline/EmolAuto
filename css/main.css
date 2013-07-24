@@ -178,6 +178,24 @@ textarea{
 	text-align:center;
 	}
 	
+.publicidad_300_home{float:right;}
+	
+.content_publicidad_728{
+	width:728px;
+	float:right;
+	}
+@media only screen and (min-width: 860px) and (max-width: 970px) {
+	.content_publicidad_728{width:640px;}
+}
+
+	
+#Content_pub_expand{
+	width:960px;
+	margin:0 auto 10px;
+	}
+	
+#pol_mbi{margin-bottom:20px !important;}
+	
 /*
 ==========================================================================
   Estilos Header
@@ -186,7 +204,7 @@ textarea{
 
 #header{
 	width: 100%;
-	margin:26px 0 0;
+	margin:20px 0 0;
 	overflow:hidden;
 	}
 	
@@ -408,6 +426,10 @@ h1.title_color_home, h1.title_color_despliegue, h1.title_color_modal{
 	width:949px;
 	}
 	
+.content_Busq_auto form{
+	float: left;
+	}
+	
 .content_Busq_auto h1{
 	width:100%;
 	text-align:left;
@@ -424,6 +446,7 @@ h1.title_color_home, h1.title_color_despliegue, h1.title_color_modal{
 
 .Block_busq_2{
 	width:301px;
+	width:291px\0/;
 	float:left;
 	text-align:left;
 	}
@@ -432,6 +455,7 @@ h1.title_color_home, h1.title_color_despliegue, h1.title_color_modal{
 	width:627px;
 	margin-right:21px;
 	float:left;
+	float:none\0/;
 	text-align:left;
 	}
 
@@ -788,19 +812,13 @@ a.txt_ver_mas{
 	display:block;
 	float:left;
 	padding-left:21px;
+	width:625px;
 	}
 
-.content_List_bottom_home{
+.content_List_bottom_home, .content_List_concesionarios_home{
 	width:625px;
 	text-align:left;
 	float:left;
-	margin-right:21px;
-	}
-	
-.content_List_concesionarios_home{
-	width:300px;
-	text-align:left;
-	float:right;
 	}
 
 ul.List_mas_usados{
@@ -825,13 +843,13 @@ ul.List_mas_usados li.title{
 	}
 	
 ul.List_concesionarias{
-	width:314px;
+	width:639px;
 	float:left;
 	margin-left:-14px;
 	}
 	
 ul.List_concesionarias li{
-	width:141px;
+	width:143px;
 	height:30px;
 	float:left;
 	border:1px solid #cccccc;
@@ -1364,6 +1382,14 @@ p.bajada_noticia{
 	font-size:13px;
 	font-weight:bold;
 	margin-bottom:15px;
+	}
+	
+#despliegue_noticias_Left .box_info_despliegue{
+	width:622px;
+	}
+	
+#despliegue_noticias_Left #galleria_imagen{
+	height:447px;
 	}
 	
 .content_img_despliegue{
@@ -1930,12 +1956,12 @@ ul.List_result li strong{
 	}
 	
 .facetview_rangecontainer{
-	width: 292px;
+	width: 285px;
 	margin:10px 12px 20px 9px;
 	float: left;
 	}
 	
-#facetview_rangeplaceholder_3{
+#facetview_rangeplaceholder_2{
 	float:right;
 	}
 	
@@ -2005,6 +2031,14 @@ ul.List_result li strong{
 		margin-top: 0;
 		top: 30px;
 		}
+		
+	#Content_pub_expand{display:none;}
+
+}
+
+@media only screen and (max-width: 767px) {
+	
+	.publicidad_300_home, .content_publicidad_728, #Content_pub_expand, .content_publicidad_300{display:none;}
 
 }
 
@@ -2384,6 +2418,14 @@ ul.List_result li strong{
 	.content_publicidad_300 img{
 		width:100%;
 		height:auto;
+		}
+		
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:258px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:220px !important;
 		}
 		
 /*
@@ -2962,6 +3004,14 @@ ul.List_result li strong{
 		height:auto;
 		}
 		
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:298px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:242px !important;
+		}
+		
 /*
 ==========================================================================
   Estilos Listado Concesionarios
@@ -3491,6 +3541,14 @@ ul.List_result li strong{
 		width:366px;
 		}
 		
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:362px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:284px !important;
+		}
+		
 /*
 ==========================================================================
   Estilos Listado Concesionarios
@@ -4013,6 +4071,14 @@ ul.List_result li strong{
 		width:446px;
 		}
 	
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:442px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:334px !important;
+		}
+	
 
 /*
 ==========================================================================
@@ -4414,7 +4480,7 @@ ul.List_result li strong{
 		}
 	
 	.box_redes_sociales{
-		width:488px;
+		width:518px;
 		margin-right:0px;
 		}
 		
@@ -4457,6 +4523,14 @@ ul.List_result li strong{
 	
 	.content_img_despliegue{
 		width:506px;
+		}
+	
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:502px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:371px !important;
 		}
 	
 
@@ -4880,6 +4954,14 @@ ul.List_result li strong{
 		width: 578px;
 		}
 		
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:602px;
+		}
+	
+	#despliegue_noticias_Left #galleria_imagen{
+		height:435px;
+		}
+		
 /*
 ==========================================================================
   Estilos Listado Concesionarios
@@ -5069,6 +5151,29 @@ ul.List_result li strong{
 		margin:0 0 10px 2%;
 		}
 		
+	.content_publicidad_728{
+		width:565px;
+		height:90px;
+		overflow:hidden;
+		}
+		
+		.content_publicidad_728 img{
+			width:100%;
+			height:auto;
+			}
+			
+	.publicidad_300_home {
+		float: none;
+		width: 300px;
+		margin: 20px auto 0;
+		text-align:center;
+		}
+		
+		.content_publicidad_300 img {
+			width: 100%;
+			height:auto;
+			}
+		
 		#nav a{
 			font-size:17px;
 			margin:0 15px;
@@ -5245,6 +5350,10 @@ ul.List_result li strong{
 		width:486px;
 		}
 		
+	#despliegue_noticias_Left .box_info_despliegue{
+		width:482px;
+		}
+		
 /*
 ==========================================================================
   Estilos Listado Concesionarios
@@ -5357,7 +5466,7 @@ ul.List_result li strong{
 
 }
 
-@media only screen and (min-width: 860px) and (max-width: 1023px) {
+@media only screen and (min-width: 860px) and (max-width: 970px) {
 
 	#wrap{
 		width:100%;

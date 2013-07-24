@@ -10,18 +10,17 @@
   <link rel="stylesheet" href="css/main.css">
   <script type="text/javascript" src="js/vendor/jquery-1.7.1.js"></script>
   <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
-  
   <!-- Slider Price -->
   <link rel="stylesheet" href="css/jslider.css" type="text/css">
-
   <script type="text/javascript" src="js/slider-price/jshashtable-2.1_src.js"></script>
   <script type="text/javascript" src="js/slider-price/jquery.numberformatter-1.2.3.js"></script>
   <script type="text/javascript" src="js/slider-price/tmpl.js"></script>
   <script type="text/javascript" src="js/slider-price/jquery.dependClass-0.1.js"></script>
   <script type="text/javascript" src="js/slider-price/draggable-0.1.js"></script>
   <script type="text/javascript" src="js/slider-price/jquery.slider.js"></script>
-  <!-- end -->
-  
+  <!--end!-->
+  <!--Setup Publicidades Addserver!-->
+  <script type="text/javascript"src="http://banners.emol.com/tags/automoviles/setup_portada.js"></script>
   <!-- end -->
   <script type="text/javascript">
     $(function() {
@@ -53,17 +52,24 @@
     {
       if((marca == '')&&(ciudad =='')){
 
-          location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
+          location.href='resultado-busqueda.php?source={"query": {"custom_score": {"query": {"match_all": {}},"script": "_score+doc[\'score\'].value"}},"facets": {"aviso.Marca": {"terms": {"field": "aviso.Marca"}},"aviso.Modelo": {"terms": {"field": "aviso.Modelo"}},"aviso.Categoria": {"terms": {"field": "aviso.Categoria"}},"aviso.precio": {"terms": {"field": "aviso.precio"}},"aviso.Anno": {"terms": {"field": "aviso.Anno"}},"aviso.Comuna": {"terms": {"field": "aviso.Comuna"}},"aviso.Color": {"terms": {"field": "aviso.Color"}}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente&marca='+marca+'&ciudad='+ciudad;
       }
         else
             if((marca === '')&&(ciudad!='')){
 
                 ciudad = strtolower(ciudad);
                 ciudad = ucwords(ciudad);
-                
 
-              location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
-            
+                if(ciudad ==='Santiago'){
+
+                  ciudad = '';
+                  location.href='resultado-busqueda.php?source={"query": {"custom_score": {"query": {"match_all": {}},"script": "_score+doc[\'score\'].value"}},"facets": {"aviso.Marca": {"terms": {"field": "aviso.Marca"}},"aviso.Modelo": {"terms": {"field": "aviso.Modelo"}},"aviso.Categoria": {"terms": {"field": "aviso.Categoria"}},"aviso.precio": {"terms": {"field": "aviso.precio"}},"aviso.Anno": {"terms": {"field": "aviso.Anno"}},"aviso.Comuna": {"terms": {"field": "aviso.Comuna"}},"aviso.Color": {"terms": {"field": "aviso.Color"}}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente&marca='+marca+'&ciudad='+ciudad;
+
+                }
+                  else{
+                        location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Comuna":"'+ciudad+'"}},{"query_string":{"query":"'+marca+'"}}]}}}&busqueda=inteligente&priceUp=90000000&priceDown=0&typeSearch=inteligente';
+                  }
+                
             } else if((marca != '')&&(ciudad=='')) {
 
                      marca = strtolower(marca);
@@ -115,48 +121,6 @@
           tipo_check = document.formulario_tipo.tipo[i].value;
         }
       }
-    
-    /*if(document.getElementById("checkbox1").checked)    
-    {
-      estado_nuevo = document.getElementById("checkbox1").value;
-    }
-    if(document.getElementById("checkbox2").checked)    
-    {
-      estado_usado = document.getElementById("checkbox2").value;
-    }
-    if(document.getElementById("checkbox3").checked)    
-    {
-      estado_particular = document.getElementById("checkbox3").value;
-    }
-    if(document.getElementById("checkbox1").checked)
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_nuevo;
-    }
-    if(document.getElementById("checkbox2").checked)
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+" "+año+" "+" "+estado_usado;
-    }
-    if(document.getElementById("checkbox3").checked)
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_particular;
-    }
-    if((document.getElementById("checkbox1").checked)  && (document.getElementById("checkbox3").checked))
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_particular; 
-    }
-    if((document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_usado+" "+estado_particular; 
-    }
-    if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked))
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado; 
-    }
-    if((document.getElementById("checkbox1").checked) && (document.getElementById("checkbox2").checked) && (document.getElementById("checkbox3").checked))
-    {
-      location.href="resultado-busqueda.php?q="+tipo_check+" "+precio+" "+año+" "+estado_nuevo+" "+estado_usado+" "+estado_particular; 
-    }
-    */
       location.href='resultado-busqueda.php?source={"query":{"bool":{"must":[{"term":{"aviso.Categoria":"'+tipo_check+'"}}]}},"facets":{"aviso.Marca":{"terms":{"field":"aviso.Marca"}},"aviso.Modelo":{"terms":{"field":"aviso.Modelo"}},"aviso.Categoria":{"terms":{"field":"aviso.Categoria"}},"aviso.precio":{"terms":{"field":"aviso.precio"}},"aviso.Anno":{"terms":{"field":"aviso.Anno"}},"aviso.Comuna":{"terms":{"field":"aviso.Comuna"}},"aviso.Color":{"terms":{"field":"aviso.Color"}}}}&busqueda=categoria&anno='+anno+'&type='+tipo_check+'&priceUp='+priceUp+'&priceDown='+priceDown+'&typeSearch=categoria';
    }
    </script>
@@ -179,6 +143,7 @@
 </head>
 
 <body>
+<script type="text/javascript" src=" http://banners.emol.com/tags/automoviles/flotante_itt.js"></script>
 <!--body style="padding-top: 160px;">
 <div id="publicidad_fondo"></div>-->
 <?php
@@ -189,12 +154,13 @@
   <div id="wrap">
   
     <div id="header">
+      <div id="Content_pub_expand"><script type="text/javascript" src="http://banners.emol.com/tags/automoviles/flotante_push.js"></script></div>
       
-      <div id="publicidad_Mobile_01">
+      <!--div id="publicidad_Mobile_01">
         <img src="images/publicidad-mobile.jpg" alt="Emol automviles" />      </div>
       
       <div id="publicidad_Mobile_02">
-        <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
+         <img src="images/banner-publicidad.jpg" alt="Emol automviles" />      </div>
     
       <!--div id="Logo_01">
         <img src="img/Logo-transparente.png" alt="Emol automviles" />      </div>
@@ -204,8 +170,12 @@
         
       <div id="Logo_02">
         <img src="img/Logo.png" alt="Emol automviles" />      </div>
+        
+      <div class="content_publicidad_728">
+        <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+      </div>
       
-      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="MenÃº" /></div>
+      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Men&uacute;" /></div>
       
       <div id="nav">
         <a href="<?php echo $url1;?>"><?php echo $menu1;?></a>
@@ -225,16 +195,16 @@
       <!-- <a href="#" id="ocultar" style="float:right;">Ocultar publicidad</a> -->     
       </div>
       
-       <script type="text/javascript">
+      <script type="text/javascript">
         $("#ocultar").click(function(){
           $("body").animate({"padding-top": "0"}, "middle");
-      $("#publicidad_fondo").animate({"opacity": "0"}, "middle");
-      $("#Logo_01").animate({"opacity": "0"}, "middle");
-      $("#Logo_02").animate({"opacity": "1"}, "middle");
-      $("#ocultar").animate({"opacity": "0"}, "middle");
+          $("#publicidad_fondo").animate({"opacity": "0"}, "middle");
+          $("#Logo_01").animate({"opacity": "0"}, "middle");
+          $("#Logo_02").animate({"opacity": "1"}, "middle");
+          $("#ocultar").animate({"opacity": "0"}, "middle");
         });
       </script>
-</div>
+    </div>
           
     <div id="buscador_home">
       
@@ -243,7 +213,7 @@
         <div class="content_Busq_home">
           
           <div class="content_Busq_auto">
-            <h1 class="title_color_home">Busca tu auto</h1>
+            <h1 class="title_color_home">B&uacute;squeda libre</h1>
             <form action="" method="get" name="Busq_Autos">
               <div class="Block_busq">
                 <label>Escribe la marca y/o modelo y/o c&oacute;digo Emol</label>
@@ -252,7 +222,7 @@
         </div>
               
               <div class="Block_busq">
-                <label>En qu&eacute; ciudad o comuna</label>
+                <label>En qu&eacute; ciudad</label>
                 <input name="ciudad" type="text" id ="ciudad" value="Santiago" onkeypress="return alpha(event)"/>
       </div>
         
@@ -264,7 +234,7 @@
       
           </div>
           
-          <div class="btn_Slide_busq_avanzada_home" id="busq-cat">Búsqueda por categoría</div>
+          <div class="btn_Slide_busq_avanzada_home" id="busq-cat">Ir a B&uacute;squeda por categor&iacute;a</div>
         
         </div>
       
@@ -298,7 +268,8 @@
                   <p class="txt_buscador">Precio desde</p>
                   <input id="Price" type="slider" name="price" value="500000;25000000" />
                   <script type="text/javascript" charset="utf-8">
-                    jQuery("#Price").slider({ from: 500000, to: 90000000, step: 500000, round: 1, format: { format: '##', locale: 'de' }, dimension: '', skin: "round" });
+                    jQuery("#Price").slider({ from: 500000, to: 90000000, step: 50000, dimension: '$&nbsp;' });
+					<!--jQuery("#Price").slider({ from: 500000, to: 90000000, heterogeneity: ['50/50000'], step: 500000, round: 1, format: { format: '##', locale: 'de' }, dimension: '$ ', skin: "round" });-->
                 </script>
                 </div>
         
@@ -323,7 +294,7 @@
 
             </form>
           
-            <div class="btn_Slide_busq_inteligente_home" id="busq-int">Búsqueda inteligente</div>
+            <div class="btn_Slide_busq_inteligente_home" id="busq-int">Ir a B&uacute;squeda libre</div>
             
           </div>
         </div>
@@ -402,7 +373,7 @@
         </div>
         <div class="content_ver_mas">
           <div class="btn_Azul"><a href="<?php echo $url_destino;?>"><img src="img/btn-ver-mas.png" alt="Ver ms" /></a></div>
-          <a href="<?php echo $url_destino;?>" class="txt_ver_mas">+ M&aacute;s noticias</a>
+          <a href="listado-noticias.php" class="txt_ver_mas">+ M&aacute;s noticias</a>
         </div>
       </div>
       
@@ -415,7 +386,7 @@
         </div>
         <div class="content_ver_mas">
           <div class="btn_Azul"><a href="<?php echo $url_destino2;?>"><img src="img/btn-ver-mas.png" alt="Ver ms" /></a></div>
-          <a href="<?php echo $url_destino2;?>" class="txt_ver_mas">+ M&aacute;s noticias</a>
+          <a href="listado-noticias.php" class="txt_ver_mas">+ M&aacute;s noticias</a>
         </div>
       </div>
       
@@ -428,7 +399,7 @@
         </div>
         <div class="content_ver_mas">
           <div class="btn_Azul"><a href="<?php echo $url_destino3;?>"><img src="img/btn-ver-mas.png" alt="Ver ms" /></a></div>
-          <a href="<?php echo $url_destino3;?>" class="txt_ver_mas">+ M&aacute;s noticias</a>
+          <a href="listado-noticias.php" class="txt_ver_mas">+ M&aacute;s noticias</a>
         </div>
       </div>
     
@@ -444,7 +415,7 @@
           <ul class="List_mas_usados">
             <li class="title"><strong>Autos</strong></li>
            <?php 
-              $url_autos = 'http://ailab01.mersap.com/automoviles/mmp/1';
+              $url_autos = $indice_mmp.'1';
               $content_autos = file_get_contents($url_autos);
               $json_autos = json_decode($content_autos, true);
               $hits_autos = $json_autos["_source"]["mmp"];
@@ -468,7 +439,7 @@
           <ul class="List_mas_usados">
             <li class="title"><strong>Camionetas</strong></li>
            <?php 
-              $url_camionetas = 'http://ailab01.mersap.com/automoviles/mmp/4';
+              $url_camionetas = $indice_mmp.'4';
               $content_camionetas = file_get_contents($url_camionetas);
               $json_camionetas = json_decode($content_camionetas, true);
               $hits_camionetas = $json_camionetas["_source"]["mmp"];
@@ -491,7 +462,7 @@
           <ul class="List_mas_usados">
             <li class="title"><strong>Todo Terreno</strong></li>
            <?php 
-              $url_terreno = 'http://ailab01.mersap.com/automoviles/mmp/2';
+              $url_terreno = $indice_mmp.'2';
               $content_terreno = file_get_contents($url_terreno);
               $json_terreno = json_decode($content_terreno, true);
               $hits_terreno = $json_terreno["_source"]["mmp"];
@@ -514,7 +485,7 @@
           <ul class="List_mas_usados">
             <li class="title"><strong>Motos</strong></li>
            <?php 
-              $url_motos = 'http://ailab01.mersap.com/automoviles/mmp/6';
+              $url_motos = $indice_mmp.'6';
               $content_motos = file_get_contents($url_motos);
               $json_motos = json_decode($content_motos, true);
               $hits_motos = $json_motos["_source"]["mmp"];
@@ -654,6 +625,44 @@ try
       error_log($e->getMessage());
       die('Error al seleccionar sexto destacado');
     }
+    try
+    {
+      $sql_destacado_7  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 7';
+      $result_destacado_7 = mysql_query($sql_destacado_7);
+      $array_destacado_7 = mysql_fetch_array($result_destacado_7);
+      $bp_concesionario_7 =  $array_destacado_7[0];
+
+      $sql_concesionario_7  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_7.'"';
+      $result_concesionario_7 = mysql_query($sql_concesionario_7);
+      $array_concesionario_7 = mysql_fetch_array($result_concesionario_7);
+      $nombre_concesionario_7 = $array_concesionario_7[0];
+      $logo_7       = $array_concesionario_7[1];
+      $id_concesionario_7       = $array_concesionario_7[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar septimo destacado');
+    }
+    try
+    {
+      $sql_destacado_8  = 'select bp_concesionario from concesionarios_destacados where id_destacado = 8';
+      $result_destacado_8 = mysql_query($sql_destacado_8);
+      $array_destacado_8 = mysql_fetch_array($result_destacado_8);
+      $bp_concesionario_8 =  $array_destacado_8[0];
+
+      $sql_concesionario_8  = 'select nombre_fantasia, logo_chico, id_concesionario from automoviles.concesionario where bp_concesionario ="'.$bp_concesionario_8.'"';
+      $result_concesionario_8 = mysql_query($sql_concesionario_8);
+      $array_concesionario_8 = mysql_fetch_array($result_concesionario_8);
+      $nombre_concesionario_8 = $array_concesionario_8[0];
+      $logo_8       = $array_concesionario_8[1];
+      $id_concesionario_8       = $array_concesionario_8[2];
+    }
+    catch(PDOException $e) 
+    {
+      error_log($e->getMessage());
+      die('Error al seleccionar octavo destacado');
+    }
 ?>
         
         <div class="content_List_concesionarios_home">  
@@ -666,14 +675,21 @@ try
             <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_4;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_4;?>" style="width: 86px;height: 23px;"/></a></li>
             <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_5;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_5;?>" style="width: 86px;height: 23px;"/></a></li>
             <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_6;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_6;?>" style="width: 86px;height: 23px;"/></a></li>
-          </ul>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_7;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_7;?>" style="width: 86px;height: 23px;"/></a></li>
+            <li><a href="despliegue-concesionarios.php?id_concesionario=<?php echo $id_concesionario_8;?>"><img src="<?php echo $folder_frontend;?>/upload/concesionarios/<?php echo $logo_8;?>" style="width: 86px;height: 23px;"/></a></li>
+		  </ul>
           
         </div>
+      </div>
+      
+      <div class="publicidad_300_home">
+        <script type="text/javascript"src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        <!--<img src="images/publicidad_2.jpg" alt="Publicidad" />!-->
       </div>
          
     </div>
     
-    <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+    <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
   
   </div>
 <?php 

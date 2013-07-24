@@ -18,6 +18,9 @@
   
 <link rel="stylesheet" href="css/refineslide.css" />
 <script src="js/jquery.refineslide.min.js"></script>
+<!--Setup Publicidades Addserver!-->
+    <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/setup_detalle.js"></script>
+<!--end-->
 <script>
   function getUrlVars() 
   {
@@ -71,14 +74,14 @@
 		} 
 		
 		$valores = array_values($_GET);
-		$url = 'http://ailab01.mersap.com/automoviles/ficha/_search?q=id_aviso:'.$valores[0];
+		$url = $indice_ficha.'_search?q=id_aviso:'.$valores[0];
 		$content = file_get_contents($url);
 		$json = json_decode($content, true);
 		$hits = $json["hits"];
 
 		if($hits["total"] == 0) {
 
-			$url_aviso = 'http://ailab01.mersap.com/autos/aviso/'.$valores[0];
+			$url_aviso = $indice_aviso.$valores[0];
 			$content_aviso = file_get_contents($url_aviso);
 			$json_aviso = json_decode($content_aviso, true);
 
@@ -131,6 +134,9 @@
 					      <div id="Logo_02">
 					        <a href ="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
 						  </div>
+						  <div class="content_publicidad_728">
+					        <script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+					      </div>
 					      
 					      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
 					            
@@ -387,7 +393,9 @@
 						      </div>
 						        
 						      <div id="despliegue_Right">
-						        
+						      	<div class="content_publicidad_300">
+          							<script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        						</div>
 						        <div class="box_redes_sociales boxes_aside">
 						          <div class="box">
 						            <!-- AddThis Button BEGIN -->
@@ -470,17 +478,18 @@
 
 					}	
 						
-						$url_aviso = 'http://ailab01.mersap.com/autos/aviso/'.$valores[0];
+						$url_aviso = $indice_aviso.$valores[0];
 						$content_aviso = file_get_contents($url_aviso);
 						$json_aviso = json_decode($content_aviso, true);
 
 						foreach($json_aviso["_source"] as $item) 
 						{
 							$fechaPublicacion    = $item['fecha_primerapub'];
+							$imagen_aviso 		 = $item['imagen'];
 						}
 
 						$sql_concesionario = 'select nombre_fantasia, logo_chico, bp_concesionario, calle, numero, comuna, ciudad, 
-					    telefono, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario, id_concesionario
+					    telefono, prioridad, encargado, RUT, tipo, latitud, longitud, logo_grande, imagen_concesionario, id_concesionario, email_concesionario
 					    from concesionario  where bp_concesionario = "'.$nro_bp.'"';
 
 					    $result_concesionarios= mysql_query($sql_concesionario);
@@ -503,6 +512,7 @@
 					    $logo_grande = $row_concesionarios[14];
 					    $imagen_concesionario = $row_concesionarios[15];
 					    $id_concesionario = $row_concesionarios[16];
+					    $email_concesionario = $row_concesionarios[17];
 
 					    $latitud_identificador = substr($latitud ,3 ,1);
 
@@ -545,6 +555,9 @@
 					      <div id="Logo_02">
 					        <a href ="index.php"><img src="img/Logo.png" alt="Emol automviles" /></a>
 						  </div>
+						  <div class="content_publicidad_728">
+        					<script type="text/javascript" src="http://banners.emol.com/tags/automoviles/horizontal_01.js"></script> 
+      					  </div>
 					      
 					      <div id="btn_menu_mobile" onClick="$('#nav').slideToggle('middle')"><img src="img/btn-menu.gif" alt="Menú" /></div>
 					            
@@ -572,7 +585,7 @@
 					        
 					        <?php
 
-							$url_image = 'http://ailab01.mersap.com/automoviles/imagen/_search?q=id_ficha:'.$id_ficha;
+							$url_image = $indice_imagen.'_search?q=id_ficha:'.$id_ficha;
 					
 							$content_image = file_get_contents($url_image);
 							$json_image = json_decode($content_image, true);
@@ -596,14 +609,14 @@
 				                    $valida_image_1 = strpos($img_autos, $image_invalid);
 				                    $valida_image_2 = strpos($img_autos, $image_invalid2);
 
-				                    echo $valida_image_1; 
-				                    	
+				                    
 				                    	
 				             		if((!$valida_image_1) && (!$valida_image_2)){ ?>
 										
 										<div class="content">
 											<div class="box_info_despliegue">
 												<div id="galleria_imagen">
+													<img src="<?php echo $imagen_aviso;?>" alt="" />
 									    			<?php
 									    				foreach($hits_image["hits"] as $hit_img) 
 														{ ?>
@@ -612,13 +625,18 @@
 																$item_img = $hit_img["_source"]["imagen"];
 																$img_autos = $item_img['archivo'];
 																$id_img    =  $item_img['id_ficha'];
-										                    ?>
-																<img src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
-													<?php
-														} ?>
-									    
-									          	
-									          	</div>
+																$imagen_ficha = 'http://imgclasificados.emol.com/'.$img_autos;
+																echo $imagen_autos;
+										                        if($imagen_aviso !=$imagen_ficha){ ?>
+																	<img src="http://imgclasificados.emol.com/<?php echo $img_autos;?>" alt="" />
+																<?php
+																} else {
+
+																}
+										             
+														}	 
+															?>
+									    		</div>
 								        	</div>
 							        	</div>
 
@@ -835,36 +853,20 @@
 					        </div>
 			        <?php 	
 			        		}
-			        		
-							if($count_concesionarios!=0){ ?>
+			        		?>
+			        			<small class="detalle_Despliegue">* Los precios y caracter&iacute;sticas del producto publicados en esta ficha son referenciales y deben ser confirmados por el vendedor.</small>
+						        
+						    <?php    
+						        if($count_concesionarios!=0){ ?>
 			        
-						        <div class="btn_rojo"><a href="modal-mas-info.php?id_emol=<?php echo $valores[0];?>" rel="Shadowbox;width=445;height=600;">PEDIR INFORMACI&oacute;N</a></div>
-					<?php
-							} ?>
-						        
-						        <small class="detalle_Despliegue">* Los precios y caracter&iacute;sticas del producto publicados en esta ficha son referenciales y deben ser confirmados por el vendedor.</small>
-						        
+						        <div class="btn_rojo"><a href="modal-mas-info.php?id_emol=<?php echo $valores[0];?>&email=<?php echo $email_concesionario;?>" rel="Shadowbox;width=445;height=600;">PEDIR INFORMACI&oacute;N</a></div>
+						<?php
+								} ?>
 						      </div>
 						        
 						      <div id="despliegue_Right">
 						        
-						        <div class="box_redes_sociales boxes_aside">
-						          <div class="box">
-						            <!-- AddThis Button BEGIN -->
-						            <div class="addthis_toolbox addthis_default_style">
-						              <a class="addthis_button_preferred_1"></a>
-						              <a class="addthis_button_preferred_2"></a>
-						              <a class="addthis_button_preferred_3"></a>
-						              <a class="addthis_button_preferred_4"></a>
-						              <a class="addthis_button_compact"></a>
-						              <a class="addthis_counter addthis_bubble_style"></a>
-						            </div>
-						            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-516d5cbc05abd6c6"></script>
-						            <!-- AddThis Button END -->
-						          </div>
-						        </div>
-                                
-                                <h1 class="title_color_despliegue" id="Detalle_Desktop">Detalles</h1>
+						         <h1 class="title_color_despliegue" id="Detalle_Desktop">Detalles</h1>
                                 
                                 <div class="boxes_aside" id="Detalle_Desktop">
                                   <ul class="list_Detalles_despliegue fl">
@@ -954,7 +956,9 @@
 							</ul>
                                 </div>
 						        
-
+                                <div class="content_publicidad_300">
+          							<script type="text/javascript" src="http://banners.emol.com/tags/automoviles/robpg_01.js"></script>
+        						</div>
 							<?php
 								if($count_concesionarios!=0){ ?>
 
@@ -1001,11 +1005,45 @@
 						        </div>
 						      
 						        
-						        <div class="btn_rojo" style="width:100%;"><a onclick="procesar()" style="width:100%; padding:0; font-size:12px;">VER TODOS LOS AUTOS DE ESTA AUTOMOTORA</a></div>
+						        <div class="btn_rojo" style="width:100%;margin-bottom: 20px;"><a onclick="procesar()" style="width:100%; padding:0; font-size:12px;">VER TODOS LOS AUTOS DE ESTA AUTOMOTORA</a></div>
 						        
 				          <?php } 
 				          			else 
-				          				if(($latitud_json) && ($longitud_json)){ ?>
+				          				if(($latitud_json) && ($longitud_json)){ 
+
+				          			$latitud_identificador = substr($latitud_json ,3 ,1);
+
+								    if($latitud_identificador == '.'){
+
+								         $latitud_final = $latitud_json;
+
+								    } else  {
+
+								            $latitud_ini = substr($latitud_json ,0 ,3);
+								            $latitud_inicial = $latitud_ini.'.';
+								            $latitud_fin = substr($latitud_json ,3);
+								            $latitud_final = $latitud_inicial.$latitud_fin;
+
+								            }
+
+
+								    $longitud_identificador = substr($longitud_json ,3 ,1);
+
+								    if($longitud_identificador == '.'){
+
+								         $longitud_final = $longitud_json;
+
+								    } else  {
+
+								              $longitud_ini = substr($longitud_json ,0 ,3);
+								              $longitud_inicial = $longitud_ini.'.';
+								              $longitud_fin = substr($longitud_json ,3);
+								              $longitud_final = $longitud_inicial.$longitud_fin;
+								                      
+								            } ?>
+
+
+
 
 				          				 <div class="boxes_aside">
 								          <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -1017,8 +1055,8 @@
 										    	
 										      var map = new XYGO.Map('map')
 										      var concesionario = 'Particular'
-										      var latitud = '<?php echo $latitud_json ?>'
-										      var longitud = '<?php echo $longitud_json?>'
+										      var latitud = '<?php echo $latitud_final ?>'
+										      var longitud = '<?php echo $longitud_final?>'
 
 										      var ubicacion = new L.LatLng(latitud, longitud)        
 										      
@@ -1033,7 +1071,21 @@
 						       			</div>
 				       			<?php
 				          			}?>
-
+				          			<div class="box_redes_sociales boxes_aside">
+						          <div class="box">
+						            <!-- AddThis Button BEGIN -->
+						            <div class="addthis_toolbox addthis_default_style">
+						              <a class="addthis_button_preferred_1"></a>
+						              <a class="addthis_button_preferred_2"></a>
+						              <a class="addthis_button_preferred_3"></a>
+						              <a class="addthis_button_preferred_4"></a>
+						              <a class="addthis_button_compact"></a>
+						              <a class="addthis_counter addthis_bubble_style"></a>
+						            </div>
+						            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-516d5cbc05abd6c6"></script>
+						            <!-- AddThis Button END -->
+						          </div>
+						        </div>
 						      </div>
 						      
 						    </div>
@@ -1044,11 +1096,10 @@
 						var id_concesionario = "<?php echo $id_concesionario;?>";
 						location.href="despliegue-concesionarios.php?id_concesionario="+id_concesionario;
 					}
-			  
 			 		</script>
    		 <?php } ?>
     
-    <div id="footer">T&eacute;rminos y Condiciones de Los Servicios &copy; 2013 El Mercurio Online</div>
+    <div id="footer">T&eacute;rminos y Condiciones de los Servicios &copy; 2013 El Mercurio Online</div>
   
   </div>
 <?php 

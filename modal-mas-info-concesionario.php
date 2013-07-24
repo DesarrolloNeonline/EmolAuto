@@ -22,19 +22,7 @@
 					alert("Ingrese su nombre")
 					document.form.name.focus()
 					return 0;
-				} 
-				if (document.form.rut.value.length==0)
-				{
-					alert("Ingrese su RUT")
-					document.form.rut.focus()
-					return 0;
-				} 
-				if (document.form.telefono.value.length==0)
-				{
-					alert("Ingrese su telefono")
-					document.form.telefono.focus()
-					return 0;
-				} 
+				}  
 				if (document.form.email.value.length==0)
 				{
 					alert("Ingrese su email")
@@ -91,8 +79,11 @@ function solonumeros(e) { // 1
 } 
 </script>
 </head>
-
 <body style="height:auto;">
+<?php 
+
+$valores = array_values($_GET); ?>
+  <?php echo $valores[0];?>
   <div id="content_modal">
   <form name = "form" id='form_1' class='appnitro'  method='post' enctype='multipart/form-data' >
     <h1 class="title_color_modal">Solicitud de informaci&oacute;n</h1>
@@ -104,12 +95,12 @@ function solonumeros(e) { // 1
     </div>
     
     <div class="content_Item_form">
-      <label>RUT*</label>
+      <label>RUT</label>
       <input name="rut" id="rut" type="text" value="" placeholder="Ingrese RUT sin puntos y sin gui&oacute;n" style="line-height: 22px;"/>
     </div>
     
     <div class="content_Item_form">
-      <label>Tel&eacute;fono*</label>
+      <label>Tel&eacute;fono</label>
       <input name="telefono" id="telefono" type="text" value="" placeholder="Ingrese tel&eacute;fono" style="line-height: 22px;" onkeypress="return solonumeros(event)"/>
     </div>
     
@@ -124,7 +115,7 @@ function solonumeros(e) { // 1
     </div>
     
     <div class="content_Item_form">
-      <label>Detalle de Email*</label>
+      <label style="width:100px;">Detalle de Email*</label>
       <div class="content_textarea" style="border:1px solid #abaaaa;">
         <textarea name="mensaje" id="mensaje" cols="" rows=""></textarea>
       </div>
@@ -132,6 +123,7 @@ function solonumeros(e) { // 1
     </div>
     
     <div class="content_Item_form">
+    <input name="email_concesionario" type="hidden" value="<?php echo $valores[0];?>"  />
 		<input name="enviar" style="width: 100px;height: 40px;background: red;border: none; color: #fff;font-family: Arial, Helvetica, sans-serif;" class= "btn btn-success" type="button" class="BUTTON" id="enviar" value="ENVIAR" onclick="procesa($('#name').val(),$('#rut').val(),$('#telefono').val(),$('#celular').val(),$('#email').val(),$('#mensaje').val());">	
 	</div>
 	 </div>
